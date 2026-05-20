@@ -1,0 +1,107 @@
+<x-layouts::app :title="isset($chartYear) ? __('Edit Chart Year') : __('Create Chart Year')">
+
+    <div class="flex h-full w-full flex-1 flex-col gap-6 rounded-xl">
+
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-neutral-900 dark:text-white">
+                    {{ isset($chartYear) ? 'Edit Chart Year' : 'Create Chart Year' }}
+                </h1>
+
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">
+                    {{ isset($chartYear) ? 'Update chart year details.' : 'Add new chart year.' }}
+                </p>
+            </div>
+
+            <a href="{{ route('chart-years.index') }}"
+               class="inline-flex items-center justify-center rounded-xl border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+                Back
+            </a>
+        </div>
+
+        <div class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
+
+            <form method="POST"
+                  action="{{ isset($chartYear) ? route('chart-years.update', $chartYear) : route('chart-years.store') }}"
+                  class="space-y-6">
+
+                @csrf
+
+                <div class="grid gap-6 md:grid-cols-2">
+
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                            Game <span class="text-red-500">*</span>
+                        </label>
+
+                        <select name="game_id"
+                                class="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+                            <option value="">Select Game</option>
+
+                            @foreach($games as $game)
+                                <option value="{{ $game->id }}"
+                                    @selected(old('game_id', $chartYear->game_id ?? '') == $game->id)>
+                                    {{ $game->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @error('game_id')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                            Year <span class="text-red-500">*</span>
+                        </label>
+
+                        <input type="number"
+                               name="year"
+                               value="{{ old('year', $chartYear->year ?? date('Y')) }}"
+                               min="2000"
+                               max="2099"
+                               placeholder="2026"
+                               class="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+
+                        @error('year')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input type="checkbox"
+                           name="is_active"
+                           value="1"
+                           id="is_active"
+                           @checked(old('is_active', $chartYear->is_active ?? true))
+                           class="h-5 w-5 rounded border-neutral-300 text-black focus:ring-black">
+
+                    <label for="is_active" class="text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+                        Active Chart Year
+                    </label>
+                </div>
+
+                <div class="flex flex-col gap-3 border-t border-neutral-200 pt-6 md:flex-row md:items-center md:justify-end dark:border-neutral-700">
+
+                    <a href="{{ route('chart-years.index') }}"
+                       class="inline-flex items-center justify-center rounded-xl border border-neutral-300 px-5 py-3 text-sm font-semibold text-neutral-700 transition hover:bg-neutral-100 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="inline-flex items-center justify-center rounded-xl bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-neutral-800 dark:bg-white dark:text-black">
+                        {{ isset($chartYear) ? 'Update Chart Year' : 'Create Chart Year' }}
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</x-layouts::app>
