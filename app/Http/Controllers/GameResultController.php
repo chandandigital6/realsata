@@ -40,6 +40,7 @@ class GameResultController extends Controller
             ],
             'result'      => ['nullable', 'string', 'max:10'],
             'status'      => ['required', Rule::in(['waiting', 'declared'])],
+            'show_minutes' => ['required', 'integer', 'min:0'],
         ]);
 
         GameResult::create($data);
@@ -70,6 +71,7 @@ class GameResultController extends Controller
             ],
             'result'      => ['nullable', 'string', 'max:10'],
             'status'      => ['required', Rule::in(['waiting', 'declared'])],
+            'show_minutes' => ['required', 'integer', 'min:0'],
         ]);
 
         $gameResult->update($data);

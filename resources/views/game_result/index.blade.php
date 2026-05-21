@@ -67,8 +67,10 @@
                         <tr>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">#</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">Game</th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">Result Date</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">ResultDate</th>
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">Result</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">ShowTime</th>
+                    
                             <th class="px-6 py-4 text-left text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">Status</th>
                             <th class="px-6 py-4 text-right text-xs font-semibold uppercase text-neutral-600 dark:text-neutral-300">Actions</th>
                         </tr>
@@ -104,6 +106,16 @@
                                         </span>
                                     @else
                                         <span class="text-sm text-neutral-400">Pending</span>
+                                    @endif
+                                </td>
+
+                                 <td class="px-6 py-4">
+                                    @if($result->result)
+                                        <span class="rounded-xl bg-black px-4 py-2 text-sm font-bold text-white dark:bg-white dark:text-black">
+                                            {{ $result->show_minutes }}
+                                        </span>
+                                    @else
+                                        <span class="text-sm text-neutral-400">N/A</span>
                                     @endif
                                 </td>
 

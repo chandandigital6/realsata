@@ -87,6 +87,23 @@
                     </div>
 
                     <div>
+    <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+        Show Result Time (Minutes)
+    </label>
+
+    <input type="number"
+           name="show_minutes"
+           value="{{ old('show_minutes', $gameResult->show_minutes ?? 0) }}"
+           min="0"
+           placeholder="Example: 10"
+           class="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
+
+    @error('show_minutes')
+        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+</div>
+
+                    <div>
                         <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
                             Status <span class="text-red-500">*</span>
                         </label>

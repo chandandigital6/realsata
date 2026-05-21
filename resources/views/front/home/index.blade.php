@@ -32,48 +32,99 @@
     </section>
 
     <section class="circlebox">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="liveresult">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="liveresult">
 
-                    <div class="datetime">
-                        <div id="clockbox"></div>
+                <div class="datetime">
+                    <div id="clockbox"></div>
+                </div>
+
+                <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
+
+                @php
+
+                    $liveGames = $games
+
+                        ->filter(function ($game) {
+
+                            // waiting games bhi dikhenge
+                            if (
+                                !$game->todayResult ||
+                                $game->todayResult->status !== 'declared'
+                            ) {
+                                return true;
+                            }
+
+                            $result = $game->todayResult;
+
+                            // declared result show_minutes tak dikhe
+                            if ($result->show_minutes > 0) {
+
+                                $expireTime = \Carbon\Carbon::parse($result->updated_at)
+                                    ->addMinutes($result->show_minutes);
+
+                                return now()->lessThanOrEqualTo($expireTime);
+                            }
+
+                            return false;
+                        })
+
+                        // declared result top me
+                        ->sortByDesc(function ($game) {
+                            return optional($game->todayResult)->status === 'declared';
+                        })
+
+                        // sirf 4 games
+                        ->take(4);
+
+                @endphp
+
+
+                @forelse($liveGames as $game)
+
+                    <div class="sattaname">
+                        <p>{{ strtoupper($game->name) }}</p>
                     </div>
 
-                    <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
+                    <div class="sattaresult">
+                        <font>
+                            <span>
 
-                    @forelse($games as $game)
-                        <div class="sattaname">
-                            <p>{{ strtoupper($game->name) }}</p>
-                        </div>
+                                @if (
+                                    $game->todayResult &&
+                                    $game->todayResult->status === 'declared' &&
+                                    $game->todayResult->result
+                                )
 
-                        <div class="sattaresult">
-                            <font>
-                                <span>
-                                    @if ($game->todayResult && $game->todayResult->status === 'declared' && $game->todayResult->result)
-                                        {{ $game->todayResult->result }}
-                                    @else
-                                        <p>
-                                            <strong class="waitimg">
-                                                <img class="lazy" src="/m/d.gif" alt="waiting">
-                                            </strong>
-                                        </p>
-                                    @endif
-                                </span>
-                            </font>
-                        </div>
+                                    {{ $game->todayResult->result }}
 
-                    @empty
+                                @else
 
-                        <div class="sattaname">
-                            <p>No Games Found</p>
-                        </div>
-                    @endforelse
+                                    <p>
+                                        <strong class="waitimg">
+                                            <img class="lazy" src="/m/d.gif" alt="waiting">
+                                        </strong>
+                                    </p>
 
-                </div>
+                                @endif
+
+                            </span>
+                        </font>
+                    </div>
+
+                @empty
+
+                    <div class="sattaname">
+                        <p>No Games Found</p>
+                    </div>
+
+                @endforelse
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section class="sattadividerr">
         <div class="container">
