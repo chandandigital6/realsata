@@ -12,15 +12,19 @@ use App\Http\Controllers\ContentBlockController;
 use App\Http\Controllers\ChartYearController;
 use App\Http\Controllers\AdvertisementController;
 use App\Http\Controllers\NoticeController;
+use App\Http\Controllers\SeoPageController;
 // Route::view('/', 'welcome', [
 //     'canRegister' => Features::enabled(Features::registration()),
 // ])->name('home');
 
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
-Route::any('/webhook', [FrontController::class, 'webhook'])->name('webhook');
 
-Route::get('/Chart', [FrontController::class, 'chart'])->name('chart');
+Route::get('/chart/home', [FrontController::class, 'chart'])->name('chart');
+Route::get('/game/{slug}', [FrontController::class, 'gameRecord'])->name('game.record');
+
+Route::get('/year-records/{slug}/{year}', [FrontController::class, 'yearRecord'])->name('game.year-record');
+
 // Route::get('/login', [LoginController::class,'index'])->name('index');
 // Route::post('/logined-in', [LoginController::class,'login'])->name('login');
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
@@ -69,12 +73,9 @@ Route::middleware(['auth'])->group(function () {
 
 
     //contet block
-
-
     Route::get('content-blocks/index', [ContentBlockController::class, 'index'])->name('content-blocks.index');
     Route::get('content-blocks/create', [ContentBlockController::class, 'create'])->name('content-blocks.create');
     Route::post('content-blocks/store', [ContentBlockController::class, 'store'])->name('content-blocks.store');
-
     Route::get('content-blocks/edit/{contentBlock}', [ContentBlockController::class, 'edit'])->name('content-blocks.edit');
     Route::post('content-blocks/update/{contentBlock}', [ContentBlockController::class, 'update'])->name('content-blocks.update');
     Route::get('content-blocks/delete/{contentBlock}', [ContentBlockController::class, 'destroy'])->name('content-blocks.delete');
@@ -85,10 +86,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('chart-years/index', [ChartYearController::class, 'index'])->name('chart-years.index');
     Route::get('chart-years/create', [ChartYearController::class, 'create'])->name('chart-years.create');
     Route::post('chart-years/store', [ChartYearController::class, 'store'])->name('chart-years.store');
-
     Route::get('chart-years/edit/{chartYear}', [ChartYearController::class, 'edit'])->name('chart-years.edit');
     Route::post('chart-years/update/{chartYear}', [ChartYearController::class, 'update'])->name('chart-years.update');
-
     Route::get('chart-years/delete/{chartYear}', [ChartYearController::class, 'destroy'])->name('chart-years.delete');
 
 
@@ -107,11 +106,25 @@ Route::middleware(['auth'])->group(function () {
     Route::get('notices/index', [NoticeController::class, 'index'])->name('notices.index');
     Route::get('notices/create', [NoticeController::class, 'create'])->name('notices.create');
     Route::post('notices/store', [NoticeController::class, 'store'])->name('notices.store');
-
     Route::get('notices/edit/{notice}', [NoticeController::class, 'edit'])->name('notices.edit');
     Route::post('notices/update/{notice}', [NoticeController::class, 'update'])->name('notices.update');
-
     Route::get('notices/delete/{notice}', [NoticeController::class, 'destroy'])->name('notices.delete');
+
+    //seo page
+
+
+
+    Route::get('seo-pages/index', [SeoPageController::class, 'index'])->name('seo-pages.index');
+
+    Route::get('seo-pages/create', [SeoPageController::class, 'create'])->name('seo-pages.create');
+
+    Route::post('seo-pages/store', [SeoPageController::class, 'store'])->name('seo-pages.store');
+
+    Route::get('seo-pages/edit/{seoPage}', [SeoPageController::class, 'edit'])->name('seo-pages.edit');
+
+    Route::post('seo-pages/update/{seoPage}', [SeoPageController::class, 'update'])->name('seo-pages.update');
+
+    Route::get('seo-pages/delete/{seoPage}', [SeoPageController::class, 'destroy'])->name('seo-pages.delete');
 });
 
 Route::middleware(['auth'])->group(function () {

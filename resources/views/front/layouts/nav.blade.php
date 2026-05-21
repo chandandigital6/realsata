@@ -19,7 +19,7 @@
                     </li>
 
                     <li>
-                        <a href="/chart">
+                        <a href="/chart/home">
                             CHART
                         </a>
                     </li>

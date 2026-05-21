@@ -50,10 +50,15 @@
                     :current="request()->routeIs('notices.*')" wire:navigate>
                     {{ __('Notices') }}
                 </flux:sidebar.item>
-                
+
                 <flux:sidebar.item icon="document-text" :href="route('content-blocks.index')"
                     :current="request()->routeIs('content-blocks.*')" wire:navigate>
                     {{ __('Content Blocks') }}
+                </flux:sidebar.item>
+
+                <flux:sidebar.item icon="globe-alt" :href="route('seo-pages.index')"
+                    :current="request()->routeIs('seo-pages.*')" wire:navigate>
+                    {{ __('SEO Pages') }}
                 </flux:sidebar.item>
 
                 <flux:sidebar.item icon="users" :href="route('users.index')"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\GameResult;
+use App\Models\SeoPage;
 use Carbon\CarbonPeriod;
 
 class FrontController extends Controller
@@ -52,12 +53,62 @@ class FrontController extends Controller
     
 
     
-    public function chart()
+     public function chart()
 {
-   
+    $games = Game::query()
+        ->where('is_active', true)
+        ->with([
+            'chartYears' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderByDesc('year');
+            }
+        ])
+        ->orderBy('sort_order')
+        ->get();
 
-    return view('front.chart.index');
+    $seo = SeoPage::where('page_key', 'chart')->first();
+
+    return view('front.chart.index', compact('games', 'seo'));
 }
+
+
+
+
+     public function gameRecord(string $slug)
+    {
+        $game = Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $year = now()->year;
+
+        $results = GameResult::where('game_id', $game->id)
+            ->whereYear('result_date', $year)
+            ->orderBy('result_date')
+            ->get();
+
+        $seo = SeoPage::where('page_key', 'game-record')->first();
+
+        return view('front.game.record', compact('game', 'results', 'year', 'seo'));
+    }
+
+    public function yearRecord(string $slug, int $year)
+    {
+        $game = Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $results = GameResult::where('game_id', $game->id)
+            ->whereYear('result_date', $year)
+            ->orderBy('result_date')
+            ->get();
+
+        $seo = SeoPage::where('page_key', 'year-record')->first();
+
+        return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
+    }
+
+   
 
     public function products()
     {

@@ -16,18 +16,41 @@
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tbody>
-                            <tr>
-                                <td class="forfirtcolor"><strong>DELHI BAZAR</strong></td>
-                                <td><strong><a href="#" style="color:black;">2026</a></strong></td>
-                                <td><strong><a href="#" style="color:black;">2025</a></strong></td>
-                                <td><strong><a href="#" style="color:black;">2024</a></strong></td>
-                            </tr>
-                            <tr>
-                                <td class="forfirtcolor"><strong>SHRI GANESH</strong></td>
-                                <td><strong><a href="#" style="color:black;">2026</a></strong></td>
-                                <td><strong><a href="#" style="color:black;">2025</a></strong></td>
-                                <td><strong><a href="#" style="color:black;">2024</a></strong></td>
-                            </tr>
+
+                            @forelse($footerGames as $game)
+                                <tr>
+                                    <td class="forfirtcolor">
+                                        <strong>{{ strtoupper($game->name) }}</strong>
+                                    </td>
+
+                                    @forelse($game->chartYears as $chartYear)
+                                        <td>
+                                            <strong>
+                                                <a href="{{ route('game.year-record', [$game->slug, $chartYear->year]) }}"
+                                                   style="color:black;">
+                                                    {{ $chartYear->year }}
+                                                </a>
+                                            </strong>
+                                        </td>
+                                    @empty
+                                        <td>
+                                            <strong>
+                                                <a href="{{ route('game.year-record', [$game->slug, now()->year]) }}"
+                                                   style="color:black;">
+                                                    {{ now()->year }}
+                                                </a>
+                                            </strong>
+                                        </td>
+                                    @endforelse
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td class="text-center">
+                                        No chart found.
+                                    </td>
+                                </tr>
+                            @endforelse
+
                         </tbody>
                     </table>
                 </div>
