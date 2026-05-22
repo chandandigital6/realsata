@@ -31,7 +31,7 @@
         </a>
     </section>
 
-    <section class="circlebox">
+    {{-- <section class="circlebox">
     <div class="row">
         <div class="col-md-12 text-center">
             <div class="liveresult">
@@ -119,6 +119,131 @@
                         <p>No Games Found</p>
                     </div>
 
+                @endforelse
+
+            </div>
+        </div>
+    </div>
+</section> --}}
+
+
+
+<section class="circlebox">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="liveresult">
+
+                <div class="datetime">
+                    <div id="clockbox"></div>
+                </div>
+
+                <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
+
+                @php
+                    $now = \Carbon\Carbon::now('Asia/Kolkata');
+
+                    $declaredGames = $games
+                        ->filter(function ($game) {
+                            return $game->todayResult
+                                && $game->todayResult->status === 'declared'
+                                && !empty($game->todayResult->result);
+                        })
+                        ->filter(function ($game) {
+                            $result = $game->todayResult;
+
+                            if ((int) $result->show_minutes <= 0) {
+                                return true;
+                            }
+
+                            $expireTime = \Carbon\Carbon::parse($result->updated_at, 'Asia/Kolkata')
+                                ->addMinutes((int) $result->show_minutes);
+
+                            return \Carbon\Carbon::now('Asia/Kolkata')->lessThanOrEqualTo($expireTime);
+                        })
+                        ->sortByDesc(function ($game) {
+                            return \Carbon\Carbon::parse($game->todayResult->updated_at, 'Asia/Kolkata')->timestamp;
+                        });
+
+                    $upcomingGames = $games
+                        ->filter(function ($game) {
+                            return !(
+                                $game->todayResult
+                                && $game->todayResult->status === 'declared'
+                                && !empty($game->todayResult->result)
+                            );
+                        })
+                        ->filter(function ($game) use ($now) {
+                            if (empty($game->result_time)) {
+                                return false;
+                            }
+
+                            try {
+                                $gameDateTime = \Carbon\Carbon::createFromFormat(
+                                    'Y-m-d h:i A',
+                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                                    'Asia/Kolkata'
+                                );
+                            } catch (\Exception $e) {
+                                $gameDateTime = \Carbon\Carbon::parse(
+                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                                    'Asia/Kolkata'
+                                );
+                            }
+
+                            return $gameDateTime->greaterThanOrEqualTo($now);
+                        })
+                        ->sortBy(function ($game) use ($now) {
+                            try {
+                                $gameDateTime = \Carbon\Carbon::createFromFormat(
+                                    'Y-m-d h:i A',
+                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                                    'Asia/Kolkata'
+                                );
+                            } catch (\Exception $e) {
+                                $gameDateTime = \Carbon\Carbon::parse(
+                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                                    'Asia/Kolkata'
+                                );
+                            }
+
+                            return $gameDateTime->timestamp;
+                        });
+
+                    $liveGames = $declaredGames
+                        ->concat($upcomingGames)
+                        ->take(4);
+                @endphp
+
+                @forelse($liveGames as $game)
+
+                    <div class="sattaname">
+                        <p>{{ strtoupper($game->name) }}</p>
+                    </div>
+
+                    <div class="sattaresult">
+                        <font>
+                            <span>
+                                @if(
+                                    $game->todayResult
+                                    && $game->todayResult->status === 'declared'
+                                    && !empty($game->todayResult->result)
+                                )
+                                    {{ $game->todayResult->result }}
+                                @else
+                                    <p>
+                                        <strong class="waitimg">
+                                            <img class="lazy" src="/m/d.gif" alt="waiting">
+                                        </strong>
+                                    </p>
+                                @endif
+                            </span>
+                        </font>
+                    </div>
+
+                @empty
+                    <div class="sattaname">
+                        <p>No Games Found</p>
+                    </div>
                 @endforelse
 
             </div>
