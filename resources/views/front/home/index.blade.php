@@ -1,7 +1,37 @@
 @extends('front.layouts.app',['seo' => $seo ?? null])
 
 @section('content')
-  @if(isset($advertisements) && $advertisements->count())
+    {{-- <section class="advertisement">
+        <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0" target="_blank"
+            style="text-decoration:none;color:inherit;">
+
+            <div style="background:#f2aa00; border:1px solid #000;">
+
+                <div
+                    style="background:#efbd3d; border-top:5px dotted #000; border-bottom:5px dotted #000; padding:8px 15px 12px; text-align:center;">
+                    <p style="margin:0 0 10px; font-size:16px; color:#000;">
+                        नमस्कार साथियों
+                    </p>
+
+                    <p style="margin:0 0 32px; font-size:15px; color:#000;">
+                        सीधा कंपनी खाईवाल के पास गेम प्ले करे बिंदास
+                        <b>1001%</b> पेमेंट की गारंटी के साथ आपका अपना भाई
+                    </p>
+
+                    <p style="margin:0 0 2px; font-size:16px; font-weight:700; color:#000;">
+                        S.K Bhai
+                    </p>
+
+                    <span style="display:inline-block; background:#fff; padding:0 8px;">
+                        <img src="{{ asset('whatsapp-img.png') }}" alt="Whatsapp" style="height:65px; max-width:220px;">
+                    </span>
+                </div>
+            </div>
+
+        </a>
+    </section> --}}
+
+@if(isset($advertisements) && $advertisements->count())
     @foreach($advertisements as $advertisement)
         <section class="advertisement">
             <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
@@ -33,6 +63,7 @@
     @endforeach
 @endif
 
+    
 
 <section class="circlebox">
     <div class="row">
