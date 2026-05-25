@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Game;
+use App\Models\GameResult;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 class GameResultApiController extends Controller
 {
-   
-
-
-    public function index(Request $request)
+    public function indexold(Request $request)
     {
-        $date = $request->date ?? today()->format('Y-m-d');
+        $date = $request->date ?? Carbon::today('Asia/Kolkata')->format('Y-m-d');
 
         $games = Game::with([
                 'results' => function ($q) use ($date) {
@@ -31,18 +31,24 @@ class GameResultApiController extends Controller
                 'slug'        => $game->slug,
                 'result_time' => $game->result_time,
                 'sort_order'  => $game->sort_order,
-                'is_active'   => $game->is_active,
+                'is_active'   => (bool) $game->is_active,
 
                 'result' => [
                     'id'           => $todayResult?->id,
-                    'result_date'  => $todayResult?->result_date?->format('Y-m-d'),
+                    'result_date'  => $todayResult?->result_date
+                        ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                        : null,
                     'result'       => $todayResult?->result,
                     'status'       => $todayResult?->status ?? 'waiting',
-                    'show_minutes' => $todayResult?->show_minutes ?? 0,
-                    'updated_at'   => $todayResult?->updated_at?->format('Y-m-d H:i:s'),
+                    'show_minutes' => !empty($todayResult?->show_minutes)
+                        ? (int) $todayResult->show_minutes
+                        : 10,
+                    'updated_at'   => $todayResult?->updated_at
+                        ? Carbon::parse($todayResult->updated_at)->timezone('Asia/Kolkata')->format('Y-m-d H:i:s')
+                        : null,
                 ],
             ];
-        });
+        })->values();
 
         return response()->json([
             'success' => true,
@@ -51,7 +57,281 @@ class GameResultApiController extends Controller
         ]);
     }
 
-    public function live()
+
+
+
+
+    public function index2(Request $request)
+{
+    $now = Carbon::now('Asia/Kolkata');
+    $date = $request->date ?? $now->format('Y-m-d');
+
+    $games = Game::with([
+            'results' => function ($q) use ($date) {
+                $q->whereDate('result_date', $date);
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) use ($now, $date) {
+        $todayResult = $game->results->first();
+
+        $showMinutes = !empty($todayResult?->show_minutes)
+            ? (int) $todayResult->show_minutes
+            : 10;
+
+        $updatedAt = $todayResult?->updated_at
+            ? Carbon::parse($todayResult->updated_at)->timezone('Asia/Kolkata')
+            : null;
+
+        $isDeclared = $todayResult
+            && $todayResult->status === 'declared'
+            && !empty($todayResult->result)
+            && $updatedAt;
+
+        $isLive = false;
+
+        if ($isDeclared) {
+            $expireTime = $updatedAt->copy()->addMinutes($showMinutes);
+            $isLive = $now->lessThanOrEqualTo($expireTime);
+        }
+
+        $gameDateTime = null;
+
+        if (!empty($game->result_time)) {
+            try {
+                $gameDateTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    'Asia/Kolkata'
+                );
+            } catch (\Throwable $e) {
+                $gameDateTime = null;
+            }
+        }
+
+        return [
+            'id'          => $game->id,
+            'name'        => $game->name,
+            'slug'        => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order'  => $game->sort_order,
+            'is_active'   => (bool) $game->is_active,
+
+            'is_live_declared' => $isLive,
+            'game_timestamp'   => $gameDateTime?->timestamp,
+            'updated_timestamp'=> $updatedAt?->timestamp,
+
+            'result' => [
+                'id'           => $todayResult?->id,
+                'result_date'  => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                    : null,
+
+                // expire hone ke baad null
+                'result'       => $isLive ? $todayResult->result : null,
+                'status'       => $isLive ? 'declared' : 'waiting',
+                'show_minutes' => $showMinutes,
+                'updated_at'   => $updatedAt?->format('Y-m-d H:i:s'),
+                'is_live'      => $isLive,
+            ],
+        ];
+    });
+
+    $declaredGames = $data
+        ->filter(fn ($game) => $game['is_live_declared'] === true)
+        ->sortByDesc('updated_timestamp')
+        ->values();
+
+    $normalGames = $data
+        ->reject(fn ($game) => $game['is_live_declared'] === true)
+        ->filter(fn ($game) => !empty($game['game_timestamp']) && $game['game_timestamp'] >= $now->timestamp)
+        ->sortBy('game_timestamp')
+        ->values();
+
+    $finalGames = $declaredGames
+        ->concat($normalGames)
+        ->values()
+        ->map(function ($game) {
+            unset($game['is_live_declared'], $game['game_timestamp'], $game['updated_timestamp']);
+            return $game;
+        });
+
+    return response()->json([
+        'success' => true,
+        'date'    => $date,
+        'games'   => $finalGames,
+    ]);
+}
+
+
+
+
+public function index(Request $request)
+{
+    $date = $request->date ?? Carbon::today('Asia/Kolkata')->format('Y-m-d');
+
+    $games = Game::with([
+            'results' => function ($q) use ($date) {
+                $q->whereDate('result_date', $date);
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) {
+        $todayResult = $game->results->first();
+
+        return [
+            'id'          => $game->id,
+            'name'        => $game->name,
+            'slug'        => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order'  => $game->sort_order,
+            'is_active'   => (bool) $game->is_active,
+
+            'result' => [
+                'id' => $todayResult?->id,
+
+                'result_date' => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                    : null,
+
+                // IMPORTANT: yaha result hide/null nahi karna hai
+                'result' => $todayResult?->result,
+
+                'status' => $todayResult?->status ?? 'waiting',
+
+                'show_minutes' => !empty($todayResult?->show_minutes)
+                    ? (int) $todayResult->show_minutes
+                    : 10,
+
+                'updated_at' => $todayResult?->updated_at
+                    ? Carbon::parse($todayResult->updated_at)
+                        ->timezone('Asia/Kolkata')
+                        ->format('Y-m-d H:i:s')
+                    : null,
+            ],
+        ];
+    })->values();
+
+    return response()->json([
+        'success' => true,
+        'date'    => $date,
+        'games'   => $data,
+    ]);
+}
+
+
+
+public function live()
+{
+    $now = Carbon::now('Asia/Kolkata');
+    $today = $now->format('Y-m-d');
+
+    $games = Game::with([
+            'results' => function ($q) use ($today) {
+                $q->whereDate('result_date', $today);
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) use ($now) {
+        $todayResult = $game->results->first();
+
+        $showMinutes = !empty($todayResult?->show_minutes)
+            ? (int) $todayResult->show_minutes
+            : 10;
+
+        $updatedAt = $todayResult?->updated_at
+            ? Carbon::parse($todayResult->updated_at)->timezone('Asia/Kolkata')
+            : null;
+
+        $isDeclared = $todayResult
+            && $todayResult->status === 'declared'
+            && !empty($todayResult->result)
+            && $updatedAt;
+
+        $isLive = false;
+
+        if ($isDeclared) {
+            $isLive = $now->lessThanOrEqualTo(
+                $updatedAt->copy()->addMinutes($showMinutes)
+            );
+        }
+
+        $gameDateTime = null;
+
+        if (!empty($game->result_time)) {
+            try {
+                $gameDateTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    'Asia/Kolkata'
+                );
+            } catch (\Throwable $e) {
+                $gameDateTime = null;
+            }
+        }
+
+        return [
+            'id'          => $game->id,
+            'name'        => $game->name,
+            'slug'        => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order'  => $game->sort_order,
+            'is_active'   => (bool) $game->is_active,
+
+            'is_live_declared' => $isLive,
+            'updated_timestamp' => $updatedAt?->timestamp,
+            'game_timestamp' => $gameDateTime?->timestamp,
+
+            'result' => [
+                'id'           => $todayResult?->id,
+                'result_date'  => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                    : null,
+                'result'       => $isLive ? $todayResult->result : null,
+                'status'       => $isLive ? 'declared' : 'waiting',
+                'show_minutes' => $showMinutes,
+                'updated_at'   => $updatedAt?->format('Y-m-d H:i:s'),
+                'is_live'      => $isLive,
+            ],
+        ];
+    });
+
+    $declaredGames = $data
+        ->filter(fn ($game) => $game['is_live_declared'] === true)
+        ->sortByDesc('updated_timestamp')
+        ->values();
+
+    $normalGames = $data
+        ->reject(fn ($game) => $game['is_live_declared'] === true)
+        ->filter(fn ($game) => !empty($game['game_timestamp']) && $game['game_timestamp'] >= $now->timestamp)
+        ->sortBy('game_timestamp')
+        ->values();
+
+    $finalGames = $declaredGames
+        ->concat($normalGames)
+        ->take(4)
+        ->values()
+        ->map(function ($game) {
+            unset($game['is_live_declared'], $game['updated_timestamp'], $game['game_timestamp']);
+            return $game;
+        });
+
+    return response()->json([
+        'success' => true,
+        'date'    => $today,
+        'games'   => $finalGames,
+    ]);
+}
+
+
+    public function liveold()
     {
         $now = Carbon::now('Asia/Kolkata');
         $today = $now->format('Y-m-d');
@@ -68,22 +348,44 @@ class GameResultApiController extends Controller
         $data = $games->map(function ($game) use ($now) {
             $todayResult = $game->results->first();
 
+            $showMinutes = !empty($todayResult?->show_minutes)
+                ? (int) $todayResult->show_minutes
+                : 10;
+
+            $updatedAt = $todayResult?->updated_at
+                ? Carbon::parse($todayResult->updated_at)->timezone('Asia/Kolkata')
+                : null;
+
             $isDeclared = $todayResult
                 && $todayResult->status === 'declared'
                 && !empty($todayResult->result);
+
+            $isLive = false;
+
+            if ($isDeclared && $updatedAt) {
+                $isLive = $now->lessThanOrEqualTo($updatedAt->copy()->addMinutes($showMinutes));
+            }
 
             return [
                 'id'          => $game->id,
                 'name'        => $game->name,
                 'slug'        => $game->slug,
                 'result_time' => $game->result_time,
+                'sort_order'  => $game->sort_order,
 
-                'result'      => $isDeclared ? $todayResult->result : null,
-                'status'      => $isDeclared ? 'declared' : 'waiting',
-
-                'updated_at'  => $todayResult?->updated_at?->format('Y-m-d H:i:s'),
+                'result' => [
+                    'id'           => $todayResult?->id,
+                    'result_date'  => $todayResult?->result_date
+                        ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                        : null,
+                    'result'       => $isLive ? $todayResult->result : null,
+                    'status'       => $isLive ? 'declared' : 'waiting',
+                    'show_minutes' => $showMinutes,
+                    'updated_at'   => $updatedAt?->format('Y-m-d H:i:s'),
+                    'is_live'      => $isLive,
+                ],
             ];
-        });
+        })->values();
 
         return response()->json([
             'success' => true,
@@ -92,67 +394,66 @@ class GameResultApiController extends Controller
         ]);
     }
 
-
-
     public function chartGames()
-{
-    $games = \App\Models\Game::query()
-        ->where('is_active', true)
-        ->with(['chartYears' => function ($query) {
-            $query->where('is_active', true)->orderByDesc('year');
-        }])
-        ->orderBy('sort_order')
-        ->get()
-        ->map(function ($game) {
-            return [
-                'id' => $game->id,
-                'name' => $game->name,
-                'slug' => $game->slug,
+    {
+        $games = Game::query()
+            ->where('is_active', true)
+            ->with(['chartYears' => function ($query) {
+                $query->where('is_active', true)->orderByDesc('year');
+            }])
+            ->orderBy('sort_order')
+            ->get()
+            ->map(function ($game) {
+                return [
+                    'id'          => $game->id,
+                    'name'        => $game->name,
+                    'slug'        => $game->slug,
+                    'result_time' => $game->result_time,
+                    'sort_order'  => $game->sort_order,
+                    'chartYears'  => $game->chartYears->map(function ($year) {
+                        return [
+                            'year' => $year->year,
+                        ];
+                    })->values(),
+                ];
+            })->values();
+
+        return response()->json([
+            'success' => true,
+            'games' => $games,
+        ]);
+    }
+
+    public function gameYearRecord(string $slug, int $year)
+    {
+        $game = Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $results = GameResult::where('game_id', $game->id)
+            ->whereYear('result_date', $year)
+            ->orderBy('result_date')
+            ->get()
+            ->map(function ($result) {
+                return [
+                    'result_date' => $result->result_date
+                        ? Carbon::parse($result->result_date)->format('Y-m-d')
+                        : null,
+                    'result' => $result->result,
+                    'status' => $result->status,
+                ];
+            })->values();
+
+        return response()->json([
+            'success' => true,
+            'game' => [
+                'id'          => $game->id,
+                'name'        => $game->name,
+                'slug'        => $game->slug,
                 'result_time' => $game->result_time,
-                'chartYears' => $game->chartYears->map(function ($year) {
-                    return [
-                        'year' => $year->year,
-                    ];
-                })->values(),
-            ];
-        });
-
-    return response()->json([
-        'success' => true,
-        'games' => $games,
-    ]);
-}
-
-public function gameYearRecord(string $slug, int $year)
-{
-    $game = \App\Models\Game::where('slug', $slug)
-        ->where('is_active', true)
-        ->firstOrFail();
-
-    $results = \App\Models\GameResult::where('game_id', $game->id)
-        ->whereYear('result_date', $year)
-        ->orderBy('result_date')
-        ->get()
-        ->map(function ($result) {
-            return [
-                'result_date' => $result->result_date?->format('Y-m-d'),
-                'result' => $result->result,
-                'status' => $result->status,
-            ];
-        });
-
-    return response()->json([
-        'success' => true,
-        'game' => [
-            'id' => $game->id,
-            'name' => $game->name,
-            'slug' => $game->slug,
-            'result_time' => $game->result_time,
-        ],
-        'year' => $year,
-        'results' => $results,
-    ]);
-}
-
-
+            ],
+            'year'    => $year,
+            'results' => $results,
+        ]);
+    }
 }

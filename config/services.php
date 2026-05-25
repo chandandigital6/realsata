@@ -36,8 +36,5 @@ return [
     ],
 
 
-    'main_api' => [
-    'url' => env('MAIN_API_URL'),
-],
 
 ];

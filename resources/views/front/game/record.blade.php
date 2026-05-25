@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h2>{{ strtoupper($game->name) }} {{ $year }} RESULT CHART</h2>
+                <h2>{{ strtoupper($game->name) }} RECORD CHART {{ $year }}</h2>
             </div>
         </div>
     </div>
@@ -21,6 +21,7 @@
                         <thead class="forblack">
                             <tr>
                                 <th class="text-center">Date</th>
+                                <th class="text-center">Day</th>
                                 <th class="text-center">Result</th>
                             </tr>
                         </thead>
@@ -33,6 +34,10 @@
                                     </td>
 
                                     <td class="text-center">
+                                        {{ $result->result_date->format('l') }}
+                                    </td>
+
+                                    <td class="text-center">
                                         @if($result->status === 'declared' && $result->result)
                                             {{ $result->result }}
                                         @else
@@ -42,8 +47,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="text-center">
-                                        No result found for {{ $year }}.
+                                    <td colspan="3" class="text-center">
+                                        No record found.
                                     </td>
                                 </tr>
                             @endforelse

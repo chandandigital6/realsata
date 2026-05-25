@@ -1,235 +1,115 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<section class="callbox">
+    <div class="container">
+        <div class="col-md-12 ">
+          <h1>Privacy Policy for REAL SATTA</h1>
 
-<head>
+<p>At RealSatta.in, accessible at https://realsatta.in, the privacy of our visitors is of utmost importance to us. This Privacy Policy outlines the types of information we collect, how we use it, and the steps we take to safeguard it.<br>
+By using our website, you agree to the terms described in this Privacy Policy.
+</p>
 
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>
-        @if(isset($meta) && $meta->metaTitle !== 'null')
-        {{ $meta->metaTitle }}
-         @else
-             @if(isset($slug) && $slug !== null)
-                {{$slug}}
-             @else
-              A7 Satta King | A7 Satta Result 2025 | A7 Satta Superfast
-             @endif
-        @endif</title>
-            <meta charset="UTF-8">
+<h2>About This Website</h2>
 
-    <meta name="Description"
-        content="Understand how A-7 SattaFast protects your data. Read our privacy policy outlining information use and security practices. " />
-    <meta name="keywords"
-        content="@if(isset($meta->keywords) && $meta->keywords !== 'null') {{ $meta->keywords }} @else 
-        A7-SATTAFAST, A7-SATTAFAST 786, Delhi A7-SATTAFAST, A7-SATTAFAST Disawar, A7-SATTAFAST Result, Disawar A7-SATTAFAST, A7-SATTAFAST Chart, A7-SATTAFAST Fast, A7-SATTAFAST Gali Disawar, Black A7-SATTAFAST, A7-SATTAFAST A7-SATTAFAST, Up A7-SATTAFAST, A7-SATTAFAST Gali, A7-SATTAFAST Faridabad, Gali Disawar A7-SATTAFAST, A7-SATTAFAST Up, Faridabad A7-SATTAFAST, Shri Ganesh A7-SATTAFAST, A7-SATTAFAST Delhi, Black A7-SATTAFAST 786 
-        @endif" />
- 
-    <meta name="author" content="
-     @if(isset($meta->currentUrl) && $meta->currentUrl !== 'null' )
-   {{$meta->currentUrl}}
-     @else
-    A7-SATTAFAST
-    @endif">
+<p>RealSatta.in is an informational website that displays Satta result data for entertainment and reference purposes only. We do not facilitate, promote, or encourage any form of gambling or betting. This website is strictly intended for users who are 18 years of age or older.</p>
 
+<h2>Information We Collect</h2>
 
-    <link rel="canonical" href="{{ url()->current() }}" />
-    <link rel="stylesheet" href="{{ asset('tamplate/bootstrap/assests1/bootstrap.css') }}">
-    <link href="{{ asset('tamplate/bootstrap/assests1/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('tamplate/bootstrap/assests1/background.css') }}" rel="stylesheet" type="text/css">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ asset('A1.png') }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('A1.png') }}">
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2MER3732M8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2MER3732M8');
-</script>
-    <!-- Schema Data -->
-    <style>
-        .tr1 {
-            background-color: #FFFFFF;
-            color: #000000;
-        }
-
-        p {
-            margin: 0 0 0px;
-        }
-        .open{
-            font-size:35px;
-        }
-      .time_result{
-          color:blue; font-size:15px; font-weight:bold;
-      }
-      .kal{
-           color:#000; 
-           font-size:17px;
-      }
-      .logo{
-         height: 25px;
-    /* top: -20px; */
-    left: calc(50% - 20px);
-    border-radius:50%;
-    width:70px;
-    padding: 10px;
-    height:70px;
-    z-index: 10;
-          }
-         
-          .time{
-              color:blue; font-size:15px; font-weight:bold;
-          }
-          .text-black{
-            color: black;  
-          }
-          .text-blacks{
-              color:black;
-          }
-    .accordion-button{
-        background: none;
-        border:none;
-    }
-    .accordion-body{
-        text-align:center;
-        color:white;
-        font-size: 15px;
-    }
-    .accordion-collapse{
-          text-align:center;
-        color:blue;
-        font-size: 15px;
-    }
-    #collapseFive{
-        color:white;
-    }
-    .text-white{
-        color: white;
-    }
-    h1{
-        font-size: 22px!important;
-    }
-    p {
-            text-align: center;
-    color: white;
-    font-size: 15px;
-    }
-    ul,li {
-         text-align: center;
-    color: white;
-    font-size: 15px;
-    }
-    </style>
-    
-
-   <style>
-                    .khaiwalbox2-box {
-                        background: linear-gradient(135deg, #4d0026, #b30059);
-                        /* Dark purple gradient */
-                        color: white;
-                        /* Ensures text is readable */
-                        padding: 20px;
-                        border-radius: 10px;
-                        /* Smooth corners */
-                        text-align: center;
-                    }
-                </style>
-
-</head>
-
-<body oncontextmenu= "return false" onselectstart= "return false" ondragstart= "return false">
-    {{-- @include('front.layouts.nav') --}}
-    @include('front.layouts.header')
-<div class="content" style="background-color: #000">
-       <div class="accordion" id="a7sattaAccordion">
-
-    <div class="accordion-item">
-       
-
-          <h1 style="background: #F5004F;padding:10px;">Privacy Policy</h1>
-
-<p>At a-7sattafast.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document explains what types of information are collected and recorded by a-7sattafast.com and how we use it.</p>
-
-<p>If you have any questions or require more information about our Privacy Policy, please contact us using the details provided at the bottom of this page.</p>
-
-<p>This Privacy Policy applies only to our online activities and is valid for visitors to a-7sattafast.com with regard to the information they share and/or that we collect on this website. This policy does not apply to information collected offline or through channels other than this website.</p>
-
-<h2>Consent</h2>
-
-<p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
-
-<h2>Information we collect</h2>
-
-<p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide it.</p>
-<p>If you contact us directly, we may receive additional information about you such as your name, email address, phone number, and the contents of any message or attachments you send us.</p>
+<p>a) Information You Provide<br>
+If you contact us directly via our contact form or email, we may collect:<br>
+●	Your name<br>
+●	Your email address<br>
+●	The content of your message or any attachments<br><br>
+b) Information Collected Automatically<br>
+When you visit our website, certain technical information is automatically recorded by our servers and third-party services, including:<br>
+●	IP address<br>
+●	Browser type and version<br>
+●	Device type and operating system<br>
+●	Pages visited and time spent on the site<br>
+●	Referring/exit URLs<br>
+●	Date and time of visit<br>
+This information is not personally identifiable on its own and is used solely for website analytics, security monitoring, and performance improvement.
+</p>
 
 <h2>How We Use Your Information</h2>
 
-<p>We use the information we collect to:</p>
-
-<ul>
-<li>Provide, operate, and maintain our website</li>
-<li>Improve, personalise, and expand our website</li>
-<li>Understand and analyze how you use our website</li>
-
-<li>Communicate with you, including for customer service and updates</li>
-<li>Detect and prevent fraud</li>
-
-</ul>
-
-<h2>Log Files</h2>
-
-<p>a-7sattafast.com follows standard web hosting practice of using log files. These files log visitors when they visit the website. The information collected by log files includes IP addresses, browser type, Internet Service Provider (ISP), date and time stamps, and referring/exit pages. This information is used for analysing trends and administering the site and is not linked to any personally identifiable information.</p>
-
+<p>The information we collect is used to:<br>
+●	Operate and maintain the website<br>
+●	Analyze website traffic and user behaviour<br>
+●	Improve website content and performance<br>
+●	Respond to your queries or messages<br>
+●	Detect and prevent fraudulent or unauthorised activity<br>
+●	Comply with applicable laws and regulations<br>
+We do not sell, rent, or trade your personal information to any third party.
+</p>
 <h2>Cookies</h2>
 
-<p>Like most websites, a-7sattafast.com uses cookies to store information about visitor preferences and the pages visited on the website. This information is used to optimise the user experience by customising page content based on your browser type and other information.</p>
-<p>You can choose to disable cookies through your browser settings. More detailed information about cookie management can be found on your browser's help pages.</p>
+<p>RealSatta.in uses cookies to enhance user experience. Cookies are small text files stored on your device that help us understand how visitors interact with our website.
+<br>
+We may use:<br>
+●	Session cookies — temporary, deleted when you close your browser<br>
+●	Analytics cookies — to understand visitor trends (e.g., via Google Analytics)<br>
+●	Advertising cookies — to serve relevant ads via Google AdSense/DoubleClick<br>
+You can control or disable cookies through your browser settings at any time. Note that disabling cookies may affect certain features of the website.<br>
+For more on Google's use of cookies in advertising, visit: https://policies.google.com/technologies/ads
+</p>
 
-<h2>Third-Party Advertising</h2>
+<h2>Third-Party Services</h2>
 
-<p>We may use third-party advertising partners, including Google, who use cookies and similar technologies to serve ads on our site based on prior visits to this and other websites. You can opt out of personalised advertising by visiting Google's Ads Settings.</p>
-<p>Third-party ad servers send cookies and use technologies such as JavaScript or web beacons directly to your browser. a-7sattafast.com has no access to or control over these cookies. Each advertising partner has its own Privacy Policy governing the use of user data.</p>
+<p>Our website may use third-party services including:<br>
+●	Google Analytics — for traffic and usage analysis<br>
+●	Google AdSense / DoubleClick — for serving advertisements<br>
+These third parties have their own privacy policies governing their use of your data. RealSatta.in is not responsible for the privacy practices of these external services.
+</p>
 
-<h2>Third-Party Privacy Policies</h2>
 
-<p>Our Privacy Policy does not apply to other advertisers or external websites. We advise you to consult the respective Privacy Policies of any third-party services for more information, including how to opt out of certain options.</p>
-<h2>GDPR Data Protection Rights</h2>
-<p>If you are located in the European Economic Area, you have the following rights:</p>
-<ul>
-    <li>
-   <li>	Right to access – You may request copies of your personal data.</li>
- <li>	Right to rectification – You may request that we correct inaccurate information.</li>
- <li>	Right to erasure – You may request that we delete your personal data, under certain conditions.</li>
- <li>	Right to restrict processing – You may request that we limit how we process your data, under certain conditions.</li>
- <li>	Right to object to processing – You may object to our processing of your data, under certain conditions.</li>
- <li>	Right to data portability – You may request that we transfer your data to another organisation or directly to you, under certain conditions.
+<h2>Advertising</h2>
 
-    </li>
-</ul>
-<p>We will respond to any such request within one month. To exercise any of these rights, please contact us.</p>
+<p>Ads displayed on RealSatta.in may be served by Google AdSense or other advertising partners. These partners may use cookies and web beacons to serve ads based on your prior visits to this or other websites. You can opt out of personalised advertising by visiting Google's Ad Settings.</p>
+
+<h2>Data Security</h2>
+
+<p>We implement reasonable technical and organisational measures to protect your information from unauthorised access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+
+
 <h2>Children's Privacy</h2>
 
-<P>a-7sattafast.com does not knowingly collect any personally identifiable information from children under the age of 13. If you believe your child has provided such information on our website, please contact us immediately and we will take steps to remove it from our records.</p>
+<P>RealSatta.in is strictly intended for users aged 18 and above. We do not knowingly collect any personal information from minors. If you believe a minor has provided personal information on our site, please contact us immediately and we will take prompt action to remove such data.</p>
 
+<h2>Applicable Law — India</h2>
+
+<p>This website is operated from India and is governed by the laws of the Republic of India, including:<br>
+●	The Information Technology Act, 2000 and its associated rules<br>
+●	The Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules, 2011<br>
+●	The Digital Personal Data Protection Act, 2023 (DPDP Act)<br>
+Any disputes arising out of or related to this Privacy Policy shall be subject to the exclusive jurisdiction of the courts in India.
+</p>
+
+<h2>Your Rights</h2>
+
+<p>Under applicable Indian law, you have the right to:<br>
+●	Access the personal data we hold about you<br>
+●	Request correction of inaccurate or incomplete data<br>
+●	Request deletion of your personal data, subject to legal obligations<br>
+●	Withdraw consent for data processing at any time<br>
+To exercise any of these rights, please contact us at the details below. We will respond within a reasonable timeframe.
+</p>
+
+<h2>Links to Other Websites</h2>
+
+<p>Our website may contain links to external websites. We are not responsible for the privacy practices or content of those sites. We encourage you to review the privacy policies of any external sites you visit.</p>
 
 <h2>Changes to This Policy</h2>
 
-<p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated date. We encourage you to review this policy periodically.</p>
-
+<p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated "Last Updated" date. Continued use of the website after any changes constitutes your acceptance of the revised policy.</p>
 <h2>Contact Us</h2>
+<p>For any questions, concerns, or requests related to this Privacy Policy, please contact us:<br>
+Website: https://realsatta.in Contact Page: https://realsatta.in/contact-us
 
-<p>If you have any questions about this Privacy Policy, please contact us:
-Website: a-7sattafast.com<br>
-
-WhatsApp: +91 98969 16793<br>
 </p>
+
+
         </div>
     </div>
-</div>
+</section>
 <section class="octoberresultchart"style="display:none;">
     <div class="container">
         <div class="row">
@@ -256,177 +136,3 @@ WhatsApp: +91 98969 16793<br>
         </div>
     </div>
 </section>
-  @include('front.layouts.footer')
-
-    <script>
-        const chatboxOpen = document.querySelector('.chatbox-open');
-        const chatboxClose = document.querySelector('.chatbox-close');
-        const chatboxPopup = document.querySelector('.chatbox-popup');
-
-        chatboxOpen.addEventListener('click', () => {
-            chatboxPopup.style.display = 'flex';
-            chatboxClose.style.display = 'flex';
-            chatboxOpen.style.display = 'none';
-        });
-
-        chatboxClose.addEventListener('click', () => {
-            chatboxPopup.style.display = 'none';
-            chatboxClose.style.display = 'none';
-            chatboxOpen.style.display = 'flex';
-        });
-    </script>
-      <script type="text/javascript">
-        var tmonth = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December");
-
-        function GetClock() {
-            var d = new Date();
-            var nmonth = d.getMonth(),
-                ndate = d.getDate(),
-                nyear = d.getFullYear();
-            var nhour = d.getHours(),
-                nmin = d.getMinutes(),
-                nsec = d.getSeconds(),
-                ap;
-            if (nhour == 0) {
-                ap = " AM";
-                nhour = 12;
-            } else if (nhour < 12) {
-                ap = " AM";
-            } else if (nhour == 12) {
-                ap = " PM";
-            } else if (nhour > 12) {
-                ap = " PM";
-                nhour -= 12;
-            }
-
-            if (nmin <= 9) nmin = "0" + nmin;
-            if (nsec <= 9) nsec = "0" + nsec;
-            document.getElementById('clockbox').innerHTML = "" + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour +
-                ":" + nmin + ":" + nsec + ap + "";
-        }
-        window.onload = function() {
-            GetClock();
-            setInterval(GetClock, 1000);
-        }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        /* Chatbox Button Styles */
-        .chatbox-open,
-        .chatbox-close {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
-
-        .chatbox-open {
-            display: flex;
-            /* Default: open button visible */
-        }
-
-        .chatbox-open i,
-        .chatbox-close i {
-            font-size: 24px;
-        }
-
-        .chatbox-popup {
-            position: fixed;
-            bottom: 115px;
-            right: 15px;
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            display: none;
-            flex-direction: column;
-        }
-
-        /* Header Styles */
-        .chatbox-popup__header {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-        }
-
-        .chatbox-popup__header img {
-            width: 50px;
-        }
-
-        .chatbox-popup__header p {
-            margin: 0;
-            font-size: 14px;
-        }
-
-        /* Main Content Styles */
-        .chatbox-popup__main {
-            padding: 10px;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .chatbox-popup__main span {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .chatbox-popup__main a button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .chatbox-popup__main a .call-btn {
-            background-color: red;
-        }
-
-        .chatbox-popup__main a .whatsapp-btn {
-            background-color: #178C07;
-        }
-
-        /* Footer Styles */
-        .chatbox-popup__footer {
-            display: flex;
-            align-items: center;
-            background-color: #f7f7f7;
-            border-top: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .chatbox-popup__footer textarea {
-            flex: 1;
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-            resize: none;
-        }
-
-        .chatbox-popup__footer i {
-            font-size: 20px;
-            cursor: pointer;
-        }
-    
-       
-    </style>
-</body>
-
-</html>

@@ -1,414 +1,126 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-
-<head>
-
-    <meta name="viewport" content="width=device-width" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>
-       A-7 Satta Fast Terms & Conditions | User Agreement</title>
-    <meta name="Description"
-        content="Read the terms and conditions for using A-7 SattaFast. Learn about user responsibilities, rules, and platform policies." />
-    <meta name="keywords"
-        content="@if(isset($meta->keywords) && $meta->keywords !== 'null') {{ $meta->keywords }} @else 
-        A7-SATTAFAST, A7-SATTAFAST 786, Delhi A7-SATTAFAST, A7-SATTAFAST Disawar, A7-SATTAFAST Result, Disawar A7-SATTAFAST, A7-SATTAFAST Chart, A7-SATTAFAST Fast, A7-SATTAFAST Gali Disawar, Black A7-SATTAFAST, A7-SATTAFAST A7-SATTAFAST, Up A7-SATTAFAST, A7-SATTAFAST Gali, A7-SATTAFAST Faridabad, Gali Disawar A7-SATTAFAST, A7-SATTAFAST Up, Faridabad A7-SATTAFAST, Shri Ganesh A7-SATTAFAST, A7-SATTAFAST Delhi, Black A7-SATTAFAST 786 
-        @endif" />
- 
-    <meta name="author" content="
-     @if(isset($meta->currentUrl) && $meta->currentUrl !== 'null' )
-   {{$meta->currentUrl}}
-     @else
-    A7-SATTAFAST
-    @endif">
-
-
-    <link rel="canonical" href="{{ url()->current() }}" />
-    <link rel="stylesheet" href="{{ asset('tamplate/bootstrap/assests1/bootstrap.css') }}">
-    <link href="{{ asset('tamplate/bootstrap/assests1/style.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('tamplate/bootstrap/assests1/background.css') }}" rel="stylesheet" type="text/css">
- <link rel="icon" href="{{ asset('public/alogo.png') }}" type="image/png">
-<link rel="shortcut icon" href="{{ asset('public/alogo.png') }}" type="image/png">
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2MER3732M8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-2MER3732M8');
-</script>
-    <!-- Schema Data -->
-    <style>
-        .tr1 {
-            background-color: #FFFFFF;
-            color: #000000;
-        }
-
-        p {
-            margin: 0 0 0px;
-        }
-        .open{
-            font-size:35px;
-        }
-      .time_result{
-          color:blue; font-size:15px; font-weight:bold;
-      }
-      .kal{
-           color:#000; 
-           font-size:17px;
-      }
-       .logo{
-         height: 25px;
-    /* top: -20px; */
-    left: calc(50% - 20px);
-    border-radius:50%;
-    width:70px;
-    padding: 10px;
-    height:70px;
-    z-index: 10;
-          }
-         
-          .time{
-              color:blue; font-size:15px; font-weight:bold;
-          }
-          .text-black{
-            color: black;  
-          }
-          .text-blacks{
-              color:black;
-          }
-    .accordion-button{
-        background: none;
-        border:none;
-    }
-    .accordion-body{
-        text-align:center;
-        color:white;
-        font-size: 15px;
-    }
-    .accordion-collapse{
-          text-align:center;
-        color:blue;
-        font-size: 15px;
-    }
-    #collapseFive{
-        color:white;
-    }
-    .text-white{
-        color: white;
-    }
-    h1{
-        font-size: 22px!important;
-    }
-    p {
-            text-align: center;
-    color: white;
-    font-size: 15px;
-    }
-    ul,li {
-         text-align: center;
-    color: white;
-    font-size: 15px;
-    }
-    </style>
-    
-
-   <style>
-                    .khaiwalbox2-box {
-                        background: linear-gradient(135deg, #4d0026, #b30059);
-                        /* Dark purple gradient */
-                        color: white;
-                        /* Ensures text is readable */
-                        padding: 20px;
-                        border-radius: 10px;
-                        /* Smooth corners */
-                        text-align: center;
-                    }
-                </style>
-
-</head>
-
-<body oncontextmenu= "return false" onselectstart= "return false" ondragstart= "return false">
-       @include('front.layouts.header')
-       <div class="content" style="background-color: #000">
-       <div class="accordion" id="a7sattaAccordion">
-
-    <div class="accordion-item">
-       
-<h2 style="background: #F5004F;padding:10px;"><strong>Terms and Conditions</strong></h2>
+<h1><strong>Terms and Conditions</strong></h1>
 
 <p>Welcome to {{config('content.company_name')}}!</p>
 
-<p>These Terms and Conditions outline the rules and regulations for using the website located at    {{config('app.url')}}.</p>
+<p>Welcome to RealSatta.in. By accessing or using our website located at https://realsatta.in, you agree to be bound by the following Terms and Conditions. Please read them carefully before continuing to use the site.</p>
 
-<p>By accessing this website, you accept these Terms and Conditions in full. Do not continue to use {{config('content.company_name')}} if you do not agree with all the terms stated on this page.</p>
+<p>If you do not agree with any part of these terms, you must discontinue use of this website immediately.</p>
 
-<p>The following terminology applies to these Terms and Conditions: "You" and "Your" refers to you, the person accessing this website. "We", "Us", "Our" and "The Website" refers to a-7sattafast.com. All terms refer to the use of our website and services in accordance with the prevailing laws of India.</p>
 
-<h3><strong>Cookies</strong></h3>
 
-<p>We use cookies on this website. By accessing a-7sattafast.com, you agree to the use of cookies in accordance with our <a href="/privacy-policy">Privacy Policy</a>. </p>
+<h2><strong>About This Website</strong></h2>
 
-<p>Cookies are used to enable the functionality of certain areas and to make your visit easier. Some of our advertising partners may also use cookies.</p>
+<p>RealSatta.in is an informational website that publishes Satta King result data for reference and entertainment purposes only. We are a non-commercial platform and do not conduct, facilitate, or promote any gambling, betting, or wagering activities. </p>
 
-<h3><strong>Intellectual Property & License</strong></h3>
+<p>All information displayed on this website is publicly available and is shared strictly for informational purposes.</p>
 
-<p>Unless otherwise stated, a-7sattafast.com and/or its licensors own the intellectual property rights for all material published on this website. All intellectual property rights are reserved. You may access content from this website for your own personal use, subject to the restrictions set in these Terms and Conditions.</p>
+<h2><strong> Age Restriction</strong></h2>
+
+<p>This website is intended only for users aged 18 years and above. By using this website, you confirm that you are at least 18 years old. If you are a minor, you are strictly prohibited from accessing or using this website.</p>
+<h2><strong> Acceptance of Terms</strong></h2>
+<p>By accessing RealSatta.in, you acknowledge that:</p>
+<ul>
+    <li>You have read, understood, and agree to these Terms and Conditions</li>
+    <li>You are accessing this website voluntarily and at your own risk</li>
+    <li>You are aware that Satta/Matka-related activities may be restricted or illegal in your state or country</li>
+    <li>You take full responsibility for ensuring your access complies with the laws applicable in your jurisdiction</li>
+</ul>
+<h2><strong>Intellectual Property & Content License</strong></h2>
+<p>All content published on RealSatta.in — including text, graphics, layout, and result data — is the property of RealSatta.in unless otherwise noted. All intellectual property rights are reserved.</p>
+
+<p>You are permitted to access and view content on this website for your personal, non-commercial use only.</p>
 
 <p>You must not:</p>
-<ul>
-    <li>Republish material from {{config('content.company_name')}}</li>
-    <li>Sell, rent or sub-license material from {{config('content.company_name')}}</li>
-    <li>Reproduce, duplicate or copy material from {{config('content.company_name')}}</li>
-    <li>Redistribute content from {{config('content.company_name')}} without prior written consent</li>
-</ul>
-<h3>User Comments & Content</h3>
-<p>Where users are permitted to post comments or opinions on this website, those comments reflect the views of the individual posting them and not the views of a-7sattafast.com, its agents, or affiliates.</p>
-
-<p>{{config('content.company_name')}} reserves the right to monitor and remove any comments considered inappropriate, offensive, or in breach of these Terms and Conditions.</p>
-
-<p>By posting a comment on this website, you confirm that:</p>
 
 <ul>
-    <li>	You have the necessary rights and consents to post the comment;</li>
-    <li>	The comment does not infringe any intellectual property right of any third party;
-    <li>	The comment does not contain defamatory, offensive, or unlawful material;
+    <li>Republish, reproduce, or duplicate any material from this website without prior written consent</li>
+    <li>Sell, rent, or sub-license any content from this website
     </li>
-    <li>	The comment will not be used to promote commercial activities or unlawful activity.
+    <li>Redistribute or commercially exploit any material from this website
+    </li>
+    <li>Scrape, crawl, or use automated tools to extract data from this website
     </li>
 </ul>
 
 
-<h3><strong>Hyperlinking to Our Website</strong></h3>
+<h2><strong>Disclaimer of Liability</strong></h2>
 
-<p>The following types of organisations may link to our website without prior written approval:</p>
+<p>RealSatta.in publishes result information on a best-effort basis. We make no guarantees regarding the accuracy, completeness, or timeliness of any result data displayed.</p>
+<p>To the maximum extent permitted by applicable law:<br>
+●	We are not responsible for any financial loss, legal consequences, or damages of any kind arising from your use of this website<br>
+●	We do not endorse or encourage participation in any form of gambling or betting<br>
+●	We are not liable for any third-party content, advertisements, or external links accessible through our website<br>
+●	We do not guarantee that the website will be available at all times or free of errors
+</p>
 
-<ul>
-    <li>Government agencies;</li>
-    <li>Search engines;</li>
-    <li>News organizations;</li>
-    <li>	Online directories, in the same manner as they link to other listed websites
-    </li>
-    
-</ul>
+<h2><strong>User Conduct</strong></h2>
 
-<p>Such links must not be deceptive, must not falsely imply sponsorship or endorsement, and must fit within the context of the linking party's website.</p>
+<p>By using this website, you agree that you will not:<br>
+●	Use this website for any unlawful or fraudulent purpose<br>
+●	Attempt to gain unauthorised access to any part of this website or its systems<br>
+●	Transmit any harmful, offensive, or malicious content via our platform<br>
+●	Use this website in any way that could damage, disable, or impair its performance<br>
+●	Violate any applicable local, state, national, or international law or regulation
+</p>
 
-<p>Other organisations wishing to link to our website should contact us in advance. We reserve the right to approve or decline link requests.</p>
+<h2><strong>Cookies</strong></h2>
 
-<h3><strong>iFrames</strong></h3>
+<p>RealSatta.in uses cookies to improve user experience and deliver relevant advertisements. By continuing to use this website, you consent to our use of cookies as described in our Privacy Policy.<br>
+You may disable cookies through your browser settings at any time, though this may affect certain website functionality.
+</p>
 
-<p>Without prior written approval, you may not create frames around our web pages that alter the visual presentation or appearance of this website in any way.</p>
+<h2><strong>Third-Party Links & Advertisements</strong></h2>
 
-<h3><strong>Content Disclaimer</strong></h3>
+<p>This website may display advertisements served by third-party networks including Google AdSense, and may contain links to external websites. These third parties operate independently and have their own terms and privacy policies.<br>
+RealSatta.in is not responsible for the content, accuracy, or practices of any third-party website or advertiser. Clicking on third-party links is entirely at your own risk.
+</p>
 
-<p>{{config('content.company_name')}} is an information and result display website. We do not guarantee the accuracy, completeness, or timeliness of any information published on this website. The website is provided on an "as is" basis and we reserve the right to update or remove content at any time without notice.</p>
-<p>We shall not be held responsible for any content that appears on external websites that link to or from our website.</p>
-<h3><strong>Your Privacy</strong></h3>
+<h2><strong>Hyperlinking to Our Website</strong></h2>
 
-<p>Please read our <a href="/privacy-policy">Privacy Policy</a> for details on how we collect and use your data.</p>
+<p>The following entities may link to RealSatta.in without prior written approval:<br>
+●	Government agencies and regulatory bodies<br>
+●	Search engines (e.g., Google, Bing)<br>
+●	News organisations<br>
+●	Online directory services<br>
+Any approved link must: (a) not be deceptive or misleading; (b) not falsely imply endorsement or affiliation with RealSatta.in; and (c) be contextually appropriate.<br>
+No use of our logo, branding, or artwork is permitted for linking purposes without a written trademark licence agreement.
+</p>
 
-<h3><strong>Reservation of Rights</strong></h3>
+<h2><strong>iFrames</strong></h2>
 
-<p>We reserve the right to amend these Terms and Conditions at any time. By continuing to use this website after any changes are made, you agree to be bound by the updated terms. We reserve the right to request removal of any links to our website at any time.</p>
-
-<h3><strong>Removal of links `</strong></h3>
-
-<p>If you find any link on our website that you consider offensive or inappropriate, you are welcome to contact us. We will consider such requests but are not obligated to remove links or respond directly.</p>
+<p>You may not embed RealSatta.in pages within iFrames or similar structures on any other website without our prior written approval. Doing so alters the visual presentation of our content and is not permitted.</p>
 
 
 
-<h3><strong>Disclaimer of Liability</strong></h3>
+<h2><strong>Governing Law</strong></h2>
 
-<p>To the maximum extent permitted by applicable Indian law, we exclude all representations, warranties, and conditions relating to the use of this website. Nothing in this disclaimer will:</p>
+<p>These Terms and Conditions are governed by and construed in accordance with the laws of the Republic of India, including the Information Technology Act, 2000, and the Digital Personal Data Protection Act, 2023.<br>
+Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the competent courts in India.
+</p>
 
-<ul>
-    <li>	Limit or exclude liability for death or personal injury caused by negligence;</li>
-    <li>	Limit or exclude liability for fraud or fraudulent misrepresentation;</li>
-    <li>	Limit any liability in a manner not permitted under applicable law.</li>
-  
-</ul>
 
-<p>As long as this website and its information are provided free of charge, we will not be liable for any loss or damage of any nature arising from its use.</p>
-<h4>Governing Law</h4>
-<p>These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes arising in connection with these terms shall be subject to the jurisdiction of the competent courts of India.</p>
-<h4>Contact Us</h4>
-<p>If you have any questions about these Terms and Conditions, please contact us:<br>
-Website: a-7sattafast.com<br>
-WhatsApp: +91 98969 16793
-</p></div></div></div>
-  @include('front.layouts.footer')
 
-    <script>
-        const chatboxOpen = document.querySelector('.chatbox-open');
-        const chatboxClose = document.querySelector('.chatbox-close');
-        const chatboxPopup = document.querySelector('.chatbox-popup');
+<h2><strong>Changes to These Terms</strong></h2>
 
-        chatboxOpen.addEventListener('click', () => {
-            chatboxPopup.style.display = 'flex';
-            chatboxClose.style.display = 'flex';
-            chatboxOpen.style.display = 'none';
-        });
+<p>We reserve the right to modify or update these Terms and Conditions at any time. Changes will be effective immediately upon being posted on this page, with an updated "Last Updated" date. Your continued use of the website after any changes constitutes your acceptance of the revised terms.<br>
+We recommend checking this page periodically to stay informed.
 
-        chatboxClose.addEventListener('click', () => {
-            chatboxPopup.style.display = 'none';
-            chatboxClose.style.display = 'none';
-            chatboxOpen.style.display = 'flex';
-        });
-    </script>
-      <script type="text/javascript">
-        var tmonth = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December");
+</p>
 
-        function GetClock() {
-            var d = new Date();
-            var nmonth = d.getMonth(),
-                ndate = d.getDate(),
-                nyear = d.getFullYear();
-            var nhour = d.getHours(),
-                nmin = d.getMinutes(),
-                nsec = d.getSeconds(),
-                ap;
-            if (nhour == 0) {
-                ap = " AM";
-                nhour = 12;
-            } else if (nhour < 12) {
-                ap = " AM";
-            } else if (nhour == 12) {
-                ap = " PM";
-            } else if (nhour > 12) {
-                ap = " PM";
-                nhour -= 12;
-            }
 
-            if (nmin <= 9) nmin = "0" + nmin;
-            if (nsec <= 9) nsec = "0" + nsec;
-            document.getElementById('clockbox').innerHTML = "" + tmonth[nmonth] + " " + ndate + ", " + nyear + " " + nhour +
-                ":" + nmin + ":" + nsec + ap + "";
-        }
-        window.onload = function() {
-            GetClock();
-            setInterval(GetClock, 1000);
-        }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        /* Chatbox Button Styles */
-        .chatbox-open,
-        .chatbox-close {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            display: none;
-        }
 
-        .chatbox-open {
-            display: flex;
-            /* Default: open button visible */
-        }
+<h2><strong>Privacy Policy</strong></h2>
 
-        .chatbox-open i,
-        .chatbox-close i {
-            font-size: 24px;
-        }
+<p>Your use of this website is also governed by our Privacy Policy, which is incorporated into these Terms and Conditions by reference.
+</p>
 
-        .chatbox-popup {
-            position: fixed;
-            bottom: 115px;
-            right: 15px;
-            width: 300px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            display: none;
-            flex-direction: column;
-        }
 
-        /* Header Styles */
-        .chatbox-popup__header {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-        }
 
-        .chatbox-popup__header img {
-            width: 50px;
-        }
+<h2><strong>Contact Us</strong></h2>
 
-        .chatbox-popup__header p {
-            margin: 0;
-            font-size: 14px;
-        }
+<p>For any questions regarding these Terms and Conditions, please reach out to us:<br>
+Website: https://realsatta.in Contact Page: https://realsatta.in/contact-us
 
-        /* Main Content Styles */
-        .chatbox-popup__main {
-            padding: 10px;
-            font-size: 14px;
-            color: #333;
-        }
+</p>
 
-        .chatbox-popup__main span {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 10px;
-        }
 
-        .chatbox-popup__main a button {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .chatbox-popup__main a .call-btn {
-            background-color: red;
-        }
-
-        .chatbox-popup__main a .whatsapp-btn {
-            background-color: #178C07;
-        }
-
-        /* Footer Styles */
-        .chatbox-popup__footer {
-            display: flex;
-            align-items: center;
-            background-color: #f7f7f7;
-            border-top: 1px solid #ccc;
-            padding: 10px;
-        }
-
-        .chatbox-popup__footer textarea {
-            flex: 1;
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-            resize: none;
-        }
-
-        .chatbox-popup__footer i {
-            font-size: 20px;
-            cursor: pointer;
-        }
-    
-       
-    </style>
-</body>
-
-</html>

@@ -15,19 +15,21 @@ use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\SeoPageController;
 
 
-Route::get('/chart', [FrontController::class, 'chart'])->name('chart');
-Route::get('/record/{slug}', [FrontController::class, 'gameRecord'])->name('game.record');
-Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])->name('game.yearRecord');
 Route::get('/', [FrontController::class, 'home'])->name('home');
+
+Route::get('/chart', [FrontController::class, 'chart'])->name('chart');
+
+Route::get('/record/{slug}', [FrontController::class, 'gameRecord'])
+    ->name('game.record');
+
+Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
+    ->name('game.yearRecord');
+
 Route::any('/webhook', [FrontController::class, 'webhook'])->name('webhook');
 
-// Route::get('/Chart', [FrontController::class, 'chart'])->name('chart');
-// Route::get('/login', [LoginController::class,'index'])->name('index');
-// Route::post('/logined-in', [LoginController::class,'login'])->name('login');
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/terms-conditions', [FrontController::class, 'termsConditions'])->name('terms-conditions');
-
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])

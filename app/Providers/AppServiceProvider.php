@@ -9,11 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Game;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
-
 class AppServiceProvider extends ServiceProvider
-
 {
     /**
      * Register any application services.
@@ -31,42 +27,20 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
 
 
-     View::composer('front.layouts.header', function ($view) {
+          View::composer('front.layouts.footer', function ($view) {
+            $footerGames = Game::query()
+                ->where('is_active', true)
+                ->with([
+                    'chartYears' => function ($query) {
+                        $query->where('is_active', true)
+                            ->orderByDesc('year');
+                    }
+                ])
+                ->orderBy('sort_order')
+                ->get();
 
-            $apiBaseUrl = rtrim(config('services.main_api.url'), '/');
-            $today = Carbon::today('Asia/Kolkata')->format('Y-m-d');
-
-            $headerGames = collect();
-
-            try {
-                $response = Http::timeout(10)->get($apiBaseUrl . '/games-results', [
-                    'date' => $today,
-                ]);
-
-                if ($response->successful()) {
-                    $headerGames = collect($response->json('games', []))->map(function ($game) {
-                        return (object) [
-                            'id' => $game['id'] ?? null,
-                            'name' => $game['name'] ?? '',
-                            'slug' => $game['slug'] ?? '',
-                            'result_time' => $game['result_time'] ?? null,
-
-                            'todayResult' => (object) [
-                                'result' => $game['result']['result'] ?? null,
-                                'status' => $game['result']['status'] ?? 'waiting',
-                                'show_minutes' => $game['result']['show_minutes'] ?? 10,
-                                'updated_at' => $game['result']['updated_at'] ?? null,
-                            ],
-                        ];
-                    });
-                }
-            } catch (\Throwable $e) {
-                $headerGames = collect();
-            }
-
-            $view->with('headerGames', $headerGames);
+            $view->with('footerGames', $footerGames);
         });
-
     }
 
     /**
