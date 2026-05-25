@@ -1,549 +1,340 @@
 @extends('front.layouts.app')
 
 @section('content')
-    <section class="advertisement">
-        <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0" target="_blank"
-            style="text-decoration:none;color:inherit;">
 
-            <div style="background:#f2aa00; border:1px solid #000;">
+<div class="col-md-12 text-center" style="background-color:white;">
+    <div class="ads" style="padding:8px 0; margin:8px 0; background:#FF5252; color:white; text-align:center;">
+        <h4 class="text-center text-black" style="font-weight:bolder;">
+            व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
+        </h4>
 
-                <div
-                    style="background:#efbd3d; border-top:5px dotted #000; border-bottom:5px dotted #000; padding:8px 15px 12px; text-align:center;">
-                    <p style="margin:0 0 10px; font-size:16px; color:#000;">
-                        नमस्कार साथियों
-                    </p>
-
-                    <p style="margin:0 0 32px; font-size:15px; color:#000;">
-                        सीधा कंपनी खाईवाल के पास गेम प्ले करे बिंदास
-                        <b>1001%</b> पेमेंट की गारंटी के साथ आपका अपना भाई
-                    </p>
-
-                    <p style="margin:0 0 2px; font-size:16px; font-weight:700; color:#000;">
-                        S.K Bhai
-                    </p>
-
-                    <span style="display:inline-block; background:#fff; padding:0 8px;">
-                        <img src="{{ asset('whatsapp-img.png') }}" alt="Whatsapp" style="height:65px; max-width:220px;">
-                    </span>
-                </div>
-            </div>
-
+        <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T">
+            <img src="{{ asset('public/Join-WhatsApp.png') }}"
+                 width="160px"
+                 style="display:block; margin-bottom:10px; margin-left:auto; margin-right:auto;">
         </a>
-    </section>
+    </div>
+</div>
 
-    {{-- <section class="circlebox">
+<div class="drag">
+    <h2>
+        <span style="margin-top:4px; margin-bottom:4px; font-size:15px; text-align:center; color:#000;">
+            A7-SATTAFAST RECORD CHART
+        </span>
+        <br>
+        <a href="/"><span>A7-SATTAFAST LIVE RESULT</span></a>
+    </h2>
+</div>
+
+<div class="resultchart" style="background-color:#fff;">
+    <div class="addb">
+        <h3 style="text-align:center; padding:10px; color:red; font-weight:bold;">
+            A7-SATTAFAST LIVE RESULT
+        </h3>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="border row">
+
+        @forelse($games as $game)
+
+            @php
+                $todayResult = $game->todayResult->result ?? null;
+                $yesterdayResult = $game->yesterdayResult->result ?? null;
+            @endphp
+
+            <div class="gamebox col-md-6 col-sm-6 col-xs-6">
+                <font class="boxresult">
+                    <a class="text-blacks"
+                       href="{{ url('record/' . $game->slug) }}"
+                       title="{{ $game->name }}">
+                        {{ $game->name }}
+                    </a>
+                </font>
+
+                <br>
+
+                <a class="text-black"
+                   href="{{ url('record/' . $game->slug) }}"
+                   title="records">
+                    Records
+                </a>
+
+                <br>
+
+                <font class="time_result">
+                    ( {{ $game->result_time }} )<br>
+
+                    <font class="kal">कल &nbsp;&nbsp; आज</font> <br>
+
+                    <font class="gameboxresult">
+                        @if(!empty($yesterdayResult))
+                            {{ is_numeric($yesterdayResult) && $yesterdayResult <= 9 ? str_pad($yesterdayResult, 2, '0', STR_PAD_LEFT) : $yesterdayResult }}
+                        @else
+                            XX
+                        @endif
+                    </font>
+
+                    <img loading="lazy"
+                         src="{{ asset('arrow.gif') }}"
+                         width="20"
+                         height="20"
+                         role="presentation"
+                         title="SATTAKING | A7-SATTAFAST | SATTA CHART | A7-SATTAFAST RESULT | A7-SATTAFAST LIVE">
+                </font>
+
+                <font class="gameboxresult">
+                    @if(!empty($todayResult))
+                        {{ is_numeric($todayResult) && $todayResult <= 9 ? str_pad($todayResult, 2, '0', STR_PAD_LEFT) : $todayResult }}
+                    @else
+                        XX
+                    @endif
+                </font>
+            </div>
+
+        @empty
+            <div class="col-md-12 text-center p-3">
+                <strong>No game data found.</strong>
+            </div>
+        @endforelse
+
+    </div>
+</div>
+
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="liveresult">
-
-                <div class="datetime">
-                    <div id="clockbox"></div>
-                </div>
-
-                <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
-
-                @php
-
-                    $liveGames = $games
-
-                        ->filter(function ($game) {
-
-                            // waiting games bhi dikhenge
-                            if (
-                                !$game->todayResult ||
-                                $game->todayResult->status !== 'declared'
-                            ) {
-                                return true;
-                            }
-
-                            $result = $game->todayResult;
-
-                            // declared result show_minutes tak dikhe
-                            if ($result->show_minutes > 0) {
-
-                                $expireTime = \Carbon\Carbon::parse($result->updated_at)
-                                    ->addMinutes($result->show_minutes);
-
-                                return now()->lessThanOrEqualTo($expireTime);
-                            }
-
-                            return false;
-                        })
-
-                        // declared result top me
-                        ->sortByDesc(function ($game) {
-                            return optional($game->todayResult)->status === 'declared';
-                        })
-
-                        // sirf 4 games
-                        ->take(4);
-
-                @endphp
-
-
-                @forelse($liveGames as $game)
-
-                    <div class="sattaname">
-                        <p>{{ strtoupper($game->name) }}</p>
-                    </div>
-
-                    <div class="sattaresult">
-                        <font>
-                            <span>
-
-                                @if (
-                                    $game->todayResult &&
-                                    $game->todayResult->status === 'declared' &&
-                                    $game->todayResult->result
-                                )
-
-                                    {{ $game->todayResult->result }}
-
-                                @else
-
-                                    <p>
-                                        <strong class="waitimg">
-                                            <img class="lazy" src="/m/d.gif" alt="waiting">
-                                        </strong>
-                                    </p>
-
-                                @endif
-
-                            </span>
-                        </font>
-                    </div>
-
-                @empty
-
-                    <div class="sattaname">
-                        <p>No Games Found</p>
-                    </div>
-
-                @endforelse
-
+        <div class="col-sm">
+            <div class="khaiwalbox2-box">
+                TOP ADVERTISEMENT SECTION
             </div>
         </div>
     </div>
-</section> --}}
+</div>
+
+<br>
+
+<div class="drag">
+    <h2>A7-SATTAFAST RECORD CHART</h2>
+    <a href="/">A7-SATTAFAST LIVE RESULT</a>
+</div>
+
+<div class="drag">
+    <a href="/">A7-SATTAFAST Chart</a>
+</div>
+
+{{-- Current Month Dynamic Chart --}}
+<div class="table-responsive" style="overflow-x:scroll;">
+    <table width="100%" class="month_result_table rtable" border="1" cellspacing="0" cellpadding="0">
+
+        <tr>
+            <td style="font-size:14px; white-space:nowrap; background-color:#cc4c1a; color:#fff; text-align:center; padding:6px 8px; text-transform:uppercase;">
+                DATE
+            </td>
+
+            @foreach($chartGames as $chartGame)
+                <td style="font-size:14px; white-space:nowrap; background-color:#cc4c1a; color:#fff; text-align:center; padding:6px 8px; text-transform:uppercase;">
+                    {{ $chartGame->name }}
+                </td>
+            @endforeach
+        </tr>
+
+        @foreach($dates as $date)
+            @php
+                $dateKey = $date->format('Y-m-d');
+                $dayResults = $monthlyResults->get($dateKey, collect());
+            @endphp
+
+            <tr>
+                <td style="font-size:18px; background-color:#3333ff; color:#fff; text-align:center; font-weight:bold;">
+                    {{ $date->format('d') }}
+                </td>
+
+                @foreach($chartGames as $chartGame)
+                    @php
+                        $singleResult = collect($dayResults)->firstWhere('game_slug', $chartGame->slug);
+                        $resultValue = $singleResult->result ?? null;
+                    @endphp
+
+                    <td style="font-size:15px; font-weight:bold; background-color:#fff; padding:6px 2px 7px 2px; text-align:center;">
+                        @if(!empty($resultValue))
+                            {{ is_numeric($resultValue) && $resultValue <= 9 ? str_pad($resultValue, 2, '0', STR_PAD_LEFT) : $resultValue }}
+                        @else
+                            -
+                        @endif
+                    </td>
+                @endforeach
+            </tr>
+        @endforeach
+
+    </table>
+</div>
 
 
 
-<section class="circlebox">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="liveresult">
+{{-- GAME YEAR RECORD CHART SECTION --}}
+<div style="background:#000; padding-bottom:25px;">
 
-                <div class="datetime">
-                    <div id="clockbox"></div>
-                </div>
+    @forelse($chartGames as $game)
 
-                <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
-
-                @php
-                    $now = \Carbon\Carbon::now('Asia/Kolkata');
-
-                    $declaredGames = $games
-                        ->filter(function ($game) {
-                            return $game->todayResult
-                                && $game->todayResult->status === 'declared'
-                                && !empty($game->todayResult->result);
-                        })
-                        ->filter(function ($game) {
-                            $result = $game->todayResult;
-
-                            if ((int) $result->show_minutes <= 0) {
-                                return true;
-                            }
-
-                            $expireTime = \Carbon\Carbon::parse($result->updated_at, 'Asia/Kolkata')
-                                ->addMinutes((int) $result->show_minutes);
-
-                            return \Carbon\Carbon::now('Asia/Kolkata')->lessThanOrEqualTo($expireTime);
-                        })
-                        ->sortByDesc(function ($game) {
-                            return \Carbon\Carbon::parse($game->todayResult->updated_at, 'Asia/Kolkata')->timestamp;
-                        });
-
-                    $upcomingGames = $games
-                        ->filter(function ($game) {
-                            return !(
-                                $game->todayResult
-                                && $game->todayResult->status === 'declared'
-                                && !empty($game->todayResult->result)
-                            );
-                        })
-                        ->filter(function ($game) use ($now) {
-                            if (empty($game->result_time)) {
-                                return false;
-                            }
-
-                            try {
-                                $gameDateTime = \Carbon\Carbon::createFromFormat(
-                                    'Y-m-d h:i A',
-                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                    'Asia/Kolkata'
-                                );
-                            } catch (\Exception $e) {
-                                $gameDateTime = \Carbon\Carbon::parse(
-                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                    'Asia/Kolkata'
-                                );
-                            }
-
-                            return $gameDateTime->greaterThanOrEqualTo($now);
-                        })
-                        ->sortBy(function ($game) use ($now) {
-                            try {
-                                $gameDateTime = \Carbon\Carbon::createFromFormat(
-                                    'Y-m-d h:i A',
-                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                    'Asia/Kolkata'
-                                );
-                            } catch (\Exception $e) {
-                                $gameDateTime = \Carbon\Carbon::parse(
-                                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                    'Asia/Kolkata'
-                                );
-                            }
-
-                            return $gameDateTime->timestamp;
-                        });
-
-                    $liveGames = $declaredGames
-                        ->concat($upcomingGames)
-                        ->take(4);
-                @endphp
-
-                @forelse($liveGames as $game)
-
-                    <div class="sattaname">
-                        <p>{{ strtoupper($game->name) }}</p>
-                    </div>
-
-                    <div class="sattaresult">
-                        <font>
-                            <span>
-                                @if(
-                                    $game->todayResult
-                                    && $game->todayResult->status === 'declared'
-                                    && !empty($game->todayResult->result)
-                                )
-                                    {{ $game->todayResult->result }}
-                                @else
-                                    <p>
-                                        <strong class="waitimg">
-                                            <img class="lazy" src="/m/d.gif" alt="waiting">
-                                        </strong>
-                                    </p>
-                                @endif
-                            </span>
-                        </font>
-                    </div>
-
-                @empty
-                    <div class="sattaname">
-                        <p>No Games Found</p>
-                    </div>
-                @endforelse
-
-            </div>
+        <div style="
+            background:#f5004f;
+            color:#fff;
+            text-align:center;
+            font-size:26px;
+            font-weight:bold;
+            padding:14px 5px;
+            border-top:3px solid #fff;
+            border-bottom:3px solid #fff;
+            text-transform:uppercase;
+        ">
+            SATTA RECORD CHART
         </div>
-    </div>
-</section>
 
-    <section class="sattadividerr">
-        <div class="container">
-            <div class="col-md-12 text-center">
-                <h4 class="text-center text-white">
-                    व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
-                </h4>
-
-                <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T">
-                    <h4 style="color:blue">
-                        <img src="/Join-WhatsApp.png" width="180px" alt="Join WhatsApp">
-                    </h4>
-                </a>
-            </div>
+        <div style="
+            background:#fff;
+            border:2px solid blue;
+            border-radius:18px;
+            margin:0 0 30px 0;
+            text-align:center;
+            padding:10px;
+            font-size:24px;
+            color:#000;
+        ">
+            <a href="{{ url('record/' . $game->slug) }}"
+               style="color:#000; text-decoration:none;">
+                SATTA RECORD CHART {{ $game->name }}
+            </a>
         </div>
-    </section>
 
-    <section class="top-advo">
-        <div class="row p-0">
-            <div class="col-md-12">
-                <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0"
-                    target="_blank" style="text-decoration:none;color:inherit;">
-
-                    <div class="card top_card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
-                        <div class="card-body text-center" style="padding:5px 15px 12px;">
-
-                            <h5 style="font-weight:700; margin:0;">
-                                सीधे सट्टा कंपनी का No 1 खाईवाल
-                            </h5>
-
-                            <h5 style="font-weight:700; color:#c0392b; margin:2px 0 12px;">
-                                ✰✰ ABHISHEK Bhai KHAIWAL ✰✰
-                            </h5>
-
-                            <p style="font-weight:700; line-height:1.45; margin:0;">
-                                🎯 पालिका बाजार..1:20pm<br>
-                                🎯 प्रयागराज........2:00pm<br>
-                                🎯 दिल्लीबाजार ...3:00pm<br>
-                                🎯 दिल्ली दरबार....3:30pm<br>
-                                🎯 श्री गणेश........4:30 Pm<br>
-                                🎯 रूप नगर..........5:10pm<br>
-                                🎯 फरीदाबाद.......5:50 pm<br>
-                                🎯 फतेहपुर..........7:10 pm<br>
-                                🎯 गाज़ियाबाद......8:50 pm<br>
-                                🎯 नोएडानाइट....10:00 pm<br>
-                                🎯 गली..............11:15pm<br>
-                                🎯 दिसावर ...........3:00 am
-                            </p>
-
-                            <p style="font-weight:700; line-height:1.45; margin:4px 0;">
-                                जोड़ी रेट<br>
-                                जोड़ी रेट 10-------960<br>
-                                हरूफ रेट 100-----960
-                            </p>
-
-                            <h5 style="font-weight:700; color:#c0392b; margin:4px 0;">
-                                ✰✰ ABHISHEK Bhai KHAIWAL ✰✰
-                            </h5>
-
-                            <p style="font-weight:700; color:#6c2cff; margin:0 0 5px;">
-                                Game Play करने के लिये नीचे लिंक पर क्लिक करे
-                            </p>
-
-                            <span style="display:inline-block; background:#fff; padding:0 8px;">
-                                <img src="{{ asset('whatsapp-img.png') }}" alt="Whatsapp"
-                                    style="height:50px; max-width:180px;">
-                            </span>
-
-                            <p style="font-weight:700; margin:2px 0 0;">
-                                Click to chat
-                            </p>
-
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact-advo">
-        <div class="row p-0">
-            <div class="col-md-12">
-                <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0"
-                    target="_blank" style="text-decoration:none;color:inherit;">
-
-                    <div class="card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
-                        <div class="card-body text-center" style="padding:12px 15px;">
-
-                            <p style="font-size:18px; font-weight:700; margin:0 0 12px;">
-                                नमस्कार साथियों
-                            </p>
-
-                            <p style="font-size:18px; font-weight:700; margin:0 0 12px;">
-                                अपनी गेम का रिजल्ट हमारी web साइट पर लगाने के लिए संपर्क करें !
-                            </p>
-
-                            <p style="font-size:18px; font-weight:700; margin:0 0 18px;">
-                                किसी भी भाई को किसी तरह की कोई दिक्कत या परेशानी हो तो हमसे whatsapp पर संपर्क करे
-                            </p>
-
-                            <h3 style="font-weight:800; margin:0 0 8px;">
-                                ARUN BHAI
-                            </h3>
-
-                            <span style="display:inline-block; background:#fff; padding:0 8px;">
-                                <img src="{{ asset('whatsapp-img.png') }}" alt="Whatsapp"
-                                    style="height:50px; max-width:180px;">
-                            </span>
-
-                            <p style="font-size:17px; font-weight:800; margin:10px 0 0;">
-                                NOTE: इस नंबर पर लिंक गेम नही मिलता गेम खेलने वाले भाई कॉल या मैसेज न करें !
-                            </p>
-
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="tablebox1">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
-
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead class="forblack">
-                                <tr>
-                                    <th class="col-md-4 text-center">सट्टा का नाम</th>
-                                    <th class="col-md-4 text-center">कल आया था</th>
-                                    <th class="col-md-4 text-center">आज का रिज़ल्ट</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                @forelse($games as $game)
-                                    <tr style="height:36px">
-                                        <td class="foryellow">
-                                            <span class="gamenameeach">
-                                                {{ strtoupper($game->name) }}
-                                            </span>
-                                            <br>
-
-                                            <span class="time">
-                                                {{ $game->result_time ? \Carbon\Carbon::parse($game->result_time)->format('h:i A') : '-' }}
-                                            </span>
-                                            <br>
-
-                                            <a style="font-size:12px;color:#000000;"
-                                                href="{{ route('game.record', $game->slug) }}">
-                                                Record Chart
-                                            </a>
-                                        </td>
-
-                                        <td>
-                                            @if ($game->yesterdayResult && $game->yesterdayResult->result)
-                                                {{ $game->yesterdayResult->result }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            @if ($game->todayResult && $game->todayResult->status === 'declared' && $game->todayResult->result)
-                                                {{ $game->todayResult->result }}
-                                            @else
-                                                <p>
-                                                    <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="/m/d.gif">
-                                                    </strong>
-                                                </p>
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                @empty
-
-                                    <tr>
-                                        <td colspan="3" class="text-center">
-                                            No games found.
-                                        </td>
-                                    </tr>
-                                @endforelse
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <br>
-
-    <section class="octoberresultchart">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <h2 id="date"></h2>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="newtable">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
-
-                        <table class="table table-bordered">
-                            <thead class="p-0">
-                                <tr>
-                                    <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                        <strong class="fon">Date</strong>
-                                    </th>
-
-                                    @foreach ($chartGames as $game)
-                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                            <strong class="fon">{{ strtoupper($game->name) }}</strong>
-                                        </th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-
-                            <tbody class="colorchange">
-
-                                @foreach ($dates as $date)
-                                    @php
-                                        $dateKey = $date->format('Y-m-d');
-                                        $dayResults = $monthlyResults[$dateKey] ?? collect();
-                                    @endphp
-
-                                    <tr>
-                                        <td class="text-center forfirtcolor">
-                                            {{ $date->format('d') }}
-                                        </td>
-
-                                        @foreach ($chartGames as $game)
-                                            @php
-                                                $result = $dayResults->firstWhere('game_id', $game->id);
-                                            @endphp
-
-                                            <td class="text-center">
-                                                @if ($result && $result->status === 'declared' && $result->result)
-                                                    {{ $result->result }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
-                                        @endforeach
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-@endsection
-
-@section('custom-styles')
-    <style>
-        .advo p {
-            line-height: 40px;
-        }
-    </style>
-@endsection
-
-@section('custom-script')
-    <script>
-        function MYDate() {
-            const mydate = new Date();
-            const month = mydate.getMonth();
-            const year = mydate.getFullYear();
-
-            const marr = [
-                "JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
-                "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+        @php
+            $years = [
+                now('Asia/Kolkata')->year,
+                now('Asia/Kolkata')->subYear()->year,
+                now('Asia/Kolkata')->subYears(2)->year,
             ];
+        @endphp
 
-            const dateBox = document.getElementById('date');
+        @foreach($years as $year)
+            <div style="
+                background:#fff;
+                border:2px solid blue;
+                border-radius:18px;
+                margin:0 0 30px 0;
+                text-align:center;
+                padding:10px;
+                font-size:24px;
+                color:#000;
+            ">
+                <a href="{{ url('record/' . $game->slug . '/' . $year) }}"
+                   style="color:#000; text-decoration:none;">
+                    SATTA RECORD CHART {{ $year }}
+                </a>
+            </div>
+        @endforeach
 
-            if (dateBox) {
-                dateBox.innerText = marr[month] + " RESULT CHART " + year;
-            }
-        }
+    @empty
+        <div style="background:#fff; padding:20px; text-align:center;">
+            No record chart found.
+        </div>
+    @endforelse
 
-        MYDate();
-    </script>
+</div>
+
+
+
+<div class="addb" style="padding:15px; text-align:center; background:#e8f5e9; color:#000; font-weight:bold;">
+    TODAY ADVICE SECTION
+</div>
+
+<div class="content" style="background-color:#000;">
+    <div class="accordion" id="a7sattaAccordion">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    A7 Satta King — Official Result & Live Updates
+                </button>
+            </h2>
+
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#a7sattaAccordion">
+                <div class="accordion-body">
+                    Welcome to the most trusted platform for A7 Satta result. We deliver today's declared numbers fast and clearly.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    What Is A7 Satta King?
+                </button>
+            </h2>
+
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#a7sattaAccordion">
+                <div class="accordion-body">
+                    A7 Satta King is an online platform for checking satta result and record chart updates.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<h2 class="faq">Frequently Asked Questions</h2>
+
+<div style="padding-top:0.8rem; padding-bottom:0.8rem;">
+
+    <div class="Accordian_tabs___mQ3J">
+        <div class="Accordian_tab__t24lo">
+            <input type="checkbox" class="Accordian_input__zKw_Y" id="accord1">
+            <label class="Accordian_tabLabel__UPw4z" for="accord1">
+                What is A7 Satta King?
+            </label>
+            <h3 class="Accordian_tabContent__b1_ee">
+                A7 Satta King is a result and chart information platform.
+            </h3>
+        </div>
+    </div>
+
+    <div class="Accordian_tabs___mQ3J">
+        <div class="Accordian_tab__t24lo">
+            <input type="checkbox" class="Accordian_input__zKw_Y" id="accord2">
+            <label class="Accordian_tabLabel__UPw4z" for="accord2">
+                Is this data dynamic?
+            </label>
+            <h3 class="Accordian_tabContent__b1_ee">
+                Yes, this page is now showing data from API.
+            </h3>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    h4 {
+        text-align: center;
+    }
+
+    .faq {
+        background: blue;
+        padding: 10px;
+        color: #fff;
+        text-align: center;
+    }
+
+    .faq h3 {
+        text-align: center;
+        color: red;
+    }
+
+    .content h4 {
+        color: white;
+    }
+</style>
+
+<div class="addb" style="padding:15px; text-align:center; background:#d1ecf1; color:#000; font-weight:bold;">
+    FOOTER ADVERTISEMENT SECTION
+</div>
+
 @endsection

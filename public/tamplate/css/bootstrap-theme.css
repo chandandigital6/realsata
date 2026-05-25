@@ -1,4 +1,4 @@
-
+@import url('../css2');
 
 
 .carousel-caption {
@@ -15,7 +15,7 @@
     font-weight: 900;
     text-transform: capitalize;
     text-shadow: none;
-    color: #FFAB00;
+    color: #49367b;
 }
 .mhadev{
     width:80%;
@@ -181,7 +181,7 @@
     color: #333;
     font-weight: 700;
     border-radius: 35px;
-    background: #FFAB00;
+    background: #49367b;
     padding: 15px 40px;
     display: inline-block;
     text-shadow: none;
@@ -203,7 +203,7 @@
     color: #333;
     font-weight: 700;
     border-radius: 35px;
-    background: #FFAB00;
+    background: #49367b;
     padding: 15px 40px;
     display: inline-block;
     text-shadow: none;
@@ -218,7 +218,7 @@
     text-decoration: none;
 }
 
-/*.ourservives img{background: #FFAB00;
+/*.ourservives img{background: #49367b;
 box-shadow: 4px 4px 4px rgba(0,0,0,0.5); padding:10px;}*/
 
 .middivider a:hover {
@@ -302,7 +302,7 @@ box-shadow: 4px 4px 4px rgba(0,0,0,0.5); padding:10px;}*/
     color: #333;
     font-weight: 700;
     border-radius: 35px;
-    background: #FFAB00;
+    background: #49367b;
     padding: 15px 45px;
     display: inline-block;
     text-shadow: none;
@@ -311,8 +311,8 @@ box-shadow: 4px 4px 4px rgba(0,0,0,0.5); padding:10px;}*/
 }
 
 .btn-primary:hover {
-    color: #FFAB00;
-    border: 1px solid #FFAB00;
+    color: #49367b;
+    border: 1px solid #49367b;
     background: #fff;
     text-decoration: none;
 }
@@ -359,7 +359,7 @@ ul.socilabottom li a {
 ul.socilabottom li a:hover {
     color: #333;
     text-decoration: none;
-    background: #FFAB00;
+    background: #49367b;
 }
 
 .dropdown-menu > li > a {
@@ -373,7 +373,7 @@ ul.socilabottom li a:hover {
     color: #333 !important;
     font-weight: 700;
     border-radius: 35px;
-    background: #FFAB00;
+    background: #49367b;
     padding: 9px 20px;
     display: inline-block;
     text-shadow: none;
@@ -392,7 +392,7 @@ ul.socilabottom li a:hover {
 }
 
 .footermain .more12 {
-    color: #FFAB00;
+    color: #49367b;
     font-weight: 700;
     display: inline-block;
     padding: 10px 0px;
@@ -432,7 +432,7 @@ ul.linksnew li a {
 
 ul.linksnew li a:hover {
     text-decoration: none;
-    color: #FFAB00;
+    color: #49367b;
 }
 
 
@@ -614,13 +614,13 @@ ul.pointlist li {
 
 .active {
     background: #fff !important;
-    color: #000;
+    color: #fff;
     text-decoration: none;
     box-shadow: 2px 2px rgba(255, 216, 100, 0.9);
 }
 
 .gamenameeach {
-    color: #000;
+    color: #fff;
     text-decoration: none;
 }
 
@@ -637,12 +637,12 @@ ul.pointlist li {
 }
 .top_card{
     box-sizing: border-box;  position: relative; display: flex;margin:10px 0 10px 0;
-    flex-direction: column; min-width: 0px; overflow-wrap: break-word; background-color: #ffab00;
-    background-clip: border-box; border:5px dotted black; border-radius: 0.25rem;
+    flex-direction: column; min-width: 0px; overflow-wrap: break-word; background-color: #49367b;
+    background-clip: border-box; border:5px dotted #fff; border-radius: 0.25rem;
 }
 
 .topboxnew {
-    background: #000;
+    background: #fff;
     padding: 30px 0px 20px 0;;
 }
 
@@ -662,29 +662,29 @@ ul.pointlist li {
     display: block;
     padding: 12px 30px;
     text-align: center;
-    background: #FFAB00;
-    color: #000;
+    background: #49367b;
+    color:blue;
     font-weight: 700;
     border-radius: 30px;
     text-transform: uppercase;
     box-shadow: 2px 2px rgba(255, 255, 255, 0.9);
-    border: 1px solid #000;
+    border: 1px solid #fff;
 }
 
 .newnav ul li a:hover {
     background: #fff;
-    color: #000;
+    color: black;
     text-decoration: none;
-    box-shadow: 2px 2px #FFAB00
+    box-shadow: 2px 2px #49367b
 }
 
 .sattalogo {
-    background: #FFAB00;
+    background: #49367b;
     padding: 30px 0px;
 }
 
 .sattalogo a {
-    color: #000;
+    color: #fff;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 50px;
@@ -711,7 +711,7 @@ ul.pointlist li {
 
 
 .circlebox {
-    background: black;
+    background: #fff;
     padding: 50px 0px;
 }
 
@@ -723,7 +723,7 @@ ul.pointlist li {
     font-weight: 600;
 }
 
-/*.sattaresult span{height:70px; width:70px; border-radius:50%; display:inline-block; text-align:center;background: #ffd800; color:#000; font-weight:700; line-height:66px; border:2px solid #fff; font-size:40px;} */
+/*.sattaresult span{height:70px; width:70px; border-radius:50%; display:inline-block; text-align:center;background: #49367b; color:#fff; font-weight:700; line-height:66px; border:2px solid #fff; font-size:40px;} */
 
 .sattaresult span {
     /* height: 70px; */
@@ -731,7 +731,7 @@ ul.pointlist li {
     /* border-radius: 50%; */
     display: inline-block;
     text-align: center;
-    /* background: #ffd800; */
+    /* background: #49367b; */
     color:#34BD34 ;
     font-weight: 600;
     /* line-height: 66px; */
@@ -741,7 +741,7 @@ ul.pointlist li {
 
 #clockbox {
     font-weight: 700;
-    color: #FFAB00;
+    color: #49367b;
     display: block;
     text-align: center;
     font-size: 20px;
@@ -762,19 +762,19 @@ ul.pointlist li {
 
 .sattname {
     font-weight: 700;
-    color: #000;
+    color: #fff;
     font-size: 22px;
 }
 
 .loginhead {
     font-weight: bold;
-    color: #000;
+    color: #fff;
     font-size: 32px;
 }
 
 .formbut {
-    background: #FFAB00;
-    color: #000;
+    background: #49367b;
+    color: #fff;
     text-center: center;
 }
 
@@ -785,7 +785,7 @@ ul.pointlist li {
 }
 
 .hitwo {
-    color: #000;
+    color: #fff;
 }
 
 .hitwo:after {
@@ -799,7 +799,7 @@ ul.pointlist li {
 }
 
 .newnumber {
-    color: #000;
+    color: #fff;
     font-weight: 700;
     margin: 10px;
     font-size: 24px;
@@ -811,37 +811,37 @@ ul.pointlist li {
     border-radius: 5px;
     line-height: 40px;
     text-align: center;
-    background: #ffd800;
-    color: #000;
+    background: #49367b;
+    color: #fff;
     padding: 0px 50px;
     text-transform: uppercase;
     font-weight: 700;
-    border: 1px solid #000;
+    border: 1px solid #fff;
 }
 
 .butonnew:hover {
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .vailabel {
     font-weight: 700;
-    color: #000;
+    color: #fff;
     font-size: 14px;
     display: block;
     margin: 15px;
 }
 
 .sattadividerr {
-    background: #FFAB00;
+    background: #49367b;
     padding: 15px 0px;
-    border-top: 2px solid #000;
+    border-top: 2px solid #fff;
 }
 
 .sattadividerr h4 {
     text-transform: uppercase;
     font-weight: 700;
-    color: #000;
+    color: #fff;
     margin: 0;
 }
 .time{
@@ -854,19 +854,19 @@ ul.pointlist li {
 
 .sattadividerr strong i {
     padding: 10px;
-    background: #000;
+    background: #fff;
     color: #fff;
     margin: 0px 10px;
 }
 
-.tablebox1 .table .forblack {
-    background: #000;
+.tablebox1 .table .for#fff {
+    background: #fff;
     color: #fff;
 }
 
 .tablebox1 .table .foryellow {
-    background: #FFAB00;
-    color: #000;
+    background: #49367b;
+    color: #fff;
 }
 
 .tablebox1 .table-bordered > thead > tr > th, .tablebox1 .table-bordered > tbody > tr > th, .tablebox1 .table-bordered > tfoot > tr > th, .tablebox1 .table-bordered > thead > tr > td, .tablebox1 .table-bordered > tbody > tr > td, .tablebox1 .table-bordered > tfoot > tr > td {
@@ -876,7 +876,7 @@ ul.pointlist li {
 .tablebox1 .table td {
     font-weight: 700;
     font-size: 22px;
-    color: #000;
+    color: #fff;
     text-align: center;
     vertical-align: middle;
 }
@@ -892,11 +892,11 @@ ul.pointlist li {
 
 .octoberresultchart {
     padding: 20px 0px;
-    color: #000;
-    border-bottom: 1px solid #000;
-    border-top: 2px solid #000;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    border-top: 2px solid #fff;
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ff9000+0,ffe400+100 */
-    background: #FFAB00; /* Old browsers */
+    background: #49367b; /* Old browsers */
     /*background: -moz-linear-gradient(top,  #ff9000 0%, #ffe400 100%); !* FF3.6-15 *!*/
     /*background: -webkit-linear-gradient(top,  #ff9000 0%,#ffe400 100%); !* Chrome10-25,Safari5.1-6 *!*/
     /*background: linear-gradient(to bottom,  #ff9000 0%,#ffe400 100%); !* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ *!*/
@@ -905,15 +905,15 @@ ul.pointlist li {
 
 }
 .octoberresultchart h1 {
-    color: #000;
+    color: #fff;
     font-weight: 700;
     margin: 0;
     padding: 0;
 }
 
 .forfirtcolor {
-    background: #FFAB00;
-    color: #000;
+    background: #49367b;
+    color: #fff;
     font-weight: 700;
     min-width: 80px;
 }
@@ -921,7 +921,7 @@ ul.pointlist li {
 .table_chart_section_02 {
     text-align: center;
     font-weight: 700;
-    color: #000;
+    color: #fff;
     display: block;
 }
 
@@ -935,13 +935,13 @@ ul.pointlist li {
 }
 
 .table_chart_section2 {
-    background: #ffd800;
-    color: #000;
+    background: #49367b;
+    color: #fff;
     font-weight: 700;
 }
 
 .table_chart_section a {
-    color: #000;
+    color: #fff;
     display: block;
     font-weight: 700;
     text-align: center;
@@ -957,7 +957,7 @@ ul.pointlist li {
 
 .somelinks {
     padding: 15px 0px;
-    background: #000;
+    background: #fff;
 }
 
 .somelinks ul {
@@ -978,7 +978,7 @@ ul.pointlist li {
     font-weight: 700;
     text-align: justify;
     display: block;
-    color: #FFAB00;
+    color: #49367b;
 }
 
 .somelinks ul li a:hover {
@@ -988,14 +988,14 @@ ul.pointlist li {
 
 .somelinks2 {
     padding: 10px 0px;
-    background: #FFAB00;
+    background: #49367b;
 }
 
 .somelinks2 strong {
     font-weight: 700;
     text-align: center;
     display: block;
-    color: #000;
+    color: #fff;
 }
 
 
@@ -1012,7 +1012,7 @@ ul.pointlist li {
 #frm_user .form-wrapper .form-control {
     padding-left: 30px;
     margin-bottom: 15px;
-    border: 2px solid #000
+    border: 2px solid #fff
 }
 
 .clearfix {
@@ -1034,7 +1034,7 @@ ul.pointlist li {
     transition: background 0s;
     border-style: dashed;
     border-color: #D22A2A;
-    box-shadow: 0px 0px 10px 0px #000000;
+    box-shadow: 0px 0px 10px 0px #fff000;
 }
 
 h4, h6 {
@@ -1049,7 +1049,7 @@ h4, h6 {
 }
 
 .colorchange tr:first-child {
-    color: #000;
+    color: #fff;
     font-weight: 700;
     min-width: 80px;
 }
@@ -1110,8 +1110,8 @@ h4, h6 {
     }
 
     .foryellow {
-        background: #ffd800;
-        color: #000;
+        background: #49367b;
+        color: #fff;
         font-size: 15px !important;
         vertical-align: middle;
     }
@@ -1125,8 +1125,8 @@ h4, h6 {
         width:40%;
     }
     .foryellow {
-        background: #ffd800;
-        color: #000;
+        background: #49367b;
+        color: #fff;
         font-size: 15px !important;
         vertical-align: middle;
     }
