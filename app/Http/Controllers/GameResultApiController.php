@@ -91,4 +91,68 @@ class GameResultApiController extends Controller
             'games'   => $data,
         ]);
     }
+
+
+
+    public function chartGames()
+{
+    $games = \App\Models\Game::query()
+        ->where('is_active', true)
+        ->with(['chartYears' => function ($query) {
+            $query->where('is_active', true)->orderByDesc('year');
+        }])
+        ->orderBy('sort_order')
+        ->get()
+        ->map(function ($game) {
+            return [
+                'id' => $game->id,
+                'name' => $game->name,
+                'slug' => $game->slug,
+                'result_time' => $game->result_time,
+                'chartYears' => $game->chartYears->map(function ($year) {
+                    return [
+                        'year' => $year->year,
+                    ];
+                })->values(),
+            ];
+        });
+
+    return response()->json([
+        'success' => true,
+        'games' => $games,
+    ]);
+}
+
+public function gameYearRecord(string $slug, int $year)
+{
+    $game = \App\Models\Game::where('slug', $slug)
+        ->where('is_active', true)
+        ->firstOrFail();
+
+    $results = \App\Models\GameResult::where('game_id', $game->id)
+        ->whereYear('result_date', $year)
+        ->orderBy('result_date')
+        ->get()
+        ->map(function ($result) {
+            return [
+                'result_date' => $result->result_date?->format('Y-m-d'),
+                'result' => $result->result,
+                'status' => $result->status,
+            ];
+        });
+
+    return response()->json([
+        'success' => true,
+        'game' => [
+            'id' => $game->id,
+            'name' => $game->name,
+            'slug' => $game->slug,
+            'result_time' => $game->result_time,
+        ],
+        'year' => $year,
+        'results' => $results,
+    ]);
+}
+
+
 }

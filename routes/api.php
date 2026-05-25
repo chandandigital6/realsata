@@ -11,3 +11,5 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/games-results', [GameResultApiController::class, 'index']);
 Route::get('/live-results', [GameResultApiController::class, 'live']);
+Route::get('/chart-games', [GameResultApiController::class, 'chartGames']);
+Route::get('/game-year-record/{slug}/{year}', [GameResultApiController::class, 'gameYearRecord']);
