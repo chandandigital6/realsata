@@ -1,4 +1,4 @@
-@extends('front.layouts.app')
+@extends('front.layouts.app', ['seo' => $seo ?? null])
 
 @section('content')
     <div class="number_section">

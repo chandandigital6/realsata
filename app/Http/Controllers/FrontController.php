@@ -42,11 +42,16 @@ class FrontController extends Controller
             return $result->result_date->format('Y-m-d');
         });
 
+
+           $seo = SeoPage::where('page_key', 'home')->first();
+
+
     return view('front.home.index', compact(
         'games',
         'chartGames',
         'dates',
-        'monthlyResults'
+        'monthlyResults',
+        'seo'
     ));
 }
     
@@ -67,7 +72,7 @@ class FrontController extends Controller
         ->get();
 
     $seo = SeoPage::where('page_key', 'chart')->first();
-
+    
     return view('front.chart.index', compact('games', 'seo'));
 }
 
@@ -112,8 +117,9 @@ class FrontController extends Controller
 
     public function products()
     {
-        // $this->seo()->setTitle("Products");
-        return view('front.products.index');
+    $seo = SeoPage::where('page_key', 'products')->first();
+        
+        return view('front.products.index', compact('seo'));
     }
 
     public function singleProduct()
@@ -130,25 +136,25 @@ class FrontController extends Controller
 
     public function aboutUs()
     {
-        // $this->seo()->setTitle("About Us");
-        return view('front.chart.index');
+        $seo = SeoPage::where('page_key', 'about-us')->first();
+        return view('front.chart.index', compact('seo'));
     }
 
     public function contactUs()
     {
-        // $this->seo()->setTitle("Contact Us");
-        return view('front.contact-us.index');
+        $seo = SeoPage::where('page_key', 'contact-us')->first();
+        return view('front.contact-us.index', compact('seo'));
     }
 
     public function privacyPolicy()
     {
-        // $this->seo()->setTitle("Privacy Policy");
-        return view('front.privacy-policy.index');
+        $seo = SeoPage::where('page_key', 'privacy-policy')->first();
+        return view('front.privacy-policy.index', compact('seo'));
     }
 
     public function termsConditions()
     {
-        // $this->seo()->setTitle("Terms And Conditions");
-        return view('front.terms-conditions.index');
+        $seo = SeoPage::where('page_key', 'terms-conditions')->first();
+        return view('front.terms-conditions.index', compact('seo'));
     }
 }
