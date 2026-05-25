@@ -2,187 +2,153 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\Game;
+use App\Models\GameResult;
+use App\Models\SeoPage;
 use Carbon\CarbonPeriod;
 
 class FrontController extends Controller
 {
-    private string $apiBaseUrl;
+  public function home()
+{
+    $today = today();
+    $yesterday = today()->subDay();
 
-    public function __construct()
-    {
-        $this->apiBaseUrl = rtrim(config('services.main_api.url'), '/');
-    }
+    $games = Game::with([
+            'todayResult',
+            'yesterdayResult',
+            'latestResult',
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
 
-    public function home()
-    {
-        $today = Carbon::today('Asia/Kolkata');
-        $yesterday = Carbon::yesterday('Asia/Kolkata');
+    $chartGames = Game::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
 
-        $liveResponse = Http::timeout(10)->get($this->apiBaseUrl . '/live-results');
-        $todayResponse = Http::timeout(10)->get($this->apiBaseUrl . '/games-results', [
-            'date' => $today->format('Y-m-d'),
-        ]);
-        $yesterdayResponse = Http::timeout(10)->get($this->apiBaseUrl . '/games-results', [
-            'date' => $yesterday->format('Y-m-d'),
-        ]);
+    $startDate = today()->startOfMonth();
+    $endDate = today()->endOfMonth();
 
-        $liveGames = $liveResponse->successful()
-            ? collect($liveResponse->json('games', []))
-            : collect();
+    $dates = CarbonPeriod::create($startDate, $endDate);
 
-        $todayGames = $todayResponse->successful()
-            ? collect($todayResponse->json('games', []))
-            : collect();
-
-        $yesterdayGames = $yesterdayResponse->successful()
-            ? collect($yesterdayResponse->json('games', []))->keyBy('slug')
-            : collect();
-
-        $games = $todayGames->map(function ($game) use ($yesterdayGames) {
-            $yesterdayGame = $yesterdayGames->get($game['slug']);
-
-            return (object) [
-                'id' => $game['id'],
-                'name' => $game['name'],
-                'slug' => $game['slug'],
-                'result_time' => $game['result_time'],
-                'sort_order' => $game['sort_order'] ?? 0,
-
-                'todayResult' => (object) [
-                    'result' => $game['result']['result'] ?? null,
-                    'status' => $game['result']['status'] ?? 'waiting',
-                ],
-
-                'yesterdayResult' => (object) [
-                    'result' => $yesterdayGame['result']['result'] ?? null,
-                    'status' => $yesterdayGame['result']['status'] ?? 'waiting',
-                ],
-
-                'latestResult' => (object) [
-                    'result' => $game['result']['result'] ?? null,
-                    'status' => $game['result']['status'] ?? 'waiting',
-                ],
-            ];
+    $monthlyResults = GameResult::whereBetween('result_date', [
+            $startDate->format('Y-m-d'),
+            $endDate->format('Y-m-d'),
+        ])
+        ->get()
+        ->groupBy(function ($result) {
+            return $result->result_date->format('Y-m-d');
         });
 
-        $chartGames = $games;
+    return view('front.home.index', compact(
+        'games',
+        'chartGames',
+        'dates',
+        'monthlyResults'
+    ));
+}
+    
+    
 
-        $startDate = $today->copy()->startOfMonth();
-        $endDate = $today->copy()->endOfMonth();
-        $dates = CarbonPeriod::create($startDate, $endDate);
-
-        $monthlyResults = collect();
-
-        foreach ($dates as $date) {
-            $response = Http::timeout(10)->get($this->apiBaseUrl . '/games-results', [
-                'date' => $date->format('Y-m-d'),
-            ]);
-
-            if ($response->successful()) {
-                $monthlyResults->put(
-                    $date->format('Y-m-d'),
-                    collect($response->json('games', []))->map(function ($game) {
-                        return (object) [
-                            'game_id' => $game['id'],
-                            'game_slug' => $game['slug'],
-                            'result_date' => $game['result']['result_date'] ?? null,
-                            'result' => $game['result']['result'] ?? null,
-                            'status' => $game['result']['status'] ?? 'waiting',
-                        ];
-                    })
-                );
-            }
-        }
-
-        return view('front.home.index', compact(
-            'games',
-            'chartGames',
-            'dates',
-            'monthlyResults'
-        ));
-    }
-
-
-    public function chart()
+    
+     public function chart()
 {
-    $response = Http::timeout(10)->get($this->apiBaseUrl . '/chart-games');
+    $games = Game::query()
+        ->where('is_active', true)
+        ->with([
+            'chartYears' => function ($query) {
+                $query->where('is_active', true)
+                    ->orderByDesc('year');
+            }
+        ])
+        ->orderBy('sort_order')
+        ->get();
 
-    $games = $response->successful()
-        ? collect($response->json('games', []))->map(function ($game) {
-            return (object) [
-                'id' => $game['id'],
-                'name' => $game['name'],
-                'slug' => $game['slug'],
-                'result_time' => $game['result_time'],
-                'chartYears' => collect($game['chartYears'] ?? [])->map(function ($year) {
-                    return (object) [
-                        'year' => $year['year'],
-                    ];
-                }),
-            ];
-        })
-        : collect();
-
-    $seo = null;
+    $seo = SeoPage::where('page_key', 'chart')->first();
 
     return view('front.chart.index', compact('games', 'seo'));
 }
 
-public function gameRecord(string $slug)
-{
-    return $this->yearRecord($slug, now('Asia/Kolkata')->year);
-}
 
-public function yearRecord(string $slug, int $year)
-{
-    $response = Http::timeout(10)->get($this->apiBaseUrl . "/game-year-record/{$slug}/{$year}");
 
-    if ($response->successful()) {
-        $apiData = $response->json();
 
-        $game = (object) [
-            'id' => $apiData['game']['id'] ?? null,
-            'name' => $apiData['game']['name'] ?? ucwords(str_replace('-', ' ', $slug)),
-            'slug' => $apiData['game']['slug'] ?? $slug,
-            'result_time' => $apiData['game']['result_time'] ?? null,
-        ];
+     public function gameRecord(string $slug)
+    {
+        $game = Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
 
-        $results = collect($apiData['results'] ?? [])->map(function ($result) {
-            return (object) [
-                'result_date' => $result['result_date'],
-                'result' => $result['result'],
-                'status' => $result['status'] ?? 'waiting',
-            ];
-        });
-    } else {
-        $game = (object) [
-            'name' => ucwords(str_replace('-', ' ', $slug)),
-            'slug' => $slug,
-        ];
+        $year = now()->year;
 
-        $results = collect();
+        $results = GameResult::where('game_id', $game->id)
+            ->whereYear('result_date', $year)
+            ->orderBy('result_date')
+            ->get();
+
+        $seo = SeoPage::where('page_key', 'game-record')->first();
+
+        return view('front.game.record', compact('game', 'results', 'year', 'seo'));
     }
 
-    $seo = null;
+    public function yearRecord(string $slug, int $year)
+    {
+        $game = Game::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
 
-    return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
-}
-    
+        $results = GameResult::where('game_id', $game->id)
+            ->whereYear('result_date', $year)
+            ->orderBy('result_date')
+            ->get();
+
+        $seo = SeoPage::where('page_key', 'year-record')->first();
+
+        return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
+    }
+
+   
+
+    public function products()
+    {
+        // $this->seo()->setTitle("Products");
+        return view('front.products.index');
+    }
+
+    public function singleProduct()
+    {
+        // $this->seo()->setTitle("Product Name");
+        return view('front.products.single');
+    }
+
+    public function services()
+    {
+        // $this->seo()->setTitle("Services");
+        return view('front.services.index');
+    }
+
+    public function aboutUs()
+    {
+        // $this->seo()->setTitle("About Us");
+        return view('front.chart.index');
+    }
 
     public function contactUs()
     {
+        // $this->seo()->setTitle("Contact Us");
         return view('front.contact-us.index');
     }
 
     public function privacyPolicy()
     {
+        // $this->seo()->setTitle("Privacy Policy");
         return view('front.privacy-policy.index');
     }
 
     public function termsConditions()
     {
+        // $this->seo()->setTitle("Terms And Conditions");
         return view('front.terms-conditions.index');
     }
 }
