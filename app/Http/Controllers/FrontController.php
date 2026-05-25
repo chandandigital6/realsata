@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Game;
 use App\Models\GameResult;
+use App\Models\Advertisement;
 use App\Models\SeoPage;
 use Carbon\CarbonPeriod;
+
 
 class FrontController extends Controller
 {
@@ -45,13 +47,20 @@ class FrontController extends Controller
 
            $seo = SeoPage::where('page_key', 'home')->first();
 
+         $advertisements = Advertisement::where('is_active', true)
+    ->where('position', 'top')
+    ->latest()
+    ->get();
+
+// dd($advertisements);
 
     return view('front.home.index', compact(
         'games',
         'chartGames',
         'dates',
         'monthlyResults',
-        'seo'
+        'seo',
+        'advertisements'
     ));
 }
     
