@@ -92,28 +92,28 @@
 
     </div>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+ <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#message-editor'), {
-                toolbar: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'link',
-                    'bulletedList',
-                    'numberedList',
-                    'blockQuote',
-                    '|',
-                    'undo',
-                    'redo'
-                ]
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
+<script>
+    CKEDITOR.replace('message-editor', {
+        height: 320,
+        allowedContent: true,
+
+        extraPlugins: 'colorbutton,font,justify',
+
+        toolbar: [
+            { name: 'document', items: ['Source'] },
+            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
+            { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'] },
+            { name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+            { name: 'tools', items: ['Maximize'] }
+        ]
+    });
+</script>
 
 </x-layouts::app>

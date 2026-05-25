@@ -63,20 +63,21 @@
 
                 </div>
 
-                <div>
-                    <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
-                        Content
-                    </label>
+              <div>
+    <label class="mb-2 block text-sm font-semibold text-neutral-700 dark:text-neutral-300">
+        Content
+    </label>
 
-                    <textarea name="content"
-                              rows="8"
-                              placeholder="Enter content here..."
-                              class="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">{{ old('content', $contentBlock->content ?? '') }}</textarea>
+    <textarea id="content-editor"
+              name="content"
+              rows="8"
+              placeholder="Enter content here..."
+              class="w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none focus:border-black dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">{{ old('content', $contentBlock->content ?? '') }}</textarea>
 
-                    @error('content')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
+    @error('content')
+        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+    @enderror
+</div>
 
                 <div class="flex items-center gap-3">
                     <input type="checkbox"
@@ -111,4 +112,27 @@
 
     </div>
 
+
+    <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+
+<script>
+    CKEDITOR.replace('content-editor', {
+        height: 320,
+        allowedContent: true,
+        extraPlugins: 'colorbutton,font,justify',
+
+        toolbar: [
+            { name: 'document', items: ['Source'] },
+            { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'Undo', 'Redo'] },
+            { name: 'styles', items: ['Format', 'Font', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', 'Outdent', 'Indent', 'Blockquote'] },
+            { name: 'align', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+            { name: 'tools', items: ['Maximize'] }
+        ]
+    });
+</script>
 </x-layouts::app>

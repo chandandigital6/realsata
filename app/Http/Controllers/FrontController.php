@@ -157,4 +157,6 @@ class FrontController extends Controller
         $seo = SeoPage::where('page_key', 'terms-conditions')->first();
         return view('front.terms-conditions.index', compact('seo'));
     }
+
+    
 }
