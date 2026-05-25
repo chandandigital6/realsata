@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h2 >{{$category->title}} - {{$year}}</h2>
+                    <h1 >{{$category->title}} Satta  - {{$year}} Chart & Results Record</h1>
                 </div>
             </div>
         </div>
@@ -52,5 +52,11 @@
             </div>
         </div>
     </section>
+      @if(isset($meta->faq) && $meta->faq !== '')
+     <div class="article" style="padding:10px">
+        
+         {!! $meta->faq !!}
+         </div>
+         @endif
 @endsection
 
