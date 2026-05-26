@@ -52,7 +52,7 @@ class FrontController extends Controller
     ->latest()
     ->get();
 
-// dd($advertisements);
+
 
     return view('front.home.index', compact(
         'games',
