@@ -29,6 +29,11 @@
                     {{ __('Games') }}
                 </flux:sidebar.item>
 
+                <flux:sidebar.item icon="calendar-days" :href="route('game-results.today-update')"
+                    :current="request()->routeIs('game-results.today-update')" wire:navigate>
+                    {{ __('Today Result Update') }}
+                </flux:sidebar.item>
+
                 <flux:sidebar.item icon="chart-bar-square" :href="route('game-results.index')"
                     :current="request()->routeIs('game-results.*')" wire:navigate>
                     {{ __('Game Results') }}

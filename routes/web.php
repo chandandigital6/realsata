@@ -71,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('game-results/update/{gameResult}', [GameResultController::class, 'update'])->name('game-results.update');
     Route::get('game-results/delete/{gameResult}', [GameResultController::class, 'destroy'])->name('game-results.delete');
 
+    Route::get('/game-results/today-update', [GameResultController::class, 'todayUpdate'])
+        ->name('game-results.today-update');
+    Route::post('/game-results/today-update', [GameResultController::class, 'todayUpdateSave'])
+        ->name('game-results.today-update.save');
 
     //contet block
     Route::get('content-blocks/index', [ContentBlockController::class, 'index'])->name('content-blocks.index');

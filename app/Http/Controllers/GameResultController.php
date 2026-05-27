@@ -6,9 +6,64 @@ use App\Models\Game;
 use App\Models\GameResult;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class GameResultController extends Controller
 {
+
+
+
+
+public function todayUpdate(Request $request)
+{
+    $date = $request->date ?? today()->format('Y-m-d');
+
+    $games = Game::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $existingResults = GameResult::whereDate('result_date', $date)
+        ->get()
+        ->keyBy('game_id');
+
+    return view('game_result.today_update', compact('games', 'existingResults', 'date'));
+}
+
+public function todayUpdateSave(Request $request)
+{
+    $data = $request->validate([
+        'result_date' => ['required', 'date'],
+        'results' => ['array'],
+        'results.*.game_id' => ['required', 'exists:games,id'],
+        'results.*.result' => ['nullable', 'string', 'max:10'],
+        'results.*.status' => ['nullable', Rule::in(['waiting', 'declared'])],
+        'results.*.show_minutes' => ['nullable', 'integer', 'min:0'],
+    ]);
+
+    DB::transaction(function () use ($data) {
+        foreach ($data['results'] ?? [] as $row) {
+
+            if (blank($row['result'])) {
+                continue;
+            }
+
+            GameResult::updateOrCreate(
+                [
+                    'game_id' => $row['game_id'],
+                    'result_date' => $data['result_date'],
+                ],
+                [
+                    'result' => $row['result'],
+                    'status' => $row['status'] ?? 'declared',
+                    'show_minutes' => $row['show_minutes'] ?? 15,
+                ]
+            );
+        }
+    });
+
+    return back()->with('success', 'Today results updated successfully.');
+}
     public function index()
     {
         $results = GameResult::with('game')
