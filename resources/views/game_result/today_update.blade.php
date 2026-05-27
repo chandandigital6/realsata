@@ -87,11 +87,11 @@
                                             {{ $game->name }}
                                         </div>
 
-                                        <div class="mt-1">
-                                            <span class="inline-flex rounded-full bg-blue-100 px-2 py-0.5 text-[11px] font-semibold text-blue-700">
-                                                {{ $gameTime ? 'Time: '.$gameTime : 'Time N/A' }}
-                                            </span>
-                                        </div>
+                                        <div class="mt-0.5">
+    <span class="inline-flex rounded bg-blue-50 px-1.5 py-0.5 text-[9px] font-semibold leading-none text-blue-700">
+        {{ $gameTime ? \Carbon\Carbon::parse($gameTime)->format('h:i A') : 'N/A' }}
+    </span>
+</div>
 
                                         <input type="hidden"
                                                name="results[{{ $index }}][game_id]"
