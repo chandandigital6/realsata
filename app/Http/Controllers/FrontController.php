@@ -52,7 +52,25 @@ class FrontController extends Controller
     ->latest()
     ->get();
 
+    $topAdvertisements = Advertisement::where('is_active', true)
+    ->where('position', 'top')
+    ->latest()
+    ->get();
 
+$middleAdvertisement = Advertisement::where('is_active', true)
+    ->where('position', 'middle')
+    ->latest()
+    ->first();
+
+    $bottomAdvertisement = Advertisement::where('is_active', true)
+    ->where('position', 'bottom')
+    ->latest()
+    ->first();
+
+    $sidebarAdvertisement = Advertisement::where('is_active', true)
+    ->where('position', 'sidebar')
+    ->latest()
+    ->first();
 
     return view('front.home.index', compact(
         'games',
@@ -60,7 +78,12 @@ class FrontController extends Controller
         'dates',
         'monthlyResults',
         'seo',
-        'advertisements'
+        'advertisements',
+        'topAdvertisements',
+        'middleAdvertisement',
+        'bottomAdvertisement',
+        'sidebarAdvertisement',
+
     ));
 }
     

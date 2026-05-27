@@ -1,9 +1,7 @@
 <section class="topboxnew">
 
     <p style="text-align:center;">
-        <img src="/Logo3.png"
-             style="width:130px;"
-             alt="Real Satta King">
+        <img src="/Logo3.png" style="width:130px;" alt="Real Satta King">
     </p>
 
     <div class="container-fluid">
@@ -31,33 +29,19 @@
                     </li>
 
                     @if (Route::has('login'))
-
                         @auth
-
                             <li>
                                 <a href="{{ route('dashboard') }}">
                                     MY ACCOUNT
                                 </a>
                             </li>
-
                         @else
-
                             <li>
                                 <a href="{{ route('login') }}">
                                     LOGIN
                                 </a>
                             </li>
-
-                            @if (Route::has('register'))
-                                <li>
-                                    <a href="{{ route('register') }}">
-                                        REGISTER
-                                    </a>
-                                </li>
-                            @endif
-
                         @endauth
-
                     @endif
 
                 </ul>
@@ -66,9 +50,7 @@
             </div>
 
             <div class="text_slide">
-                <marquee style="color:#fff;"
-                         onmouseover="this.stop();"
-                         onmouseout="this.start();">
+                <marquee style="color:#fff;" onmouseover="this.stop();" onmouseout="this.start();">
 
                     <b>
                         satta king 786, gali satta, disawar satta,
