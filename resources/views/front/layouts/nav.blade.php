@@ -17,7 +17,7 @@
                     </li>
 
                     <li>
-                        <a href="/chart/home">
+                        <a href="/chart">
                             CHART
                         </a>
                     </li>

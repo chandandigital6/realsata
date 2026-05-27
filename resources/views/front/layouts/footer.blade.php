@@ -25,7 +25,7 @@
                                     @forelse($game->chartYears as $chartYear)
                                         <td>
                                             <strong>
-                                                <a href="{{ route('game.yearRecord', ['slug' => $game->slug, 'year' => $chartYear->year]) }}"
+                                                <a href="{{ route('game.year-record', ['slug' => $game->slug, 'year' => $chartYear->year]) }}"
                                                    style="color:black;">
                                                     {{ $chartYear->year }}
                                                 </a>
@@ -34,7 +34,7 @@
                                     @empty
                                         <td>
                                             <strong>
-                                                <a href="{{ route('game.yearRecord', ['slug' => $game->slug, 'year' => now()->year]) }}"
+                                                <a href="{{ route('game.year-record', ['slug' => $game->slug, 'year' => now()->year]) }}"
                                                    style="color:black;">
                                                     {{ now()->year }}
                                                 </a>
