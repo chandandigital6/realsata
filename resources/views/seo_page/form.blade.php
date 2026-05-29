@@ -125,6 +125,23 @@
                               class="w-full rounded-xl border px-4 py-3">{{ old('og_description', $seoPage->og_description ?? '') }}</textarea>
                 </div>
 
+
+
+                <div>
+    <label class="mb-2 block text-sm font-semibold">
+        Schema Markup JSON-LD
+    </label>
+
+    <textarea name="schema_markup"
+              rows="8"
+              placeholder="Paste your schema markup here"
+              class="w-full rounded-xl border px-4 py-3 font-mono text-sm">{{ old('schema_markup', $seoPage->schema_markup ?? '') }}</textarea>
+
+    <p class="mt-2 text-xs text-neutral-500">
+        Example: JSON-LD schema code yaha paste karein.
+    </p>
+</div>
+
                 <div class="flex justify-end">
 
                     <button type="submit"

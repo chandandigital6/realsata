@@ -62,6 +62,13 @@
             overflow-x: hidden;
         }
     </style>
+
+    
+    @if(!empty($seo?->schema_markup))
+    {!! $seo->schema_markup !!}
+@endif
+
+    
 </head>
 
 <body>

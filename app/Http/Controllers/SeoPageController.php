@@ -32,6 +32,7 @@ class SeoPageController extends Controller
             'og_title'          => ['nullable', 'string', 'max:255'],
             'og_description'    => ['nullable', 'string'],
             'og_image'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'schema_markup' => ['nullable', 'string'],
         ]);
 
         if ($request->hasFile('og_image')) {
@@ -65,6 +66,7 @@ class SeoPageController extends Controller
             'og_title'          => ['nullable', 'string', 'max:255'],
             'og_description'    => ['nullable', 'string'],
             'og_image'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'schema_markup' => ['nullable', 'string'],
         ]);
 
         if ($request->hasFile('og_image')) {
