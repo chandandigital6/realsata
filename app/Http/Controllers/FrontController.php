@@ -12,26 +12,37 @@ use Carbon\CarbonPeriod;
 
 class FrontController extends Controller
 {
-  public function home()
+
+
+   public function home()
 {
-    $today = today();
-    $yesterday = today()->subDay();
+    $today = now('Asia/Kolkata')->toDateString();
+    $yesterday = now('Asia/Kolkata')->subDay()->toDateString();
 
-    $games = Game::with([
-            'todayResult',
-            'yesterdayResult',
-            'latestResult',
-        ])
-        ->where('is_active', true)
+    $games = Game::where('is_active', true)
         ->orderBy('sort_order')
         ->get();
 
-    $chartGames = Game::where('is_active', true)
-        ->orderBy('sort_order')
-        ->get();
+    $chartGames = $games;
 
-    $startDate = today()->startOfMonth();
-    $endDate = today()->endOfMonth();
+    $todayResults = GameResult::whereDate('result_date', $today)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    $startDate = now('Asia/Kolkata')->startOfMonth();
+    $endDate = now('Asia/Kolkata')->endOfMonth();
 
     $dates = CarbonPeriod::create($startDate, $endDate);
 
@@ -39,38 +50,24 @@ class FrontController extends Controller
             $startDate->format('Y-m-d'),
             $endDate->format('Y-m-d'),
         ])
+        ->where('status', 'declared')
         ->get()
         ->groupBy(function ($result) {
-            return $result->result_date->format('Y-m-d');
+            return \Carbon\Carbon::parse($result->result_date)->format('Y-m-d');
         });
 
+    $seo = SeoPage::where('page_key', 'home')->first();
 
-           $seo = SeoPage::where('page_key', 'home')->first();
+    $advertisements = Advertisement::where('is_active', true)
+        ->where('position', 'top')
+        ->latest()
+        ->get();
 
-         $advertisements = Advertisement::where('is_active', true)
-    ->where('position', 'top')
-    ->latest()
-    ->get();
+    $topAdvertisements = $advertisements;
 
-    $topAdvertisements = Advertisement::where('is_active', true)
-    ->where('position', 'top')
-    ->latest()
-    ->get();
-
-$middleAdvertisement = Advertisement::where('is_active', true)
-    ->where('position', 'middle')
-    ->latest()
-    ->first();
-
-    $bottomAdvertisement = Advertisement::where('is_active', true)
-    ->where('position', 'bottom')
-    ->latest()
-    ->first();
-
-    $sidebarAdvertisement = Advertisement::where('is_active', true)
-    ->where('position', 'sidebar')
-    ->latest()
-    ->first();
+    $middleAdvertisement = Advertisement::where('is_active', true)->where('position', 'middle')->latest()->first();
+    $bottomAdvertisement = Advertisement::where('is_active', true)->where('position', 'bottom')->latest()->first();
+    $sidebarAdvertisement = Advertisement::where('is_active', true)->where('position', 'sidebar')->latest()->first();
 
     return view('front.home.index', compact(
         'games',
@@ -83,35 +80,37 @@ $middleAdvertisement = Advertisement::where('is_active', true)
         'middleAdvertisement',
         'bottomAdvertisement',
         'sidebarAdvertisement',
-
+        'todayResults',
+        'yesterdayResults',
+        'today',
+        'yesterday'
     ));
 }
-    
-    
-
-    
-     public function chart()
-{
-    $games = Game::query()
-        ->where('is_active', true)
-        ->with([
-            'chartYears' => function ($query) {
-                $query->where('is_active', true)
-                    ->orderByDesc('year');
-            }
-        ])
-        ->orderBy('sort_order')
-        ->get();
-
-    $seo = SeoPage::where('page_key', 'chart')->first();
-    
-    return view('front.chart.index', compact('games', 'seo'));
-}
 
 
 
+    public function chart()
+    {
+        $games = Game::query()
+            ->where('is_active', true)
+            ->with([
+                'chartYears' => function ($query) {
+                    $query->where('is_active', true)
+                        ->orderByDesc('year');
+                }
+            ])
+            ->orderBy('sort_order')
+            ->get();
 
-     public function gameRecord(string $slug)
+        $seo = SeoPage::where('page_key', 'chart')->first();
+
+        return view('front.chart.index', compact('games', 'seo'));
+    }
+
+
+
+
+    public function gameRecord(string $slug)
     {
         $game = Game::where('slug', $slug)
             ->where('is_active', true)
@@ -145,12 +144,12 @@ $middleAdvertisement = Advertisement::where('is_active', true)
         return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
     }
 
-   
+
 
     public function products()
     {
-    $seo = SeoPage::where('page_key', 'products')->first();
-        
+        $seo = SeoPage::where('page_key', 'products')->first();
+
         return view('front.products.index', compact('seo'));
     }
 
@@ -189,6 +188,4 @@ $middleAdvertisement = Advertisement::where('is_active', true)
         $seo = SeoPage::where('page_key', 'terms-conditions')->first();
         return view('front.terms-conditions.index', compact('seo'));
     }
-
-    
 }

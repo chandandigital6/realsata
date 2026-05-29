@@ -17,7 +17,7 @@ class GameResultController extends Controller
 
 public function todayUpdate(Request $request)
 {
-    $date = $request->date ?? today()->format('Y-m-d');
+    $date = $request->date ?? now('Asia/Kolkata')->format('Y-m-d');
 
     $games = Game::where('is_active', true)
         ->orderBy('sort_order')
@@ -44,18 +44,21 @@ public function todayUpdateSave(Request $request)
     DB::transaction(function () use ($data) {
         foreach ($data['results'] ?? [] as $row) {
 
-            if (blank($row['result'])) {
-                continue;
+            $result = trim($row['result'] ?? '');
+            $status = $row['status'] ?? 'waiting';
+
+            if ($result !== '') {
+                $status = 'declared';
             }
 
             GameResult::updateOrCreate(
                 [
                     'game_id' => $row['game_id'],
-                    'result_date' => $data['result_date'],
+                    'result_date' => Carbon::parse($data['result_date'])->format('Y-m-d'),
                 ],
                 [
-                    'result' => $row['result'],
-                    'status' => $row['status'] ?? 'declared',
+                    'result' => $result,
+                    'status' => $status,
                     'show_minutes' => $row['show_minutes'] ?? 15,
                 ]
             );
@@ -64,6 +67,8 @@ public function todayUpdateSave(Request $request)
 
     return back()->with('success', 'Today results updated successfully.');
 }
+
+
     public function index()
     {
         $results = GameResult::with('game')
