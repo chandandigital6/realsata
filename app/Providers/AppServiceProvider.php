@@ -9,6 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Game;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Gate;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -41,6 +42,14 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('footerGames', $footerGames);
         });
+
+
+
+
+        Gate::before(function ($user, $ability) {
+        return $user->hasRole('super admin') ? true : null;
+    });
+    
     }
 
     /**

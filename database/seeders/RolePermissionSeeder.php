@@ -26,6 +26,19 @@ class RolePermissionSeeder extends Seeder
             'user delete',
 
             'dashboard view',
+            'games view',
+            'game-results view',
+            'game-results views',
+            'chart-years view',
+            'advertisements view',
+            'notices view',
+            'content-blocks view',
+            'seo-pages view',
+            'users view',
+            'roles view',    
+            'permissions view',
+
+
         ];
 
         foreach ($permissions as $permission) {

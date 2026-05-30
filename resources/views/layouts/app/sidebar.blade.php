@@ -18,68 +18,90 @@
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Platform')" class="grid">
 
-                <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                    wire:navigate>
-                    {{ __('Dashboard') }}
-                </flux:sidebar.item>
-
+                @can('dashboard view')
+                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
+                        wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:sidebar.item>
+                @endcan
                 {{-- Games --}}
-                <flux:sidebar.item icon="squares-2x2" :href="route('games.index')"
-                    :current="request()->routeIs('games.*')" wire:navigate>
-                    {{ __('Games') }}
-                </flux:sidebar.item>
 
-                <flux:sidebar.item icon="calendar-days" :href="route('game-results.today-update')"
-                    :current="request()->routeIs('game-results.today-update')" wire:navigate>
-                    {{ __('Today Result Update') }}
-                </flux:sidebar.item>
+                @can('games view')
+                    <flux:sidebar.item icon="squares-2x2" :href="route('games.index')"
+                        :current="request()->routeIs('games.*')" wire:navigate>
+                        {{ __('Games') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="chart-bar-square" :href="route('game-results.index')"
-                    :current="request()->routeIs('game-results.*')" wire:navigate>
-                    {{ __('Game Results') }}
-                </flux:sidebar.item>
+                @can('game-results view')
+                    <flux:sidebar.item icon="calendar-days" :href="route('game-results.today-update')"
+                        :current="request()->routeIs('game-results.today-update')" wire:navigate>
+                        {{ __('Today Result Update') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="calendar-days" :href="route('chart-years.index')"
-                    :current="request()->routeIs('chart-years.*')" wire:navigate>
-                    {{ __('Chart Years') }}
-                </flux:sidebar.item>
+                @can('game-results views')
+                    <flux:sidebar.item icon="chart-bar-square" :href="route('game-results.index')"
+                        :current="request()->routeIs('game-results.*')" wire:navigate>
+                        {{ __('Game Results') }}
+                    </flux:sidebar.item>
+                @endcan
 
+                @can('chart-years view')
+                    <flux:sidebar.item icon="calendar-days" :href="route('chart-years.index')"
+                        :current="request()->routeIs('chart-years.*')" wire:navigate>
+                        {{ __('Chart Years') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="megaphone" :href="route('advertisements.index')"
-                    :current="request()->routeIs('advertisements.*')" wire:navigate>
-                    {{ __('Advertisements') }}
-                </flux:sidebar.item>
+                @can('advertisements view')
+                    <flux:sidebar.item icon="megaphone" :href="route('advertisements.index')"
+                        :current="request()->routeIs('advertisements.*')" wire:navigate>
+                        {{ __('Advertisements') }}
+                    </flux:sidebar.item>
+                @endcan
 
+                @can('notices view')
+                    <flux:sidebar.item icon="bell-alert" :href="route('notices.index')"
+                        :current="request()->routeIs('notices.*')" wire:navigate>
+                        {{ __('Notices') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="bell-alert" :href="route('notices.index')"
-                    :current="request()->routeIs('notices.*')" wire:navigate>
-                    {{ __('Notices') }}
-                </flux:sidebar.item>
+                @can('content-blocks view')
+                    <flux:sidebar.item icon="document-text" :href="route('content-blocks.index')"
+                        :current="request()->routeIs('content-blocks.*')" wire:navigate>
+                        {{ __('Content Blocks') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="document-text" :href="route('content-blocks.index')"
-                    :current="request()->routeIs('content-blocks.*')" wire:navigate>
-                    {{ __('Content Blocks') }}
-                </flux:sidebar.item>
+                @can('seo-pages view')
+                    <flux:sidebar.item icon="globe-alt" :href="route('seo-pages.index')"
+                        :current="request()->routeIs('seo-pages.*')" wire:navigate>
+                        {{ __('SEO Pages') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="globe-alt" :href="route('seo-pages.index')"
-                    :current="request()->routeIs('seo-pages.*')" wire:navigate>
-                    {{ __('SEO Pages') }}
-                </flux:sidebar.item>
+                @can('users view')
+                    <flux:sidebar.item icon="users" :href="route('users.index')"
+                        :current="request()->routeIs('users.*')" wire:navigate>
+                        {{ __('Users') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="users" :href="route('users.index')"
-                    :current="request()->routeIs('users.*')" wire:navigate>
-                    {{ __('Users') }}
-                </flux:sidebar.item>
+                @can('roles view')
+                    <flux:sidebar.item icon="shield-check" :href="route('roles.index')"
+                        :current="request()->routeIs('roles.*')" wire:navigate>
+                        {{ __('Roles') }}
+                    </flux:sidebar.item>
+                @endcan
 
-                <flux:sidebar.item icon="shield-check" :href="route('roles.index')"
-                    :current="request()->routeIs('roles.*')" wire:navigate>
-                    {{ __('Roles') }}
-                </flux:sidebar.item>
-
-                <flux:sidebar.item icon="key" :href="route('permissions.index')"
-                    :current="request()->routeIs('permissions.*')" wire:navigate>
-                    {{ __('Permissions') }}
-                </flux:sidebar.item>
+                @can('permissions view')
+                    <flux:sidebar.item icon="key" :href="route('permissions.index')"
+                        :current="request()->routeIs('permissions.*')" wire:navigate>
+                        {{ __('Permissions') }}
+                    </flux:sidebar.item>
+                @endcan
 
             </flux:sidebar.group>
         </flux:sidebar.nav>
