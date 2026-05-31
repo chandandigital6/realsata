@@ -7,11 +7,11 @@
         @foreach ($topAdvertisements as $advertisement)
             <section class="advertisement">
                 <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
-                   @if (!empty($advertisement->link)) target="_blank" @endif
-                   style="text-decoration:none;color:inherit;">
+                    @if (!empty($advertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
 
                     <div style="background:#f2aa00; border:1px solid #000;">
-                        <div style="background:#efbd3d; border-top:5px dotted #000; border-bottom:5px dotted #000; padding:8px 15px 12px; text-align:center;">
+                        <div
+                            style="background:#efbd3d; border-top:5px dotted #000; border-bottom:5px dotted #000; padding:8px 15px 12px; text-align:center;">
 
                             @if (!empty($advertisement->content))
                                 <div style="margin:0 0 12px; font-size:15px; color:#000;">
@@ -22,8 +22,8 @@
                             @if (!empty($advertisement->image))
                                 <span style="display:inline-block; background:#fff; padding:0 8px;">
                                     <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                         alt="{{ $advertisement->title ?? 'Advertisement' }}"
-                                         style="height:65px; max-width:220px; object-fit:contain;">
+                                        alt="{{ $advertisement->title ?? 'Advertisement' }}"
+                                        style="height:65px; max-width:220px; object-fit:contain;">
                                 </span>
                             @endif
 
@@ -65,13 +65,17 @@
                                     return true;
                                 }
 
-                                $expireTime = \Carbon\Carbon::parse($result->updated_at, 'Asia/Kolkata')
-                                    ->addMinutes((int) $result->show_minutes);
+                                $expireTime = \Carbon\Carbon::parse($result->updated_at, 'Asia/Kolkata')->addMinutes(
+                                    (int) $result->show_minutes,
+                                );
 
                                 return \Carbon\Carbon::now('Asia/Kolkata')->lessThanOrEqualTo($expireTime);
                             })
                             ->sortByDesc(function ($game) use ($todayResults) {
-                                return \Carbon\Carbon::parse($todayResults[$game->id]->updated_at, 'Asia/Kolkata')->timestamp;
+                                return \Carbon\Carbon::parse(
+                                    $todayResults[$game->id]->updated_at,
+                                    'Asia/Kolkata',
+                                )->timestamp;
                             });
 
                         $upcomingGames = $games
@@ -86,7 +90,7 @@
                                 try {
                                     return \Carbon\Carbon::parse(
                                         $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                        'Asia/Kolkata'
+                                        'Asia/Kolkata',
                                     )->timestamp;
                                 } catch (\Exception $e) {
                                     return 9999999999;
@@ -108,7 +112,7 @@
                         <div class="sattaresult">
                             <font>
                                 <span>
-                                    @if($todayResult && filled($todayResult->result))
+                                    @if ($todayResult && filled($todayResult->result))
                                         {{ $todayResult->result }}
                                     @else
                                         <p>
@@ -149,12 +153,11 @@
                     @endif
 
                     <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
-                       @if (!empty($middleAdvertisement->link)) target="_blank" @endif>
+                        @if (!empty($middleAdvertisement->link)) target="_blank" @endif>
                         <h4 style="color:blue">
                             @if (!empty($middleAdvertisement->image))
-                                <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
-                                     width="180px"
-                                     alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}">
+                                <img src="{{ asset('storage/' . $middleAdvertisement->image) }}" width="180px"
+                                    alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}">
                             @else
                                 <img src="{{ asset('Join-WhatsApp.png') }}" width="180px" alt="Join WhatsApp">
                             @endif
@@ -178,44 +181,81 @@
 
 
     {{-- bottom advertisement --}}
-    @php
-        $hasBottomAd =
-            !empty($bottomAdvertisement) &&
-            (!empty($bottomAdvertisement->content) ||
-                !empty($bottomAdvertisement->image) ||
-                !empty($bottomAdvertisement->link));
-    @endphp
+   {{-- Bottom Advertisement --}}
+@php
+    $hasBottomAd =
+        !empty($bottomAdvertisement) &&
+        (
+            !empty($bottomAdvertisement->content) ||
+            !empty($bottomAdvertisement->image) ||
+            !empty($bottomAdvertisement->link)
+        );
+@endphp
 
-    @if ($hasBottomAd)
-        <section class="top-advo">
-            <div class="row p-0">
-                <div class="col-md-12">
-                    <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
-                       @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
-                       style="text-decoration:none;color:inherit;">
+@if ($hasBottomAd)
 
-                        <div class="card top_card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
-                            <div class="card-body text-center" style="padding:5px 15px 12px;">
+    <style>
+        .bottom-ad-content,
+        .bottom-ad-content * {
+            font-size: 20 !important;
+            line-height: 1.6 !important;
+            font-weight: 600 !important;
+        }
 
-                                @if (!empty($bottomAdvertisement->content))
-                                    {!! $bottomAdvertisement->content !!}
-                                @endif
+        .bottom-ad-content img {
+            height: 65px !important;
+            max-width: 240px !important;
+            object-fit: contain !important;
+        }
 
-                                @if (!empty($bottomAdvertisement->image))
-                                    <span style="display:inline-block; background:#fff; padding:0 8px;">
-                                        <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                                             alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}"
-                                             style="height:50px; max-width:180px; object-fit:contain;">
-                                    </span>
-                                @endif
+        @media (max-width: 768px) {
+            .bottom-ad-content,
+            .bottom-ad-content * {
+                font-size: 18px !important;
+                line-height: 1.5 !important;
+            }
 
-                            </div>
+            .bottom-ad-content img {
+                height: 55px !important;
+                max-width: 200px !important;
+            }
+        }
+    </style>
+
+    <section class="top-advo">
+        <div class="row p-0">
+            <div class="col-md-12">
+
+                <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
+                   @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
+                   style="text-decoration:none;color:inherit;">
+
+                    <div class="card top_card"
+                         style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
+
+                        <div class="card-body text-center bottom-ad-content"
+                             style="padding:10px 15px 18px;">
+
+                            @if (!empty($bottomAdvertisement->content))
+                                {!! $bottomAdvertisement->content !!}
+                            @endif
+
+                            @if (!empty($bottomAdvertisement->image))
+                                <span style="display:inline-block; background:#fff; padding:4px 10px; margin-top:8px;">
+                                    <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                         alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
+                                </span>
+                            @endif
+
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+
             </div>
-        </section>
-    @endif
+        </div>
+    </section>
+
+@endif
 
 
     {{-- sidebar advertisement --}}
@@ -232,8 +272,8 @@
             <div class="row p-0">
                 <div class="col-md-12">
                     <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
-                       @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif
-                       style="text-decoration:none;color:inherit;">
+                        @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif
+                        style="text-decoration:none;color:inherit;">
 
                         <div class="card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
                             <div class="card-body text-center" style="padding:12px 15px;">
@@ -245,8 +285,8 @@
                                 @if (!empty($sidebarAdvertisement->image))
                                     <span style="display:inline-block; background:#fff; padding:0 8px;">
                                         <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                                             alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}"
-                                             style="height:50px; max-width:180px; object-fit:contain;">
+                                            alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}"
+                                            style="height:50px; max-width:180px; object-fit:contain;">
                                     </span>
                                 @endif
 
@@ -286,29 +326,27 @@
 
                                     <tr style="height:36px">
                                         <td class="foryellow">
-                                            <a href="{{ route('game.record', ['slug' => $game->slug ?? $game->url ?? $game->id]) }}"
-                                               target="_blank"
-                                               class="gamenameeach">
+                                            <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
+                                                target="_blank" class="gamenameeach">
                                                 {{ strtoupper($game->name) }}
                                             </a>
 
                                             <br>
 
-                                            @if(!empty($game->result_time))
+                                            @if (!empty($game->result_time))
                                                 <span class="time">{{ $game->result_time }}</span>
                                             @endif
 
                                             <br>
 
-                                            <a style="font-size:12px;color:#000000;"
-                                               target="_blank"
-                                               href="{{ route('game.record', ['slug' => $game->slug ?? $game->url ?? $game->id]) }}">
+                                            <a style="font-size:12px;color:#000000;" target="_blank"
+                                                href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}">
                                                 Record Chart
                                             </a>
                                         </td>
 
                                         <td class="text-center">
-                                            @if($yesterdayResult && filled($yesterdayResult->result))
+                                            @if ($yesterdayResult && filled($yesterdayResult->result))
                                                 {{ str_pad($yesterdayResult->result, 2, '0', STR_PAD_LEFT) }}
                                             @else
                                                 -
@@ -316,7 +354,7 @@
                                         </td>
 
                                         <td class="text-center">
-                                            @if($todayResult && filled($todayResult->result))
+                                            @if ($todayResult && filled($todayResult->result))
                                                 {{ str_pad($todayResult->result, 2, '0', STR_PAD_LEFT) }}
                                             @else
                                                 <p>
