@@ -31,9 +31,9 @@
                     @if (Route::has('login'))
                         @auth
                             <li>
-                                <a href="{{ route('dashboard') }}">
-                                    MY ACCOUNT
-                                </a>
+                                <a href="{{ url('/dashboard') }}">
+    MY ACCOUNT
+</a>
                             </li>
                         @else
                             <li>
