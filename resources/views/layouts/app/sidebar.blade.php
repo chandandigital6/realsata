@@ -10,7 +10,12 @@
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
             <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
-            <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
+
+            {{-- Mobile sidebar close button --}}
+            <flux:sidebar.toggle
+                class="lg:hidden flex items-center justify-center !w-12 !h-12 !p-3 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                icon="x-mark"
+            />
         </flux:sidebar.header>
 
         <livewire:team-switcher />
@@ -112,7 +117,11 @@
 
     <!-- Mobile User Menu -->
     <flux:header class="lg:hidden">
-        <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+        <flux:sidebar.toggle
+            class="lg:hidden flex items-center justify-center !w-12 !h-12 !p-3 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
+            icon="bars-3"
+            inset="left"
+        />
 
         <flux:spacer />
 
