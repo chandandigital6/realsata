@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use App\Models\GameResult;
+use App\Models\ChartYear;
 use Illuminate\Database\Seeder;
 
 class GameResults2026Seeder extends Seeder
@@ -3781,7 +3782,18 @@ class GameResults2026Seeder extends Seeder
                     'result_date' => $row['date'],
                 ],
                 [
-                    'result' => $row['result'],
+                    'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+                    'status' => 'declared',
+                ]
+            );
+
+            ChartYear::updateOrCreate(
+                [
+                    'game_id' => $game->id,
+                    'year' => date('Y', strtotime($row['date'])),
+                ],
+                [
+                    'is_active' => true,
                 ]
             );
         }

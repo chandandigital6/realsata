@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameResult;
 use Illuminate\Database\Seeder;
 
+
 class GameResults2025To2026Seeder extends Seeder
 {
     public function run(): void
