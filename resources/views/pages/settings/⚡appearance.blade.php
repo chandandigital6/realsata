@@ -44,18 +44,15 @@ new #[Title('Appearance settings')] class extends Component {
     <x-pages::settings.layout :heading="__('Appearance')" :subheading="__('Update the appearance settings for your account')">
 
         <div class="inline-flex rounded-xl bg-zinc-100 p-1 dark:bg-zinc-800">
-            <button type="button" data-appearance="light" onclick="setThemeMode('light')"
-                class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
+            <button type="button" id="themeLight" class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
                 ☀️ Light
             </button>
 
-            <button type="button" data-appearance="dark" onclick="setThemeMode('dark')"
-                class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
+            <button type="button" id="themeDark" class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
                 🌙 Dark
             </button>
 
-            <button type="button" data-appearance="system" onclick="setThemeMode('system')"
-                class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
+            <button type="button" id="themeSystem" class="theme-btn rounded-lg px-4 py-2 text-sm font-medium">
                 🖥️ System
             </button>
         </div>
@@ -79,22 +76,35 @@ new #[Title('Appearance settings')] class extends Component {
             }
         }
 
-        document.querySelectorAll('.theme-btn').forEach(btn => {
+        document.querySelectorAll('.theme-btn').forEach(function(btn) {
             btn.classList.remove('bg-white', 'shadow-sm', 'dark:bg-zinc-700');
         });
 
-        const active = document.querySelector('[data-appearance="' + mode + '"]');
-        if (active) {
-            active.classList.add('bg-white', 'shadow-sm', 'dark:bg-zinc-700');
+        const activeBtn = document.getElementById('theme' + mode.charAt(0).toUpperCase() + mode.slice(1));
+
+        if (activeBtn) {
+            activeBtn.classList.add('bg-white', 'shadow-sm', 'dark:bg-zinc-700');
         }
     }
 
-    function setThemeMode(mode) {
+    function saveThemeMode(mode) {
         localStorage.setItem('appearance', mode);
         applyThemeMode(mode);
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('themeLight')?.addEventListener('click', function () {
+            saveThemeMode('light');
+        });
+
+        document.getElementById('themeDark')?.addEventListener('click', function () {
+            saveThemeMode('dark');
+        });
+
+        document.getElementById('themeSystem')?.addEventListener('click', function () {
+            saveThemeMode('system');
+        });
+
         applyThemeMode(localStorage.getItem('appearance') || 'system');
     });
 </script>
