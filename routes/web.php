@@ -40,11 +40,17 @@ Route::get('/sitemap.xml', function () {
 });
 
 
-Route::prefix('{current_team}')
-    ->middleware(['auth', 'verified', EnsureTeamMembership::class])
-    ->group(function () {
-        Route::view('dashboard', 'dashboard')->name('dashboard');
-    });
+// Route::prefix('{current_team}')
+//     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
+//     ->group(function () {
+//         Route::view('dashboard', 'dashboard')->name('dashboard');
+//     });
+
+
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::view('/dashboard', 'dashboard')->name('dashboard');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::resource('roles', RoleController::class);
