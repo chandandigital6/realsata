@@ -181,81 +181,76 @@
 
 
     {{-- bottom advertisement --}}
-   {{-- Bottom Advertisement --}}
-@php
-    $hasBottomAd =
-        !empty($bottomAdvertisement) &&
-        (
-            !empty($bottomAdvertisement->content) ||
-            !empty($bottomAdvertisement->image) ||
-            !empty($bottomAdvertisement->link)
-        );
-@endphp
+    {{-- Bottom Advertisement --}}
+    @php
+        $hasBottomAd =
+            !empty($bottomAdvertisement) &&
+            (!empty($bottomAdvertisement->content) ||
+                !empty($bottomAdvertisement->image) ||
+                !empty($bottomAdvertisement->link));
+    @endphp
 
-@if ($hasBottomAd)
-
-    <style>
-        .bottom-ad-content,
-        .bottom-ad-content * {
-            font-size: 18 !important;
-            line-height: 1.6 !important;
-            font-weight: 600 !important;
-        }
-
-        .bottom-ad-content img {
-            height: 65px !important;
-            max-width: 240px !important;
-            object-fit: contain !important;
-        }
-
-        @media (max-width: 768px) {
+    @if ($hasBottomAd)
+        <style>
             .bottom-ad-content,
             .bottom-ad-content * {
-                font-size: 18px !important;
-                line-height: 1.5 !important;
+                font-size: 18 !important;
+                line-height: 1.6 !important;
+                font-weight: 600 !important;
             }
 
             .bottom-ad-content img {
-                height: 55px !important;
-                max-width: 200px !important;
+                height: 65px !important;
+                max-width: 240px !important;
+                object-fit: contain !important;
             }
-        }
-    </style>
 
-    <section class="top-advo">
-        <div class="row p-0">
-            <div class="col-md-12">
+            @media (max-width: 768px) {
 
-                <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
-                   @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
-                   style="text-decoration:none;color:inherit;">
+                .bottom-ad-content,
+                .bottom-ad-content * {
+                    font-size: 18px !important;
+                    line-height: 1.5 !important;
+                }
 
-                    <div class="card top_card"
-                         style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
+                .bottom-ad-content img {
+                    height: 55px !important;
+                    max-width: 200px !important;
+                }
+            }
+        </style>
 
-                        <div class="card-body text-center bottom-ad-content"
-                             style="padding:10px 15px 18px;">
+        <section class="top-advo">
+            <div class="row p-0">
+                <div class="col-md-12">
 
-                            @if (!empty($bottomAdvertisement->content))
-                                {!! $bottomAdvertisement->content !!}
-                            @endif
+                    <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
+                        @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
+                        style="text-decoration:none;color:inherit;">
 
-                            @if (!empty($bottomAdvertisement->image))
-                                <span style="display:inline-block; background:#fff; padding:4px 10px; margin-top:8px;">
-                                    <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                                         alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
-                                </span>
-                            @endif
+                        <div class="card top_card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
 
+                            <div class="card-body text-center bottom-ad-content" style="padding:10px 15px 18px;">
+
+                                @if (!empty($bottomAdvertisement->content))
+                                    {!! $bottomAdvertisement->content !!}
+                                @endif
+
+                                @if (!empty($bottomAdvertisement->image))
+                                    <span style="display:inline-block; background:#fff; padding:4px 10px; margin-top:8px;">
+                                        <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                            alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
+                                    </span>
+                                @endif
+
+                            </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
 
+                </div>
             </div>
-        </div>
-    </section>
-
-@endif
+        </section>
+    @endif
 
 
     {{-- sidebar advertisement --}}
@@ -435,7 +430,7 @@
 
                                             <td class="text-center">
                                                 @if ($result && $result->status === 'declared' && filled($result->result))
-                                                    {{ $result->result }}
+                                                   <b>{{ $result->result }}</b> 
                                                 @else
                                                     -
                                                 @endif
