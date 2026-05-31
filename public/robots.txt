@@ -1,10 +1,17 @@
 User-agent: *
-Disallow: /admin/
-Disallow: /login/
-Disallow: /private/
-Disallow: /user-data/
-
-# Allow crawling of all other pages
 Allow: /
 
+# Admin & Authentication Pages
+Disallow: /admin/
+Disallow: /login/
+Disallow: /register/
+Disallow: /password/
+
+# Prevent crawl waste
+Disallow: /*?replytocom=
+Disallow: /*?utm_
+Disallow: /*&utm_
+Disallow: /search
+
+# Sitemap
 Sitemap: https://realsatta.in/sitemap.xml

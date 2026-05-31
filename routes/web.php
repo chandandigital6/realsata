@@ -22,6 +22,7 @@ Route::get('/chart', [FrontController::class, 'chart'])->name('chart');
 Route::get('/record/{slug}', [FrontController::class, 'gameRecord'])
     ->name('game.record');
 
+
 // Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
 //     ->name('game.yearRecord');
 
@@ -31,6 +32,13 @@ Route::get('/record/{slug}', [FrontController::class, 'gameRecord'])
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
 Route::get('/privacy-policy', [FrontController::class, 'privacyPolicy'])->name('privacy-policy');
 Route::get('/terms-conditions', [FrontController::class, 'termsConditions'])->name('terms-conditions');
+
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->view('sitemap')
+        ->header('Content-Type', 'application/xml');
+});
+
 
 Route::prefix('{current_team}')
     ->middleware(['auth', 'verified', EnsureTeamMembership::class])
