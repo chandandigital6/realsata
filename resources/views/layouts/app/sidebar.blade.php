@@ -34,7 +34,8 @@
                 display: block;
             }
 
-            .mobile-menu-btn {
+            .mobile-menu-btn,
+            .mobile-close-btn {
                 width: 48px;
                 height: 48px;
                 display: flex;
@@ -49,23 +50,18 @@
                 line-height: 1;
             }
 
-            .mobile-menu-btn:hover {
+            .mobile-menu-btn:hover,
+            .mobile-close-btn:hover {
                 background: #f4f4f5;
             }
+        }
 
-            .mobile-close-btn {
-                width: 42px;
-                height: 42px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                border-radius: 10px;
-                border: none;
-                background: transparent;
-                color: #111;
-                font-size: 26px;
-            }
+        .custom-user-dropdown {
+            display: none;
+        }
+
+        .custom-user-dropdown.show {
+            display: block;
         }
     </style>
 </head>
@@ -167,61 +163,60 @@
 
         <flux:spacer />
 
-        {{-- Desktop bottom user menu --}}
-        <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
+        {{-- Custom user dropdown for mobile + desktop --}}
+        <div class="relative px-3 pb-4">
+            <div id="sidebarUserDropdown"
+                class="custom-user-dropdown absolute left-3 right-3 bottom-20 z-[999999] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
 
-        {{-- Mobile sidebar bottom user dropdown --}}
-        <div class="lg:hidden px-3 pb-4">
-            <flux:dropdown position="top" align="start">
-                <button type="button"
-                    class="w-full flex items-center gap-3 rounded-xl border border-zinc-300 bg-white px-3 py-2 text-left dark:border-zinc-700 dark:bg-zinc-900">
-                    <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
+                <div class="flex items-center gap-3 border-b border-zinc-200 px-3 py-3 dark:border-zinc-700">
+                    <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 text-sm font-semibold text-zinc-900">
+                        {{ auth()->user()->initials() }}
+                    </div>
 
-                    <div class="min-w-0 flex-1">
+                    <div class="min-w-0">
                         <div class="truncate text-sm font-semibold text-zinc-900 dark:text-white">
                             {{ auth()->user()->name }}
                         </div>
                         <div class="truncate text-xs text-zinc-500">
-                            {{ auth()->user()->currentTeam?->name ?? 'Super Admin’s Team' }}
+                            {{ auth()->user()->email }}
                         </div>
                     </div>
+                </div>
 
-                    <span class="text-xl leading-none">⌄</span>
-                </button>
+                <a href="{{ route('profile.edit') }}" wire:navigate
+                    class="flex items-center gap-3 px-4 py-3 text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                    <span>⚙️</span>
+                    <span>{{ __('Settings') }}</span>
+                </a>
 
-                <flux:menu>
-                    <flux:menu.radio.group>
-                        <div class="p-0 text-sm font-normal">
-                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                                <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="flex w-full items-center gap-3 px-4 py-3 text-left text-sm text-zinc-700 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                        <span>↪️</span>
+                        <span>{{ __('Log out') }}</span>
+                    </button>
+                </form>
+            </div>
 
-                                <div class="grid flex-1 text-start text-sm leading-tight">
-                                    <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
-                                    <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
-                                </div>
-                            </div>
-                        </div>
-                    </flux:menu.radio.group>
+            <button type="button" id="sidebarUserButton" onclick="toggleSidebarUserDropdown()"
+                class="w-full flex items-center gap-3 rounded-xl border border-zinc-300 bg-white px-3 py-2 text-left dark:border-zinc-700 dark:bg-zinc-900">
 
-                    <flux:menu.separator />
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-200 text-sm font-semibold text-zinc-900">
+                    {{ auth()->user()->initials() }}
+                </div>
 
-                    <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                            {{ __('Settings') }}
-                        </flux:menu.item>
-                    </flux:menu.radio.group>
+                <div class="min-w-0 flex-1">
+                    <div class="truncate text-sm font-semibold text-zinc-900 dark:text-white">
+                        {{ auth()->user()->name }}
+                    </div>
+                    <div class="truncate text-xs text-zinc-500">
+                        {{ auth()->user()->currentTeam?->name ?? "Super Admin's Team" }}
+                    </div>
+                </div>
 
-                    <flux:menu.separator />
-
-                    <form method="POST" action="{{ route('logout') }}" class="w-full">
-                        @csrf
-                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
-                            class="w-full cursor-pointer" data-test="logout-button">
-                            {{ __('Log out') }}
-                        </flux:menu.item>
-                    </form>
-                </flux:menu>
-            </flux:dropdown>
+                <span class="text-xl leading-none text-zinc-700 dark:text-zinc-200">⌄</span>
+            </button>
         </div>
     </flux:sidebar>
 
@@ -233,42 +228,9 @@
 
         <flux:spacer />
 
-        <flux:dropdown position="top" align="end">
-            <flux:profile :initials="auth()->user()->initials()" icon-trailing="chevron-down" />
-
-            <flux:menu>
-                <flux:menu.radio.group>
-                    <div class="p-0 text-sm font-normal">
-                        <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
-                            <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
-
-                            <div class="grid flex-1 text-start text-sm leading-tight">
-                                <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
-                                <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
-                            </div>
-                        </div>
-                    </div>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <flux:menu.radio.group>
-                    <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
-                        {{ __('Settings') }}
-                    </flux:menu.item>
-                </flux:menu.radio.group>
-
-                <flux:menu.separator />
-
-                <form method="POST" action="{{ route('logout') }}" class="w-full">
-                    @csrf
-                    <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
-                        class="w-full cursor-pointer" data-test="logout-button">
-                        {{ __('Log out') }}
-                    </flux:menu.item>
-                </form>
-            </flux:menu>
-        </flux:dropdown>
+        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-200 text-sm font-semibold text-zinc-900">
+            {{ auth()->user()->initials() }}
+        </div>
     </flux:header>
 
     {{ $slot }}
@@ -288,11 +250,38 @@
 
         function closeMobileSidebar() {
             document.body.classList.remove('sidebar-open');
+            closeSidebarUserDropdown();
         }
+
+        function toggleSidebarUserDropdown() {
+            const dropdown = document.getElementById('sidebarUserDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
+            }
+        }
+
+        function closeSidebarUserDropdown() {
+            const dropdown = document.getElementById('sidebarUserDropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('sidebarUserDropdown');
+            const button = document.getElementById('sidebarUserButton');
+
+            if (!dropdown || !button) return;
+
+            if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeMobileSidebar();
+                closeSidebarUserDropdown();
             }
         });
     </script>
