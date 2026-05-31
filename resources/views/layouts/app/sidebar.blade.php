@@ -76,6 +76,7 @@
 
     <flux:sidebar id="mobileSidebar" sticky
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+
         <flux:sidebar.header>
             <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
 
@@ -166,7 +167,62 @@
 
         <flux:spacer />
 
+        {{-- Desktop bottom user menu --}}
         <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
+
+        {{-- Mobile sidebar bottom user dropdown --}}
+        <div class="lg:hidden px-3 pb-4">
+            <flux:dropdown position="top" align="start">
+                <button type="button"
+                    class="w-full flex items-center gap-3 rounded-xl border border-zinc-300 bg-white px-3 py-2 text-left dark:border-zinc-700 dark:bg-zinc-900">
+                    <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
+
+                    <div class="min-w-0 flex-1">
+                        <div class="truncate text-sm font-semibold text-zinc-900 dark:text-white">
+                            {{ auth()->user()->name }}
+                        </div>
+                        <div class="truncate text-xs text-zinc-500">
+                            {{ auth()->user()->currentTeam?->name ?? 'Super Admin’s Team' }}
+                        </div>
+                    </div>
+
+                    <span class="text-xl leading-none">⌄</span>
+                </button>
+
+                <flux:menu>
+                    <flux:menu.radio.group>
+                        <div class="p-0 text-sm font-normal">
+                            <div class="flex items-center gap-2 px-1 py-1.5 text-start text-sm">
+                                <flux:avatar :name="auth()->user()->name" :initials="auth()->user()->initials()" />
+
+                                <div class="grid flex-1 text-start text-sm leading-tight">
+                                    <flux:heading class="truncate">{{ auth()->user()->name }}</flux:heading>
+                                    <flux:text class="truncate">{{ auth()->user()->email }}</flux:text>
+                                </div>
+                            </div>
+                        </div>
+                    </flux:menu.radio.group>
+
+                    <flux:menu.separator />
+
+                    <flux:menu.radio.group>
+                        <flux:menu.item :href="route('profile.edit')" icon="cog" wire:navigate>
+                            {{ __('Settings') }}
+                        </flux:menu.item>
+                    </flux:menu.radio.group>
+
+                    <flux:menu.separator />
+
+                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        @csrf
+                        <flux:menu.item as="button" type="submit" icon="arrow-right-start-on-rectangle"
+                            class="w-full cursor-pointer" data-test="logout-button">
+                            {{ __('Log out') }}
+                        </flux:menu.item>
+                    </form>
+                </flux:menu>
+            </flux:dropdown>
+        </div>
     </flux:sidebar>
 
     <!-- Mobile User Menu -->
@@ -234,7 +290,7 @@
             document.body.classList.remove('sidebar-open');
         }
 
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeMobileSidebar();
             }
