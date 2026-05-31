@@ -3,19 +3,85 @@
 
 <head>
     @include('partials.head')
+
+    <style>
+        @media (max-width: 1023px) {
+            #mobileSidebar {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                height: 100vh !important;
+                width: 280px !important;
+                z-index: 99999 !important;
+                transform: translateX(-100%) !important;
+                transition: transform 0.3s ease !important;
+                overflow-y: auto !important;
+            }
+
+            body.sidebar-open #mobileSidebar {
+                transform: translateX(0) !important;
+            }
+
+            #sidebarOverlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 99998;
+            }
+
+            body.sidebar-open #sidebarOverlay {
+                display: block;
+            }
+
+            .mobile-menu-btn {
+                width: 48px;
+                height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 10px;
+                border: none;
+                background: transparent;
+                color: #111;
+                font-size: 28px;
+                line-height: 1;
+            }
+
+            .mobile-menu-btn:hover {
+                background: #f4f4f5;
+            }
+
+            .mobile-close-btn {
+                width: 42px;
+                height: 42px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                border-radius: 10px;
+                border: none;
+                background: transparent;
+                color: #111;
+                font-size: 26px;
+            }
+        }
+    </style>
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
-    <flux:sidebar sticky stashable
+
+    <div id="sidebarOverlay" onclick="closeMobileSidebar()"></div>
+
+    <flux:sidebar id="mobileSidebar" sticky
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
             <x-app-logo :sidebar="true" href="{{ route('dashboard') }}" wire:navigate />
 
-            {{-- Mobile sidebar close button --}}
-            <flux:sidebar.toggle
-                class="lg:hidden flex items-center justify-center !w-12 !h-12 !p-3 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
-                icon="x-mark"
-            />
+            <button type="button" class="mobile-close-btn lg:hidden" onclick="closeMobileSidebar()">
+                ×
+            </button>
         </flux:sidebar.header>
 
         <livewire:team-switcher />
@@ -24,85 +90,73 @@
             <flux:sidebar.group :heading="__('Platform')" class="grid">
 
                 @can('dashboard view')
-                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
-                        wire:navigate>
+                    <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('games view')
-                    <flux:sidebar.item icon="squares-2x2" :href="route('games.index')"
-                        :current="request()->routeIs('games.*')" wire:navigate>
+                    <flux:sidebar.item icon="squares-2x2" :href="route('games.index')" :current="request()->routeIs('games.*')" wire:navigate>
                         {{ __('Games') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('game-results view')
-                    <flux:sidebar.item icon="calendar-days" :href="route('game-results.today-update')"
-                        :current="request()->routeIs('game-results.today-update')" wire:navigate>
+                    <flux:sidebar.item icon="calendar-days" :href="route('game-results.today-update')" :current="request()->routeIs('game-results.today-update')" wire:navigate>
                         {{ __('Today Result Update') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('game-results views')
-                    <flux:sidebar.item icon="chart-bar-square" :href="route('game-results.index')"
-                        :current="request()->routeIs('game-results.*')" wire:navigate>
+                    <flux:sidebar.item icon="chart-bar-square" :href="route('game-results.index')" :current="request()->routeIs('game-results.*')" wire:navigate>
                         {{ __('Game Results') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('chart-years view')
-                    <flux:sidebar.item icon="calendar-days" :href="route('chart-years.index')"
-                        :current="request()->routeIs('chart-years.*')" wire:navigate>
+                    <flux:sidebar.item icon="calendar-days" :href="route('chart-years.index')" :current="request()->routeIs('chart-years.*')" wire:navigate>
                         {{ __('Chart Years') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('advertisements view')
-                    <flux:sidebar.item icon="megaphone" :href="route('advertisements.index')"
-                        :current="request()->routeIs('advertisements.*')" wire:navigate>
+                    <flux:sidebar.item icon="megaphone" :href="route('advertisements.index')" :current="request()->routeIs('advertisements.*')" wire:navigate>
                         {{ __('Advertisements') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('notices view')
-                    <flux:sidebar.item icon="bell-alert" :href="route('notices.index')"
-                        :current="request()->routeIs('notices.*')" wire:navigate>
+                    <flux:sidebar.item icon="bell-alert" :href="route('notices.index')" :current="request()->routeIs('notices.*')" wire:navigate>
                         {{ __('Notices') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('content-blocks view')
-                    <flux:sidebar.item icon="document-text" :href="route('content-blocks.index')"
-                        :current="request()->routeIs('content-blocks.*')" wire:navigate>
+                    <flux:sidebar.item icon="document-text" :href="route('content-blocks.index')" :current="request()->routeIs('content-blocks.*')" wire:navigate>
                         {{ __('Content Blocks') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('seo-pages view')
-                    <flux:sidebar.item icon="globe-alt" :href="route('seo-pages.index')"
-                        :current="request()->routeIs('seo-pages.*')" wire:navigate>
+                    <flux:sidebar.item icon="globe-alt" :href="route('seo-pages.index')" :current="request()->routeIs('seo-pages.*')" wire:navigate>
                         {{ __('SEO Pages') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('users view')
-                    <flux:sidebar.item icon="users" :href="route('users.index')"
-                        :current="request()->routeIs('users.*')" wire:navigate>
+                    <flux:sidebar.item icon="users" :href="route('users.index')" :current="request()->routeIs('users.*')" wire:navigate>
                         {{ __('Users') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('roles view')
-                    <flux:sidebar.item icon="shield-check" :href="route('roles.index')"
-                        :current="request()->routeIs('roles.*')" wire:navigate>
+                    <flux:sidebar.item icon="shield-check" :href="route('roles.index')" :current="request()->routeIs('roles.*')" wire:navigate>
                         {{ __('Roles') }}
                     </flux:sidebar.item>
                 @endcan
 
                 @can('permissions view')
-                    <flux:sidebar.item icon="key" :href="route('permissions.index')"
-                        :current="request()->routeIs('permissions.*')" wire:navigate>
+                    <flux:sidebar.item icon="key" :href="route('permissions.index')" :current="request()->routeIs('permissions.*')" wire:navigate>
                         {{ __('Permissions') }}
                     </flux:sidebar.item>
                 @endcan
@@ -117,11 +171,9 @@
 
     <!-- Mobile User Menu -->
     <flux:header class="lg:hidden">
-        <flux:sidebar.toggle
-            class="lg:hidden flex items-center justify-center !w-12 !h-12 !p-3 rounded-lg cursor-pointer hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            icon="bars-3"
-            inset="left"
-        />
+        <button type="button" class="mobile-menu-btn" onclick="openMobileSidebar()">
+            ☰
+        </button>
 
         <flux:spacer />
 
@@ -172,6 +224,22 @@
     @endpersist
 
     @fluxScripts
+
+    <script>
+        function openMobileSidebar() {
+            document.body.classList.add('sidebar-open');
+        }
+
+        function closeMobileSidebar() {
+            document.body.classList.remove('sidebar-open');
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                closeMobileSidebar();
+            }
+        });
+    </script>
 </body>
 
 </html>
