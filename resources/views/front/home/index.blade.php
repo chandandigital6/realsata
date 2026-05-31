@@ -197,7 +197,7 @@
     <style>
         .bottom-ad-content,
         .bottom-ad-content * {
-            font-size: 20 !important;
+            font-size: 18 !important;
             line-height: 1.6 !important;
             font-weight: 600 !important;
         }
