@@ -307,7 +307,7 @@ public function live()
 
 
 
-    public function homeLiveResults(Request $request)
+    public function homeLiveResultsold(Request $request)
 {
     $now = Carbon::now('Asia/Kolkata');
     $today = $now->format('Y-m-d');
@@ -425,5 +425,123 @@ public function live()
     ]);
 }
 
+
+
+public function homeLiveResults(Request $request)
+{
+    $now = Carbon::now('Asia/Kolkata');
+    $today = $now->format('Y-m-d');
+
+    $limit = max(1, min((int) $request->get('limit', 4), 20));
+
+    $games = Game::with([
+            'results' => function ($q) use ($today) {
+                $q->whereDate('result_date', $today)
+                    ->latest('updated_at');
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) use ($now) {
+        $todayResult = $game->results->first();
+
+        $isDeclared = $todayResult
+            && $todayResult->status === 'declared'
+            && filled($todayResult->result);
+
+        $showMinutes = $todayResult && filled($todayResult->show_minutes)
+            ? (int) $todayResult->show_minutes
+            : 10;
+
+        $updatedAt = $todayResult?->updated_at
+            ? Carbon::parse($todayResult->updated_at)->timezone('Asia/Kolkata')
+            : null;
+
+        $isLive = false;
+
+        if ($isDeclared) {
+            if ($showMinutes <= 0) {
+                $isLive = true;
+            } elseif ($updatedAt) {
+                $isLive = $now->lessThanOrEqualTo(
+                    $updatedAt->copy()->addMinutes($showMinutes)
+                );
+            }
+        }
+
+        $gameDateTime = null;
+
+        if (filled($game->result_time)) {
+            try {
+                $gameDateTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    'Asia/Kolkata'
+                );
+            } catch (\Throwable $e) {
+                $gameDateTime = null;
+            }
+        }
+
+        return [
+            'id' => $game->id,
+            'name' => $game->name,
+            'slug' => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order' => $game->sort_order,
+
+            '_is_declared' => $isDeclared,
+            '_is_live_declared' => $isLive,
+            '_updated_time' => $updatedAt?->timestamp,
+            '_game_time' => $gameDateTime?->timestamp,
+
+            'result' => [
+                'id' => $todayResult?->id,
+                'result_date' => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date)->format('Y-m-d')
+                    : null,
+                'result' => $isLive ? $todayResult->result : null,
+                'status' => $isLive ? 'declared' : 'waiting',
+                'show_minutes' => $showMinutes,
+                'updated_at' => $updatedAt?->format('Y-m-d H:i:s'),
+                'is_live' => $isLive,
+            ],
+        ];
+    });
+
+    $declaredGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === true)
+        ->sortByDesc('_updated_time')
+        ->values();
+
+    $upcomingGames = $data
+        ->filter(fn ($game) => $game['_is_declared'] === false)
+        ->filter(fn ($game) => !empty($game['_game_time']) && $game['_game_time'] >= $now->timestamp)
+        ->sortBy('_game_time')
+        ->values();
+
+    $finalGames = $declaredGames
+        ->concat($upcomingGames)
+        ->take($limit)
+        ->values()
+        ->map(function ($game) {
+            unset(
+                $game['_is_declared'],
+                $game['_is_live_declared'],
+                $game['_updated_time'],
+                $game['_game_time']
+            );
+
+            return $game;
+        });
+
+    return response()->json([
+        'success' => true,
+        'date' => $today,
+        'time' => $now->format('H:i:s'),
+        'games' => $finalGames,
+    ]);
+}
 
 }
