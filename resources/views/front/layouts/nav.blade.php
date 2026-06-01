@@ -28,12 +28,12 @@
                         </a>
                     </li>
 
-                    @if (Route::has('login'))
+                    {{-- @if (Route::has('login'))
                         @auth
                             <li>
                                 <a href="{{ url('/dashboard') }}">
-    MY ACCOUNT
-</a>
+                                    MY ACCOUNT
+                                </a>
                             </li>
                         @else
                             <li>
@@ -42,7 +42,23 @@
                                 </a>
                             </li>
                         @endauth
-                    @endif
+                    @endif --}}
+
+                    @if (Route::has('login'))
+    @auth
+        <li>
+            <a href="{{ route('dashboard') }}">
+                MY ACCOUNT
+            </a>
+        </li>
+    @else
+        <li>
+            <a href="{{ route('login') }}">
+                LOGIN
+            </a>
+        </li>
+    @endauth
+@endif
 
                 </ul>
 
