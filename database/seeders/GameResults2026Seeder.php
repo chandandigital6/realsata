@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\ChartYear;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GameResults2026Seeder extends Seeder
 {
@@ -3769,33 +3770,61 @@ class GameResults2026Seeder extends Seeder
 
         $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())->get()->keyBy('slug');
 
-        foreach ($rows as $row) {
-            $game = $games->get($row['slug']);
+        // foreach ($rows as $row) {
+        //     $game = $games->get($row['slug']);
 
-            if (!$game) {
-                continue;
-            }
+        //     if (!$game) {
+        //         continue;
+        //     }
 
-            GameResult::updateOrCreate(
-                [
-                    'game_id' => $game->id,
-                    'result_date' => $row['date'],
-                ],
-                [
-                    'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
-                    'status' => 'declared',
-                ]
-            );
+        //     GameResult::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'result_date' => $row['date'],
+        //         ],
+        //         [
+        //             'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+        //             'status' => 'declared',
+        //         ]
+        //     );
 
-            ChartYear::updateOrCreate(
-                [
-                    'game_id' => $game->id,
-                    'year' => date('Y', strtotime($row['date'])),
-                ],
-                [
-                    'is_active' => true,
-                ]
-            );
-        }
+        //     ChartYear::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'year' => date('Y', strtotime($row['date'])),
+        //         ],
+        //         [
+        //             'is_active' => true,
+        //         ]
+        //     );
+        // }
+
+foreach ($rows as $row) {
+
+    $slug = $row['slug'];
+
+    // Missing game create
+    $game = Game::firstOrCreate(
+        ['slug' => $slug],
+        [
+            'name' => Str::title(str_replace('-', ' ', $slug)),
+            'result_time' => null,
+            'sort_order' => Game::max('sort_order') + 1,
+            'is_active' => true,
+        ]
+    );
+
+    // Result already hai to update, nahi hai to create
+    GameResult::updateOrCreate(
+        [
+            'game_id' => $game->id,
+            'result_date' => $row['date'],
+        ],
+        [
+            'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+        ]
+    );
+}
+
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\ChartYear;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GameResults2024Seeder extends Seeder
 {
@@ -10494,13 +10495,57 @@ class GameResults2024Seeder extends Seeder
             ['slug' => 'shri-ganesh', 'date' => '2024-12-30', 'result' => '69'],
         ];
 
-        $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())->get()->keyBy('slug');
+        // $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())->get()->keyBy('slug');
+
+        // foreach ($rows as $row) {
+        //     $game = $games->get($row['slug']);
+
+        //     if (!$game) {
+        //         continue;
+        //     }
+
+        //     GameResult::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'result_date' => $row['date'],
+        //         ],
+        //         [
+        //             'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+        //             'status' => 'declared',
+        //         ]
+        //     );
+
+        //     ChartYear::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'year' => date('Y', strtotime($row['date'])),
+        //         ],
+        //         [
+        //             'is_active' => true,
+        //         ]
+        //     );
+        // }
+
+
+        $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())
+            ->get()
+            ->keyBy('slug');
 
         foreach ($rows as $row) {
-            $game = $games->get($row['slug']);
+            $slug = $row['slug'];
+
+            $game = $games->get($slug);
 
             if (!$game) {
-                continue;
+                $game = Game::create([
+                    'name' => Str::title(str_replace('-', ' ', $slug)),
+                    'slug' => $slug,
+                    'result_time' => null,
+                    'sort_order' => (Game::max('sort_order') ?? 0) + 1,
+                    'is_active' => true,
+                ]);
+
+                $games->put($slug, $game);
             }
 
             GameResult::updateOrCreate(

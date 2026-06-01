@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\GameResult;
 use App\Models\ChartYear;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class GameResults2025Seeder extends Seeder
 {
@@ -6039,13 +6040,59 @@ class GameResults2025Seeder extends Seeder
             ['slug' => 'shri-ganesh', 'date' => '2025-12-30', 'result' => '31'],
         ];
 
+        // foreach (array_chunk($rows, 500) as $chunk) {
+        //     foreach ($chunk as $row) {
+        //         $game = Game::where('slug', $row['slug'])->first();
+
+        //         if (! $game) {
+        //             continue;
+        //         }
+
+        //         GameResult::updateOrCreate(
+        //             [
+        //                 'game_id' => $game->id,
+        //                 'result_date' => $row['date'],
+        //             ],
+        //             [
+        //                 'result' => filled($row['result']) && strtoupper((string) $row['result']) !== 'NA'
+        //                     ? str_pad((string) $row['result'], 2, '0', STR_PAD_LEFT)
+        //                     : null,
+        //                 'status' => filled($row['result']) && strtoupper((string) $row['result']) !== 'NA' ? 'declared' : 'waiting',
+        //             ]
+        //         );
+
+        //         ChartYear::updateOrCreate(
+        //             [
+        //                 'game_id' => $game->id,
+        //                 'year' => date('Y', strtotime($row['date'])),
+        //             ],
+        //             [
+        //                 'is_active' => true,
+        //             ]
+        //         );
+        //     }
+        // }
+
+
+
         foreach (array_chunk($rows, 500) as $chunk) {
             foreach ($chunk as $row) {
-                $game = Game::where('slug', $row['slug'])->first();
+                $slug = $row['slug'];
 
+                $game = Game::where('slug', $slug)->first();
+
+                // Missing game create
                 if (! $game) {
-                    continue;
+                    $game = Game::create([
+                        'name' => Str::title(str_replace('-', ' ', $slug)),
+                        'slug' => $slug,
+                        'result_time' => null,
+                        'sort_order' => (Game::max('sort_order') ?? 0) + 1,
+                        'is_active' => true,
+                    ]);
                 }
+
+                $isDeclared = filled($row['result']) && strtoupper((string) $row['result']) !== 'NA';
 
                 GameResult::updateOrCreate(
                     [
@@ -6053,10 +6100,10 @@ class GameResults2025Seeder extends Seeder
                         'result_date' => $row['date'],
                     ],
                     [
-                        'result' => filled($row['result']) && strtoupper((string) $row['result']) !== 'NA'
+                        'result' => $isDeclared
                             ? str_pad((string) $row['result'], 2, '0', STR_PAD_LEFT)
                             : null,
-                        'status' => filled($row['result']) && strtoupper((string) $row['result']) !== 'NA' ? 'declared' : 'waiting',
+                        'status' => $isDeclared ? 'declared' : 'waiting',
                     ]
                 );
 

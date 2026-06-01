@@ -6,6 +6,7 @@ use App\Models\Game;
 use App\Models\ChartYear;
 use App\Models\GameResult;
 use Illuminate\Database\Seeder;
+        use Illuminate\Support\Str;
 
 class GameResults2023Seeder extends Seeder
 {
@@ -10091,35 +10092,84 @@ class GameResults2023Seeder extends Seeder
             ['slug' => 'shri-ganesh', 'date' => '2023-12-30', 'result' => '74'],
         ];
 
-        $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())->get()->keyBy('slug');
+        // $games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())->get()->keyBy('slug');
 
-        foreach ($rows as $row) {
-            $game = $games->get($row['slug']);
+        // foreach ($rows as $row) {
+        //     $game = $games->get($row['slug']);
 
-            if (!$game) {
-                continue;
-            }
+        //     if (!$game) {
+        //         continue;
+        //     }
 
-            GameResult::updateOrCreate(
-                [
-                    'game_id' => $game->id,
-                    'result_date' => $row['date'],
-                ],
-                [
-                    'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
-                    'status' => 'declared',
-                ]
-            );
+        //     GameResult::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'result_date' => $row['date'],
+        //         ],
+        //         [
+        //             'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+        //             'status' => 'declared',
+        //         ]
+        //     );
 
-            ChartYear::updateOrCreate(
-                [
-                    'game_id' => $game->id,
-                    'year' => date('Y', strtotime($row['date'])),
-                ],
-                [
-                    'is_active' => true,
-                ]
-            );
-        }
+        //     ChartYear::updateOrCreate(
+        //         [
+        //             'game_id' => $game->id,
+        //             'year' => date('Y', strtotime($row['date'])),
+        //         ],
+        //         [
+        //             'is_active' => true,
+        //         ]
+        //     );
+        // }
+
+
+
+
+
+
+$games = Game::whereIn('slug', collect($rows)->pluck('slug')->unique())
+    ->get()
+    ->keyBy('slug');
+
+foreach ($rows as $row) {
+    $slug = $row['slug'];
+
+    $game = $games->get($slug);
+
+    // Agar game nahi mila to create kar do
+    if (!$game) {
+        $game = Game::create([
+            'name' => Str::title(str_replace('-', ' ', $slug)),
+            'slug' => $slug,
+            'result_time' => null,
+            'sort_order' => (Game::max('sort_order') ?? 0) + 1,
+            'is_active' => true,
+        ]);
+
+        $games->put($slug, $game);
+    }
+
+    GameResult::updateOrCreate(
+        [
+            'game_id' => $game->id,
+            'result_date' => $row['date'],
+        ],
+        [
+            'result' => str_pad($row['result'], 2, '0', STR_PAD_LEFT),
+            'status' => 'declared',
+        ]
+    );
+
+    ChartYear::updateOrCreate(
+        [
+            'game_id' => $game->id,
+            'year' => date('Y', strtotime($row['date'])),
+        ],
+        [
+            'is_active' => true,
+        ]
+    );
+}
     }
 }
