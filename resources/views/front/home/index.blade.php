@@ -297,90 +297,94 @@
     <br>
 
 
-    {{-- today/yesterday table --}}
-    <section class="tablebox1">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead class="forblack">
-                                <tr>
-                                    <th class="col-md-4 text-center">सट्टा का नाम</th>
-                                    <th class="col-md-4 text-center">कल आया था</th>
-                                    <th class="col-md-4 text-center">आज का रिज़ल्ट</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @forelse($games as $game)
-                                    @php
-                                        $yesterdayResult = $yesterdayResults[$game->id] ?? null;
-                                        $todayResult = $todayResults[$game->id] ?? null;
-                                    @endphp
-
-                                    <tr style="height:36px">
-                                        <td class="foryellow">
-                                            <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
-                                                target="_blank" class="gamenameeach">
-                                                {{ strtoupper($game->name) }}
-                                            </a>
-
-                                            <br>
-
-                                            @if (!empty($game->result_time))
-                                                {{-- <span class="time">{{ $game->result_time }}</span> --}}
-                                                <span class="time">
-    {{ \Carbon\Carbon::parse($game->result_time)->format('h:i A') }}
-</span>
-                                            @endif
-
-                                            <br>
-
-                                            <a style="font-size:12px;color:#000000;" target="_blank"
-                                                href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}">
-                                                Record Chart
-                                            </a>
-                                        </td>
-
-                                        <td class="text-center">
-                                            @if ($yesterdayResult && filled($yesterdayResult->result))
-                                                {{ str_pad($yesterdayResult->result, 2, '0', STR_PAD_LEFT) }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-
-                                        <td class="text-center">
-                                            @if ($todayResult && filled($todayResult->result))
-                                                {{ str_pad($todayResult->result, 2, '0', STR_PAD_LEFT) }}
-                                            @else
-                                                <p>
-                                                    <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}">
-                                                    </strong>
-                                                </p>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @empty
+    {{-- today/yesterday table - 17 games per section --}}
+    
+    @foreach ($gameSections as $sectionGames)
+        <section class="tablebox1">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 nopadding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead class="forblack">
                                     <tr>
-                                        <td colspan="3" class="text-center">
-                                            <p class="mt-3">Don't have any data</p>
-                                        </td>
+                                        <th class="col-md-4 text-center">सट्टा का नाम</th>
+                                        <th class="col-md-4 text-center">कल आया था</th>
+                                        <th class="col-md-4 text-center">आज का रिज़ल्ट</th>
                                     </tr>
-                                @endforelse
-                            </tbody>
+                                </thead>
 
-                        </table>
+                                <tbody>
+                                    @forelse($sectionGames as $game)
+                                        @php
+                                            $yesterdayResult = $yesterdayResults[$game->id] ?? null;
+                                            $todayResult = $todayResults[$game->id] ?? null;
+                                        @endphp
+
+                                        <tr style="height:36px">
+                                            <td class="foryellow">
+                                                <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
+                                                    target="_blank" class="gamenameeach">
+                                                    {{ strtoupper($game->name) }}
+                                                </a>
+
+                                                <br>
+
+                                                @if (!empty($game->result_time))
+                                                    <span class="time">
+                                                        {{ \Carbon\Carbon::parse($game->result_time)->format('h:i A') }}
+                                                    </span>
+                                                @endif
+
+                                                <br>
+
+                                                <a style="font-size:12px;color:#000000;" target="_blank"
+                                                    href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}">
+                                                    Record Chart
+                                                </a>
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if ($yesterdayResult && filled($yesterdayResult->result))
+                                                    {{ str_pad($yesterdayResult->result, 2, '0', STR_PAD_LEFT) }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if ($todayResult && filled($todayResult->result))
+                                                    {{ str_pad($todayResult->result, 2, '0', STR_PAD_LEFT) }}
+                                                @else
+                                                    <p>
+                                                        <strong class="waitimg">
+                                                            <img class="lazy" alt="waiting"
+                                                                src="{{ asset('m/d.gif') }}">
+                                                        </strong>
+                                                    </p>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <p class="mt-3">Don't have any data</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endforeach
 
 
     {{-- monthly chart heading --}}
+   
     <section class="octoberresultchart">
         <div class="container">
             <div class="row">
@@ -392,63 +396,66 @@
     </section>
 
 
-    {{-- monthly chart --}}
-    <section class="newtable">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
+    {{-- monthly chart - 17 games per chart section --}}
+   
+    @foreach ($chartGameSections as $sectionChartGames)
+        <section class="newtable">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 nopadding">
+                        <div class="table-responsive">
 
-                        <table class="table table-bordered">
-                            <thead class="p-0">
-                                <tr>
-                                    <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                        <strong class="fon">Date</strong>
-                                    </th>
-
-                                    @foreach ($chartGames as $game)
-                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                            <strong class="fon">{{ strtoupper($game->name) }}</strong>
-                                        </th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-
-                            <tbody class="colorchange">
-                                @foreach ($dates as $date)
-                                    @php
-                                        $dateKey = $date->format('Y-m-d');
-                                        $dayResults = $monthlyResults[$dateKey] ?? collect();
-                                    @endphp
-
+                            <table class="table table-bordered">
+                                <thead class="p-0">
                                     <tr>
-                                        <td class="text-center forfirtcolor">
-                                            {{ $date->format('d') }}
-                                        </td>
+                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
+                                            <strong class="fon">Date</strong>
+                                        </th>
 
-                                        @foreach ($chartGames as $game)
-                                            @php
-                                                $result = $dayResults->firstWhere('game_id', $game->id);
-                                            @endphp
-
-                                            <td class="text-center">
-                                                @if ($result && $result->status === 'declared' && filled($result->result))
-                                                   <b>{{ $result->result }}</b> 
-                                                @else
-                                                    -
-                                                @endif
-                                            </td>
+                                        @foreach ($sectionChartGames as $game)
+                                            <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
+                                                <strong class="fon">{{ strtoupper($game->name) }}</strong>
+                                            </th>
                                         @endforeach
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
 
+                                <tbody class="colorchange">
+                                    @foreach ($dates as $date)
+                                        @php
+                                            $dateKey = $date->format('Y-m-d');
+                                            $dayResults = $monthlyResults[$dateKey] ?? collect();
+                                        @endphp
+
+                                        <tr>
+                                            <td class="text-center forfirtcolor">
+                                                {{ $date->format('d') }}
+                                            </td>
+
+                                            @foreach ($sectionChartGames as $game)
+                                                @php
+                                                    $result = $dayResults->firstWhere('game_id', $game->id);
+                                                @endphp
+
+                                                <td class="text-center">
+                                                    @if ($result && $result->status === 'declared' && filled($result->result))
+                                                        <b>{{ str_pad($result->result, 2, '0', STR_PAD_LEFT) }}</b>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endforeach
 
 
 

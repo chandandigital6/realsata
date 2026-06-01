@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(GameSeeder::class);
         $this->call(GameResults2026Seeder::class);
         $this->call(GameResults2025Seeder::class);
-         $this->call(GameResults2024Seeder::class);
-         $this->call(GameResults2023Seeder::class);
+        //  $this->call(GameResults2024Seeder::class);
+        //  $this->call(GameResults2023Seeder::class);
 
         User::factory()->create([
             'name' => 'Super Admin',
