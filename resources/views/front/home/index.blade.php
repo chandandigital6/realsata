@@ -329,7 +329,10 @@
                                             <br>
 
                                             @if (!empty($game->result_time))
-                                                <span class="time">{{ $game->result_time }}</span>
+                                                {{-- <span class="time">{{ $game->result_time }}</span> --}}
+                                                <span class="time">
+    {{ \Carbon\Carbon::parse($game->result_time)->format('h:i A') }}
+</span>
                                             @endif
 
                                             <br>
