@@ -2,140 +2,149 @@
 
 @section('content')
 
-    {{-- top advertisements --}}
-    @if ($topAdvertisements->count())
-        @foreach ($topAdvertisements as $advertisement)
-            <section class="advertisement">
-                <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
-                    @if (!empty($advertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+<style>
+    .rv-ad-wrap{
+        width:100%;
+        margin:12px auto;
+        font-family:Arial,'Noto Sans Devanagari',sans-serif;
+    }
 
-                    <div style="background:#f2aa00; border:1px solid #000;">
-                        <div
-                            style="background:#efbd3d; border-top:5px dotted #000; border-bottom:5px dotted #000; padding:8px 15px 12px; text-align:center;">
+    .rv-ad-box{
+        background:linear-gradient(180deg,#ffd900 0%,#fff8cf 100%);
+        border:3px dashed #e60000;
+        border-radius:16px;
+        padding:12px 10px;
+        text-align:center;
+        overflow:hidden;
+        box-shadow:0 4px 12px rgba(0,0,0,.10);
+    }
 
-                            @if (!empty($advertisement->content))
-                                <div style="margin:0 0 12px; font-size:15px; color:#000;">
-                                    {!! $advertisement->content !!}
-                                </div>
-                            @endif
+    .rv-ad-box,
+    .rv-ad-box *{
+        color:#111!important;
+        font-size:16px!important;
+        font-weight:700!important;
+        line-height:1.45!important;
+        word-break:break-word;
+    }
 
-                            @if (!empty($advertisement->image))
-                                <span style="display:inline-block; background:#fff; padding:0 8px;">
-                                    <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                        alt="{{ $advertisement->title ?? 'Advertisement' }}"
-                                        style="height:65px; max-width:220px; object-fit:contain;">
-                                </span>
-                            @endif
+    .rv-ad-box h1,
+    .rv-ad-box h2,
+    .rv-ad-box h3,
+    .rv-ad-box h4,
+    .rv-ad-box h5,
+    .rv-ad-box h6,
+    .rv-ad-box p,
+    .rv-ad-box div{
+        margin:4px 0!important;
+        font-size:16px!important;
+    }
 
-                        </div>
-                    </div>
-                </a>
-            </section>
-        @endforeach
-    @endif
+    .rv-ad-img{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        background:#fff;
+        border-radius:999px;
+        padding:5px 12px;
+        margin-top:8px;
+        max-width:100%;
+    }
+
+    .rv-ad-img img{
+        width:auto;
+        height:auto;
+        max-height:55px;
+        max-width:200px;
+        object-fit:contain;
+    }
+
+    .rv-middle{
+        background:linear-gradient(180deg,#111827,#1f2937);
+        border:3px dashed #ffd900;
+    }
+
+    .rv-middle,
+    .rv-middle *{
+        color:#fff!important;
+    }
+
+    .rv-middle .rv-ad-img img{
+        max-height:55px;
+        max-width:200px;
+    }
+
+    @media(max-width:640px){
+        .rv-ad-wrap{
+            margin:10px auto;
+        }
+
+        .rv-ad-box{
+            border-width:3px;
+            border-radius:14px;
+            padding:10px 8px;
+        }
+
+        .rv-ad-box,
+        .rv-ad-box *{
+            font-size:14px!important;
+            line-height:1.4!important;
+            font-weight:700!important;
+        }
+
+        .rv-ad-box h1,
+        .rv-ad-box h2,
+        .rv-ad-box h3,
+        .rv-ad-box h4,
+        .rv-ad-box h5,
+        .rv-ad-box h6,
+        .rv-ad-box p,
+        .rv-ad-box div{
+            font-size:14px!important;
+        }
+
+        .rv-ad-img{
+            padding:4px 10px;
+            margin-top:6px;
+        }
+
+        .rv-ad-img img{
+            max-height:48px;
+            max-width:175px;
+        }
+    }
+</style>
+
+
+
+  {{-- Top Advertisements --}}
+@if ($topAdvertisements->count())
+    @foreach ($topAdvertisements as $advertisement)
+        <section class="rv-ad-wrap">
+            <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
+               @if (!empty($advertisement->link)) target="_blank" @endif
+               style="text-decoration:none;color:inherit;">
+                <div class="rv-ad-box">
+                    @if (!empty($advertisement->content))
+                        <div>{!! $advertisement->content !!}</div>
+                    @endif
+
+                    @if (!empty($advertisement->image))
+                        <span class="rv-ad-img">
+                            <img src="{{ asset('storage/' . $advertisement->image) }}"
+                                 alt="{{ $advertisement->title ?? 'Advertisement' }}">
+                        </span>
+                    @endif
+                </div>
+            </a>
+        </section>
+    @endforeach
+@endif
+
 
 
     {{-- upper live result --}}
 
-
-    {{-- <section class="circlebox">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <div class="liveresult">
-
-                    <div class="datetime">
-                        <div id="clockbox"></div>
-                    </div>
-
-                    <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
-
-                    @php
-                        $now = \Carbon\Carbon::now('Asia/Kolkata');
-
-                        $declaredGames = $games
-                            ->filter(function ($game) use ($todayResults) {
-                                return isset($todayResults[$game->id]) && filled($todayResults[$game->id]->result);
-                            })
-                            ->filter(function ($game) use ($todayResults) {
-                                $result = $todayResults[$game->id] ?? null;
-
-                                if (!$result) {
-                                    return false;
-                                }
-
-                                if ((int) ($result->show_minutes ?? 0) <= 0) {
-                                    return true;
-                                }
-
-                                $expireTime = \Carbon\Carbon::parse($result->updated_at, 'Asia/Kolkata')->addMinutes(
-                                    (int) $result->show_minutes,
-                                );
-
-                                return \Carbon\Carbon::now('Asia/Kolkata')->lessThanOrEqualTo($expireTime);
-                            })
-                            ->sortByDesc(function ($game) use ($todayResults) {
-                                return \Carbon\Carbon::parse(
-                                    $todayResults[$game->id]->updated_at,
-                                    'Asia/Kolkata',
-                                )->timestamp;
-                            });
-
-                        $upcomingGames = $games
-                            ->filter(function ($game) use ($todayResults) {
-                                return !isset($todayResults[$game->id]);
-                            })
-                            ->sortBy(function ($game) use ($now) {
-                                if (empty($game->result_time)) {
-                                    return 9999999999;
-                                }
-
-                                try {
-                                    return \Carbon\Carbon::parse(
-                                        $now->format('Y-m-d') . ' ' . trim($game->result_time),
-                                        'Asia/Kolkata',
-                                    )->timestamp;
-                                } catch (\Exception $e) {
-                                    return 9999999999;
-                                }
-                            });
-
-                        $liveGames = $declaredGames->concat($upcomingGames)->take(4);
-                    @endphp
-
-                    @forelse($liveGames as $game)
-                        @php
-                            $todayResult = $todayResults[$game->id] ?? null;
-                        @endphp
-
-                        <div class="sattaname">
-                            <p>{{ strtoupper($game->name) }}</p>
-                        </div>
-
-                        <div class="sattaresult">
-                            <font>
-                                <span>
-                                    @if ($todayResult && filled($todayResult->result))
-                                        {{ $todayResult->result }}
-                                    @else
-                                        <p>
-                                            <strong class="waitimg">
-                                                <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting">
-                                            </strong>
-                                        </p>
-                                    @endif
-                                </span>
-                            </font>
-                        </div>
-                    @empty
-                        <div class="sattaname">
-                            <p>No Games Found</p>
-                        </div>
-                    @endforelse
-
-                </div>
-            </div>
-        </div>
-    </section> --}}
 
 
     {{-- upper live result --}}
@@ -188,165 +197,105 @@
 </section>
 
 
-    {{-- middle advertisement --}}
 
 
 
-    <section class="sattadividerr">
-        <div class="container">
-            <div class="col-md-12 text-center">
 
-                @if (!empty($middleAdvertisement))
-                    @if (!empty($middleAdvertisement->content))
-                        <h4 class="text-center text-white">
-                            {!! $middleAdvertisement->content !!}
-                        </h4>
+{{-- Middle Advertisement --}}
+<section class="rv-ad-wrap">
+    <div class="rv-ad-box rv-middle">
+        @if (!empty($middleAdvertisement))
+            @if (!empty($middleAdvertisement->content))
+                <div>{!! $middleAdvertisement->content !!}</div>
+            @else
+                <h4>व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।</h4>
+            @endif
+
+            <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
+               @if (!empty($middleAdvertisement->link)) target="_blank" @endif
+               style="text-decoration:none;">
+                <span class="rv-ad-img">
+                    @if (!empty($middleAdvertisement->image))
+                        <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
+                             alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}">
                     @else
-                        <h4 class="text-center text-white">
-                            व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
-                        </h4>
+                        <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp">
                     @endif
+                </span>
+            </a>
+        @else
+            <h4>व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।</h4>
 
-                    <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
-                        @if (!empty($middleAdvertisement->link)) target="_blank" @endif>
-                        <h4 style="color:blue">
-                            @if (!empty($middleAdvertisement->image))
-                                <img src="{{ asset('storage/' . $middleAdvertisement->image) }}" width="180px"
-                                    alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}">
-                            @else
-                                <img src="{{ asset('Join-WhatsApp.png') }}" width="180px" alt="Join WhatsApp">
-                            @endif
-                        </h4>
-                    </a>
-                @else
-                    <h4 class="text-center text-white">
-                        व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
-                    </h4>
+            <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T" style="text-decoration:none;">
+                <span class="rv-ad-img">
+                    <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp">
+                </span>
+            </a>
+        @endif
+    </div>
+</section>
 
-                    <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T">
-                        <h4 style="color:blue">
-                            <img src="{{ asset('Join-WhatsApp.png') }}" width="180px" alt="Join WhatsApp">
-                        </h4>
-                    </a>
+
+{{-- Bottom Advertisement --}}
+@php
+    $hasBottomAd =
+        !empty($bottomAdvertisement) &&
+        (!empty($bottomAdvertisement->content) ||
+            !empty($bottomAdvertisement->image) ||
+            !empty($bottomAdvertisement->link));
+@endphp
+
+@if ($hasBottomAd)
+    <section class="rv-ad-wrap">
+        <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
+           @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
+           style="text-decoration:none;color:inherit;">
+            <div class="rv-ad-box">
+                @if (!empty($bottomAdvertisement->content))
+                    <div>{!! $bottomAdvertisement->content !!}</div>
                 @endif
 
+                @if (!empty($bottomAdvertisement->image))
+                    <span class="rv-ad-img">
+                        <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                             alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
+                    </span>
+                @endif
             </div>
-        </div>
+        </a>
     </section>
+@endif
 
 
-    {{-- bottom advertisement --}}
-    {{-- Bottom Advertisement --}}
-    @php
-        $hasBottomAd =
-            !empty($bottomAdvertisement) &&
-            (!empty($bottomAdvertisement->content) ||
-                !empty($bottomAdvertisement->image) ||
-                !empty($bottomAdvertisement->link));
-    @endphp
+{{-- Sidebar Advertisement --}}
+@php
+    $hasSidebarAd =
+        !empty($sidebarAdvertisement) &&
+        (!empty($sidebarAdvertisement->content) ||
+            !empty($sidebarAdvertisement->image) ||
+            !empty($sidebarAdvertisement->link));
+@endphp
 
-    @if ($hasBottomAd)
-        <style>
-            .bottom-ad-content,
-            .bottom-ad-content * {
-                font-size: 18 !important;
-                line-height: 1.6 !important;
-                font-weight: 600 !important;
-            }
+@if ($hasSidebarAd)
+    <section class="rv-ad-wrap">
+        <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
+           @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif
+           style="text-decoration:none;color:inherit;">
+            <div class="rv-ad-box">
+                @if (!empty($sidebarAdvertisement->content))
+                    <div>{!! $sidebarAdvertisement->content !!}</div>
+                @endif
 
-            .bottom-ad-content img {
-                height: 65px !important;
-                max-width: 240px !important;
-                object-fit: contain !important;
-            }
-
-            @media (max-width: 768px) {
-
-                .bottom-ad-content,
-                .bottom-ad-content * {
-                    font-size: 18px !important;
-                    line-height: 1.5 !important;
-                }
-
-                .bottom-ad-content img {
-                    height: 55px !important;
-                    max-width: 200px !important;
-                }
-            }
-        </style>
-
-        <section class="top-advo">
-            <div class="row p-0">
-                <div class="col-md-12">
-
-                    <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
-                        @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
-                        style="text-decoration:none;color:inherit;">
-
-                        <div class="card top_card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
-
-                            <div class="card-body text-center bottom-ad-content" style="padding:10px 15px 18px;">
-
-                                @if (!empty($bottomAdvertisement->content))
-                                    {!! $bottomAdvertisement->content !!}
-                                @endif
-
-                                @if (!empty($bottomAdvertisement->image))
-                                    <span style="display:inline-block; background:#fff; padding:4px 10px; margin-top:8px;">
-                                        <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                                            alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
-                                    </span>
-                                @endif
-
-                            </div>
-                        </div>
-                    </a>
-
-                </div>
+                @if (!empty($sidebarAdvertisement->image))
+                    <span class="rv-ad-img">
+                        <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
+                             alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}">
+                    </span>
+                @endif
             </div>
-        </section>
-    @endif
-
-
-    {{-- sidebar advertisement --}}
-    @php
-        $hasSidebarAd =
-            !empty($sidebarAdvertisement) &&
-            (!empty($sidebarAdvertisement->content) ||
-                !empty($sidebarAdvertisement->image) ||
-                !empty($sidebarAdvertisement->link));
-    @endphp
-
-    @if ($hasSidebarAd)
-        <section class="contact-advo">
-            <div class="row p-0">
-                <div class="col-md-12">
-                    <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
-                        @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif
-                        style="text-decoration:none;color:inherit;">
-
-                        <div class="card" style="background:#f2aa00; border:5px dotted #000; border-radius:0;">
-                            <div class="card-body text-center" style="padding:12px 15px;">
-
-                                @if (!empty($sidebarAdvertisement->content))
-                                    {!! $sidebarAdvertisement->content !!}
-                                @endif
-
-                                @if (!empty($sidebarAdvertisement->image))
-                                    <span style="display:inline-block; background:#fff; padding:0 8px;">
-                                        <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                                            alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}"
-                                            style="height:50px; max-width:180px; object-fit:contain;">
-                                    </span>
-                                @endif
-
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-    @endif
+        </a>
+    </section>
+@endif
 
 
     <br>
