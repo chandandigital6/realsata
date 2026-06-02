@@ -61,7 +61,7 @@
 
     .rv-middle{
         background:linear-gradient(180deg,#ffd900,#d5e70a);
-        border:3px dashed #ffd900;
+        border:3px dashed #120f01;
     }
 
     .rv-middle,
