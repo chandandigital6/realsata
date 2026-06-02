@@ -11,18 +11,18 @@
             </div>
 
             <a href="{{ route('seo-pages.index') }}"
-               class="rounded-xl border border-neutral-300 px-5 py-3 text-sm font-semibold">
+                class="rounded-xl border border-neutral-300 px-5 py-3 text-sm font-semibold">
                 Back
             </a>
 
         </div>
 
-        <div class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
+        <div
+            class="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
 
-            <form method="POST"
-                  enctype="multipart/form-data"
-                  action="{{ isset($seoPage) ? route('seo-pages.update', $seoPage) : route('seo-pages.store') }}"
-                  class="space-y-6">
+            <form method="POST" enctype="multipart/form-data"
+                action="{{ isset($seoPage) ? route('seo-pages.update', $seoPage) : route('seo-pages.store') }}"
+                class="space-y-6">
 
                 @csrf
 
@@ -33,10 +33,8 @@
                             Page Key
                         </label>
 
-                        <input type="text"
-                               name="page_key"
-                               value="{{ old('page_key', $seoPage->page_key ?? '') }}"
-                               class="w-full rounded-xl border px-4 py-3">
+                        <input type="text" name="page_key" value="{{ old('page_key', $seoPage->page_key ?? '') }}"
+                            class="w-full rounded-xl border px-4 py-3">
                     </div>
 
                     <div>
@@ -44,10 +42,9 @@
                             Meta Title
                         </label>
 
-                        <input type="text"
-                               name="meta_title"
-                               value="{{ old('meta_title', $seoPage->meta_title ?? '') }}"
-                               class="w-full rounded-xl border px-4 py-3">
+                        <input type="text" name="meta_title"
+                            value="{{ old('meta_title', $seoPage->meta_title ?? '') }}"
+                            class="w-full rounded-xl border px-4 py-3">
                     </div>
 
                 </div>
@@ -57,9 +54,7 @@
                         Meta Description
                     </label>
 
-                    <textarea name="meta_description"
-                              rows="4"
-                              class="w-full rounded-xl border px-4 py-3">{{ old('meta_description', $seoPage->meta_description ?? '') }}</textarea>
+                    <textarea name="meta_description" rows="4" class="w-full rounded-xl border px-4 py-3">{{ old('meta_description', $seoPage->meta_description ?? '') }}</textarea>
                 </div>
 
                 <div>
@@ -67,9 +62,7 @@
                         Meta Keywords
                     </label>
 
-                    <textarea name="meta_keywords"
-                              rows="3"
-                              class="w-full rounded-xl border px-4 py-3">{{ old('meta_keywords', $seoPage->meta_keywords ?? '') }}</textarea>
+                    <textarea name="meta_keywords" rows="3" class="w-full rounded-xl border px-4 py-3">{{ old('meta_keywords', $seoPage->meta_keywords ?? '') }}</textarea>
                 </div>
 
                 <div>
@@ -77,10 +70,9 @@
                         Canonical URL
                     </label>
 
-                    <input type="url"
-                           name="canonical_url"
-                           value="{{ old('canonical_url', $seoPage->canonical_url ?? '') }}"
-                           class="w-full rounded-xl border px-4 py-3">
+                    <input type="url" name="canonical_url"
+                        value="{{ old('canonical_url', $seoPage->canonical_url ?? '') }}"
+                        class="w-full rounded-xl border px-4 py-3">
                 </div>
 
                 <div class="grid gap-6 md:grid-cols-2">
@@ -90,10 +82,8 @@
                             OG Title
                         </label>
 
-                        <input type="text"
-                               name="og_title"
-                               value="{{ old('og_title', $seoPage->og_title ?? '') }}"
-                               class="w-full rounded-xl border px-4 py-3">
+                        <input type="text" name="og_title" value="{{ old('og_title', $seoPage->og_title ?? '') }}"
+                            class="w-full rounded-xl border px-4 py-3">
                     </div>
 
                     <div>
@@ -101,15 +91,10 @@
                             OG Image
                         </label>
 
-                        <input type="file"
-                               name="og_image"
-                               class="w-full rounded-xl border px-4 py-3">
+                        <input type="file" name="og_image" class="w-full rounded-xl border px-4 py-3">
 
-                        @if(isset($seoPage) && $seoPage->og_image)
-
-                            <img src="{{ asset('storage/' . $seoPage->og_image) }}"
-                                 class="mt-4 h-24 rounded-xl border">
-
+                        @if (isset($seoPage) && $seoPage->og_image)
+                            <img src="{{ asset('storage/' . $seoPage->og_image) }}" class="mt-4 h-24 rounded-xl border">
                         @endif
                     </div>
 
@@ -120,32 +105,48 @@
                         OG Description
                     </label>
 
-                    <textarea name="og_description"
-                              rows="4"
-                              class="w-full rounded-xl border px-4 py-3">{{ old('og_description', $seoPage->og_description ?? '') }}</textarea>
+                    <textarea name="og_description" rows="4" class="w-full rounded-xl border px-4 py-3">{{ old('og_description', $seoPage->og_description ?? '') }}</textarea>
                 </div>
 
 
 
                 <div>
-    <label class="mb-2 block text-sm font-semibold">
-        Schema Markup JSON-LD
-    </label>
+                    <label class="mb-2 block text-sm font-semibold">
+                        Schema Markup JSON-LD
+                    </label>
 
-    <textarea name="schema_markup"
-              rows="8"
-              placeholder="Paste your schema markup here"
-              class="w-full rounded-xl border px-4 py-3 font-mono text-sm">{{ old('schema_markup', $seoPage->schema_markup ?? '') }}</textarea>
+                    <textarea name="schema_markup" rows="8" placeholder="Paste your schema markup here"
+                        class="w-full rounded-xl border px-4 py-3 font-mono text-sm">{{ old('schema_markup', $seoPage->schema_markup ?? '') }}</textarea>
 
-    <p class="mt-2 text-xs text-neutral-500">
-        Example: JSON-LD schema code yaha paste karein.
-    </p>
-</div>
+                    <p class="mt-2 text-xs text-neutral-500">
+                        Example: JSON-LD schema code yaha paste karein.
+                    </p>
+                </div>
+
+
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Game Optional</label>
+                    <select name="game_id" class="w-full rounded-xl border px-4 py-2">
+                        <option value="">Default SEO</option>
+                        @foreach ($games as $game)
+                            <option value="{{ $game->id }}" @selected(old('game_id', $seoPage->game_id ?? '') == $game->id)>
+                                {{ $game->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold mb-1">Year Optional</label>
+                    <input type="number" name="year" value="{{ old('year', $seoPage->year ?? '') }}"
+                        placeholder="Example: 2026" class="w-full rounded-xl border px-4 py-2">
+                </div>
 
                 <div class="flex justify-end">
 
                     <button type="submit"
-                            class="rounded-xl bg-black px-6 py-3 text-sm font-semibold text-white dark:bg-white dark:text-black">
+                        class="rounded-xl bg-black px-6 py-3 text-sm font-semibold text-white dark:bg-white dark:text-black">
 
                         {{ isset($seoPage) ? 'Update SEO Page' : 'Create SEO Page' }}
 

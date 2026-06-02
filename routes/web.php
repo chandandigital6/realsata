@@ -19,14 +19,14 @@ Route::get('/', [FrontController::class, 'home'])->name('home');
 
 Route::get('/chart', [FrontController::class, 'chart'])->name('chart');
 
-Route::get('/record/{slug}', [FrontController::class, 'gameRecord'])
+Route::get('/records/{slug}', [FrontController::class, 'gameRecord'])
     ->name('game.record');
 
 
 // Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
 //     ->name('game.yearRecord');
 
-    Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
+    Route::get('/records/{slug}/{year}', [FrontController::class, 'yearRecord'])
     ->name('game.year-record');
 
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');

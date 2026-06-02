@@ -6,25 +6,31 @@ use App\Models\SeoPage;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Game;
 
 class SeoPageController extends Controller
 {
     public function index()
     {
-        $seoPages = SeoPage::latest()->paginate(20);
+        $seoPages = SeoPage::with('game')
+            ->latest()
+            ->paginate(20);
 
         return view('seo_page.index', compact('seoPages'));
     }
 
     public function create()
     {
-        return view('seo_page.form');
+        $games = Game::where('is_active', 1)->orderBy('sort_order')->get();
+        return view('seo_page.form', compact('games'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'page_key'          => ['required', 'string', 'max:255', 'unique:seo_pages,page_key'],
+            'page_key'          => ['nullable', 'string', 'max:255', 'unique:seo_pages,page_key'],
+            'game_id'           => ['nullable', 'exists:games,id'],
+            'year'              => ['nullable', 'integer', 'min:2000', 'max:2100'],
             'meta_title'        => ['nullable', 'string', 'max:255'],
             'meta_description'  => ['nullable', 'string'],
             'meta_keywords'     => ['nullable', 'string'],
@@ -33,6 +39,7 @@ class SeoPageController extends Controller
             'og_description'    => ['nullable', 'string'],
             'og_image'          => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
             'schema_markup' => ['nullable', 'string'],
+
         ]);
 
         if ($request->hasFile('og_image')) {
@@ -47,18 +54,21 @@ class SeoPageController extends Controller
 
     public function edit(SeoPage $seoPage)
     {
-        return view('seo_page.form', compact('seoPage'));
+        $games = Game::where('is_active', 1)->orderBy('sort_order')->get();
+        return view('seo_page.form', compact('seoPage', 'games'));
     }
 
     public function update(Request $request, SeoPage $seoPage)
     {
         $data = $request->validate([
             'page_key' => [
-                'required',
+                'nullable',
                 'string',
                 'max:255',
                 Rule::unique('seo_pages', 'page_key')->ignore($seoPage->id),
             ],
+            'game_id'           => ['nullable', 'exists:games,id'],
+            'year'              => ['nullable', 'integer', 'min:2000', 'max:2100'],
             'meta_title'        => ['nullable', 'string', 'max:255'],
             'meta_description'  => ['nullable', 'string'],
             'meta_keywords'     => ['nullable', 'string'],

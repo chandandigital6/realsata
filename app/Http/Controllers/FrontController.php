@@ -331,39 +331,99 @@ public function home()
 
 
 
+    // public function gameRecord(string $slug)
+    // {
+    //     $game = Game::where('slug', $slug)
+    //         ->where('is_active', true)
+    //         ->firstOrFail();
+
+    //     $year = now()->year;
+
+    //     $results = GameResult::where('game_id', $game->id)
+    //         ->whereYear('result_date', $year)
+    //         ->orderBy('result_date')
+    //         ->get();
+
+    //     $seo = SeoPage::where('page_key', 'game-record')->first();
+
+    //     return view('front.game.record', compact('game', 'results', 'year', 'seo'));
+    // }
+
+    // public function yearRecord(string $slug, int $year)
+    // {
+    //     $game = Game::where('slug', $slug)
+    //         ->where('is_active', true)
+    //         ->firstOrFail();
+
+    //     $results = GameResult::where('game_id', $game->id)
+    //         ->whereYear('result_date', $year)
+    //         ->orderBy('result_date')
+    //         ->get();
+
+    //     $seo = SeoPage::where('page_key', 'year-record')->first();
+
+    //     return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
+    // }
+
+
+
+
+
+
+
+
+
     public function gameRecord(string $slug)
-    {
-        $game = Game::where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
+{
+    $game = Game::where('slug', $slug)
+        ->where('is_active', true)
+        ->firstOrFail();
 
-        $year = now()->year;
+    $year = now()->year;
 
-        $results = GameResult::where('game_id', $game->id)
-            ->whereYear('result_date', $year)
-            ->orderBy('result_date')
-            ->get();
+    $results = GameResult::where('game_id', $game->id)
+        ->whereYear('result_date', $year)
+        ->orderBy('result_date')
+        ->get();
 
-        $seo = SeoPage::where('page_key', 'game-record')->first();
+    $seo = SeoPage::where(function ($q) use ($game, $year) {
+        $q->where('game_id', $game->id)
+          ->where('year', $year);
+    })
+    ->orWhere(function ($q) use ($game) {
+        $q->where('game_id', $game->id)
+          ->whereNull('year');
+    })
+    ->orWhere('page_key', 'year-record')
+    ->first();
 
-        return view('front.game.record', compact('game', 'results', 'year', 'seo'));
-    }
+    return view('front.game.record', compact('game', 'results', 'year', 'seo'));
+}
 
-    public function yearRecord(string $slug, int $year)
-    {
-        $game = Game::where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
+public function yearRecord(string $slug, int $year)
+{
+    $game = Game::where('slug', $slug)
+        ->where('is_active', true)
+        ->firstOrFail();
 
-        $results = GameResult::where('game_id', $game->id)
-            ->whereYear('result_date', $year)
-            ->orderBy('result_date')
-            ->get();
+    $results = GameResult::where('game_id', $game->id)
+        ->whereYear('result_date', $year)
+        ->orderBy('result_date')
+        ->get();
 
-        $seo = SeoPage::where('page_key', 'year-record')->first();
+    $seo = SeoPage::where(function ($q) use ($game, $year) {
+        $q->where('game_id', $game->id)
+          ->where('year', $year);
+    })
+    ->orWhere(function ($q) use ($game) {
+        $q->where('game_id', $game->id)
+          ->whereNull('year');
+    })
+    ->orWhere('page_key', 'year-record')
+    ->first();
 
-        return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
-    }
+    return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
+}
 
 
 

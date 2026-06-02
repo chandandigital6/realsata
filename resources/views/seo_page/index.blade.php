@@ -41,14 +41,25 @@
                                 #
                             </th>
 
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase">
-                                Page Key
-                            </th>
+                           <th class="px-6 py-4 text-left text-xs font-semibold uppercase">
+    Page Key
+</th>
 
-                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase">
-                                Meta Title
-                            </th>
+<th class="px-6 py-4 text-left text-xs font-semibold uppercase">
+    Game
+</th>
 
+<th class="px-6 py-4 text-left text-xs font-semibold uppercase">
+    Year
+</th>
+
+<th class="px-6 py-4 text-left text-xs font-semibold uppercase">
+    SEO Type
+</th>
+
+<th class="px-6 py-4 text-left text-xs font-semibold uppercase">
+    Meta Title
+</th>
                             <th class="px-6 py-4 text-right text-xs font-semibold uppercase">
                                 Actions
                             </th>
@@ -68,12 +79,40 @@
                                 </td>
 
                                 <td class="px-6 py-4 font-semibold">
-                                    {{ $seoPage->page_key }}
-                                </td>
+    {{ $seoPage->page_key ?: 'No Page Key' }}
+</td>
 
-                                <td class="px-6 py-4">
-                                    {{ $seoPage->meta_title }}
-                                </td>
+<td class="px-6 py-4">
+    {{ $seoPage->game->name ?? 'All Games / Default' }}
+</td>
+
+<td class="px-6 py-4">
+    {{ $seoPage->year ?? 'All Years' }}
+</td>
+
+<td class="px-6 py-4">
+    @if($seoPage->game_id && $seoPage->year)
+        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+            Game + Year SEO
+        </span>
+    @elseif($seoPage->game_id)
+        <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+            Game SEO
+        </span>
+    @elseif($seoPage->page_key)
+        <span class="rounded-full bg-purple-100 px-3 py-1 text-xs font-semibold text-purple-700">
+            Page Key SEO
+        </span>
+    @else
+        <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-700">
+            Default SEO
+        </span>
+    @endif
+</td>
+
+<td class="px-6 py-4">
+    {{ $seoPage->meta_title ?: '-' }}
+</td>
 
                                 <td class="px-6 py-4 text-right">
 

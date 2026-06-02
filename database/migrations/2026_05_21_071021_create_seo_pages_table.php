@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('seo_pages', function (Blueprint $table) {
            $table->id();
-    $table->string('page_key')->unique();
+    $table->string('page_key')->nullable()->unique();
     $table->string('meta_title')->nullable();
     $table->text('meta_description')->nullable();
     $table->text('meta_keywords')->nullable();
