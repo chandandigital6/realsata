@@ -60,13 +60,13 @@
     }
 
     .rv-middle{
-        background:linear-gradient(180deg,#111827,#1f2937);
+        background:linear-gradient(180deg,#ffd900,#d5e70a);
         border:3px dashed #ffd900;
     }
 
     .rv-middle,
     .rv-middle *{
-        color:#fff!important;
+        color:#000000!important;
     }
 
     .rv-middle .rv-ad-img img{
