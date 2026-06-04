@@ -156,7 +156,7 @@ $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
                             <td class="px-5 py-4">
                                 <input type="number"
                                        name="results[{{ $index }}][show_minutes]"
-                                       value="{{ old("results.$index.show_minutes", $oldResult->show_minutes ?? 15) }}"
+                                       value="{{ old("results.$index.show_minutes", $oldResult->show_minutes ?? $game->default_show_minutes ?? 15) }}"
                                        min="0"
                                        class="w-28 rounded-xl border border-neutral-300 px-4 py-2 dark:border-neutral-700 dark:bg-neutral-800 dark:text-white">
                             </td>
