@@ -8,11 +8,58 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\User;
 class GameResultController extends Controller
 {
 
 
+
+public function todayUpdateSaveNew(Request $request)
+{
+    $data = $request->validate([
+        'result_date' => ['required', 'date'],
+        'results' => ['array'],
+        'results.*.game_id' => ['required', 'exists:games,id'],
+        'results.*.result' => ['nullable', 'string', 'max:10'],
+        'results.*.status' => ['nullable', Rule::in(['waiting', 'declared'])],
+        'results.*.show_minutes' => ['nullable', 'integer', 'min:0'],
+    ]);
+
+    $assignedGameIds = auth()->user()
+        ->games()
+        ->pluck('games.id')
+        ->toArray();
+
+    DB::transaction(function () use ($data, $assignedGameIds) {
+        foreach ($data['results'] ?? [] as $row) {
+
+            if (! in_array((int) $row['game_id'], $assignedGameIds, true)) {
+                abort(403, 'You are not allowed to update this game result.');
+            }
+
+            $result = trim($row['result'] ?? '');
+            $status = $row['status'] ?? 'waiting';
+
+            if ($result !== '') {
+                $status = 'declared';
+            }
+
+            GameResult::updateOrCreate(
+                [
+                    'game_id' => $row['game_id'],
+                    'result_date' => Carbon::parse($data['result_date'])->format('Y-m-d'),
+                ],
+                [
+                    'result' => $result,
+                    'status' => $status,
+                    'show_minutes' => $row['show_minutes'] ?? 15,
+                ]
+            );
+        }
+    });
+
+    return back()->with('success', 'Today results updated successfully.');
+}
 
 
 public function todayUpdate(Request $request)
@@ -67,6 +114,9 @@ public function todayUpdateSave(Request $request)
 
     return back()->with('success', 'Today results updated successfully.');
 }
+
+
+
 
 
     public function index()

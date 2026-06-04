@@ -26,7 +26,7 @@ Route::get('/records/{slug}', [FrontController::class, 'gameRecord'])
 // Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
 //     ->name('game.yearRecord');
 
-    Route::get('/records/{slug}/{year}', [FrontController::class, 'yearRecord'])
+Route::get('/records/{slug}/{year}', [FrontController::class, 'yearRecord'])
     ->name('game.year-record');
 
 Route::get('/contact-us', [FrontController::class, 'contactUs'])->name('contact-us');
@@ -77,6 +77,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('games/update/{game}', [GameController::class, 'update'])->name('games.update');
     Route::get('games/delete/{game}', [GameController::class, 'destroy'])->name('games.delete');
 
+   Route::get('games/assign-users', [GameController::class, 'assignUsers'])
+    ->name('games.assign-users');
+
+Route::post('games/assign-users', [GameController::class, 'saveAssignUsers'])
+    ->name('games.assign-users.save');
+
     //game result
 
     Route::get('game-results/index', [GameResultController::class, 'index'])->name('game-results.index');
@@ -90,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
         ->name('game-results.today-update');
     Route::post('/game-results/today-update', [GameResultController::class, 'todayUpdateSave'])
         ->name('game-results.today-update.save');
+
+          Route::post('/game-results/today-update-new', [GameResultController::class, 'todayUpdateSaveNew'])
+        ->name('game-results.today-update-new.save');
 
     //contet block
     Route::get('content-blocks/index', [ContentBlockController::class, 'index'])->name('content-blocks.index');

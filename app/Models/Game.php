@@ -15,6 +15,12 @@ class Game extends Model
     ];
 
 
+
+    public function users()
+{
+    return $this->belongsToMany(\App\Models\User::class, 'game_user');
+}
+
     public function results()
     {
         return $this->hasMany(GameResult::class);

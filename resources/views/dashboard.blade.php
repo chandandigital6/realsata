@@ -22,16 +22,28 @@
             ->take(10)
             ->get();
 
-        $games = \App\Models\Game::with('todayResult')
-            ->where('is_active', true)
-            ->orderBy('sort_order')
-            ->get();
+        // $games = \App\Models\Game::with('todayResult')
+        //     ->where('is_active', true)
+        //     ->orderBy('sort_order')
+        //     ->get();
+
+        $games = auth()->user()
+    ->games()
+    ->with('todayResult')
+    ->where('is_active', true)
+    ->orderBy('sort_order')
+    ->get();
 
 
 
             $date = request('date', now('Asia/Kolkata')->format('Y-m-d'));
 
+// $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
+//     ->get()
+//     ->keyBy('game_id');
+
 $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
+    ->whereIn('game_id', $games->pluck('id'))
     ->get()
     ->keyBy('game_id');
     @endphp
@@ -74,7 +86,7 @@ $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
         </div>
     @endif
 
-    <form method="POST" action="{{ route('game-results.today-update.save') }}">
+    <form method="POST" action="{{ route('game-results.today-update-new.save') }}">
         @csrf
 
         <input type="hidden" name="result_date" value="{{ $date }}">
