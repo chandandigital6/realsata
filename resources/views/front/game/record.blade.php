@@ -58,6 +58,25 @@
                     </table>
                 </div>
 
+
+                @if(isset($contentBlocks) && $contentBlocks->count())
+    <div class="mt-6 space-y-4">
+        @foreach($contentBlocks as $block)
+            <div class="bg-white rounded-lg shadow p-4">
+                @if($block->title)
+                    <h2 class="text-xl font-bold mb-2">
+                        {{ $block->title }}
+                    </h2>
+                @endif
+
+                <div class="prose max-w-none">
+                    {!! $block->content !!}
+                </div>
+            </div>
+        @endforeach
+    </div>
+@endif
+
                 <div class="text-center" style="margin:15px 0;">
                     <a href="{{ route('chart') }}" class="btn btn-primary">
                         Back To Chart

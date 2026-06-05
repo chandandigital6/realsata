@@ -6,6 +6,7 @@ use App\Models\ContentBlock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use App\Models\Game;
 
 class ContentBlockController extends Controller
 {
@@ -16,10 +17,12 @@ class ContentBlockController extends Controller
         return view('content_block.index', compact('contentBlocks'));
     }
 
-    public function create()
-    {
-        return view('content_block.form');
-    }
+   public function create()
+{
+    $games = Game::where('is_active', true)->orderBy('name')->get();
+
+    return view('content_block.form', compact('games'));
+}
 
     public function store(Request $request)
     {
@@ -28,10 +31,12 @@ class ContentBlockController extends Controller
             'title'     => ['nullable', 'string', 'max:255'],
             'content'   => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
+            'game_id' => ['nullable', 'exists:games,id'],
         ]);
 
         $data['key'] = $data['key'] ?: Str::slug($data['title'] ?? 'content-block') . '-' . time();
         $data['is_active'] = $request->boolean('is_active');
+        
 
         ContentBlock::create($data);
 
@@ -39,10 +44,12 @@ class ContentBlockController extends Controller
             ->with('success', 'Content block created successfully.');
     }
 
-    public function edit(ContentBlock $contentBlock)
-    {
-        return view('content_block.form', compact('contentBlock'));
-    }
+   public function edit(ContentBlock $contentBlock)
+{
+    $games = Game::where('is_active', true)->orderBy('name')->get();
+
+    return view('content_block.form', compact('contentBlock', 'games'));
+}
 
     public function update(Request $request, ContentBlock $contentBlock)
     {
@@ -56,6 +63,7 @@ class ContentBlockController extends Controller
             'title'     => ['nullable', 'string', 'max:255'],
             'content'   => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
+            'game_id' => ['nullable', 'exists:games,id'],
         ]);
 
         $data['key'] = $data['key'] ?: Str::slug($data['title'] ?? 'content-block') . '-' . $contentBlock->id;

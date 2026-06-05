@@ -8,6 +8,7 @@ use App\Models\GameResult;
 use App\Models\Advertisement;
 use App\Models\SeoPage;
 use Carbon\CarbonPeriod;
+use App\Models\ContentBlock;
 
 
 class FrontController extends Controller
@@ -331,47 +332,6 @@ public function home()
 
 
 
-    // public function gameRecord(string $slug)
-    // {
-    //     $game = Game::where('slug', $slug)
-    //         ->where('is_active', true)
-    //         ->firstOrFail();
-
-    //     $year = now()->year;
-
-    //     $results = GameResult::where('game_id', $game->id)
-    //         ->whereYear('result_date', $year)
-    //         ->orderBy('result_date')
-    //         ->get();
-
-    //     $seo = SeoPage::where('page_key', 'game-record')->first();
-
-    //     return view('front.game.record', compact('game', 'results', 'year', 'seo'));
-    // }
-
-    // public function yearRecord(string $slug, int $year)
-    // {
-    //     $game = Game::where('slug', $slug)
-    //         ->where('is_active', true)
-    //         ->firstOrFail();
-
-    //     $results = GameResult::where('game_id', $game->id)
-    //         ->whereYear('result_date', $year)
-    //         ->orderBy('result_date')
-    //         ->get();
-
-    //     $seo = SeoPage::where('page_key', 'year-record')->first();
-
-    //     return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
-    // }
-
-
-
-
-
-
-
-
 
     public function gameRecord(string $slug)
 {
@@ -397,7 +357,11 @@ public function home()
     ->orWhere('page_key', 'year-record')
     ->first();
 
-    return view('front.game.record', compact('game', 'results', 'year', 'seo'));
+    $contentBlocks = ContentBlock::where('game_id', $game->id)
+    ->where('is_active', true)
+    ->orderBy('id')
+    ->get();
+    return view('front.game.record', compact('game', 'results', 'year', 'seo','contentBlocks'));
 }
 
 public function yearRecord(string $slug, int $year)
@@ -422,7 +386,13 @@ public function yearRecord(string $slug, int $year)
     ->orWhere('page_key', 'year-record')
     ->first();
 
-    return view('front.game.year_record', compact('game', 'results', 'year', 'seo'));
+   $contentBlocks = ContentBlock::where('game_id', $game->id)
+    ->where('is_active', true)
+    ->orderBy('id')
+    ->get();
+
+return view('front.game.year_record', compact('game', 'results', 'year', 'seo', 'contentBlocks'));
+
 }
 
 

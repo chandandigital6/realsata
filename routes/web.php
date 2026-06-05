@@ -23,9 +23,6 @@ Route::get('/records/{slug}', [FrontController::class, 'gameRecord'])
     ->name('game.record');
 
 
-// Route::get('/record/{slug}/{year}', [FrontController::class, 'yearRecord'])
-//     ->name('game.yearRecord');
-
 Route::get('/records/{slug}/{year}', [FrontController::class, 'yearRecord'])
     ->name('game.year-record');
 

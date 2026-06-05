@@ -11,4 +11,10 @@ class ContentBlock extends Model
      protected $casts = [
         'is_active' => 'boolean',
     ];
+
+
+    public function game()
+{
+    return $this->belongsTo(Game::class);
+}
 }
