@@ -320,7 +320,8 @@
                                 @forelse($sectionGames as $game)
                                     @php
                                         $yesterdayResult = $yesterdayResults[$game->id] ?? null;
-                                        $todayResult = $todayResults[$game->id] ?? null;
+                                        // $todayResult = $todayResults[$game->id] ?? null;
+                                        $todayResult = $todayTableResults[$game->id] ?? null;
                                     @endphp
 
                                     <tr style="height:36px">

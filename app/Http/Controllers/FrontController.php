@@ -152,9 +152,9 @@ public function home()
 {
     $timezone = 'Asia/Kolkata';
 
-    $today = now($timezone)->toDateString();
-    $yesterday = now($timezone)->subDay()->toDateString();
     $now = now($timezone);
+    $today = $now->toDateString();
+    $yesterday = $now->copy()->subDay()->toDateString();
 
     $games = Game::where('is_active', true)
         ->orderBy('sort_order')
@@ -166,12 +166,27 @@ public function home()
 
     /*
     |--------------------------------------------------------------------------
-    | Today Results
+    | Today Table Results
     |--------------------------------------------------------------------------
-    | Important:
-    | Yaha sirf today ka result nahi la rahe.
-    | Yesterday + Today dono la rahe hain, taki late night result
-    | midnight ke baad bhi show_minutes ke hisab se visible rahe.
+    | Ye table ke "आज का रिज़ल्ट" column ke liye hai.
+    | Isme sirf aaj ka actual result aayega.
+    | Is par show_minutes ka filter nahi lagega.
+    */
+    $todayTableResults = GameResult::whereDate('result_date', $today)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Live Results
+    |--------------------------------------------------------------------------
+    | Ye upper live result box ke liye hai.
+    | Isme yesterday + today result aayega.
+    | Late night result midnight ke baad bhi show_minutes tak show hoga.
     */
     $todayResults = GameResult::whereBetween('result_date', [
             $yesterday,
@@ -185,13 +200,12 @@ public function home()
         ->filter(function ($result) use ($timezone) {
             $showMinutes = (int) ($result->show_minutes ?? 0);
 
-            // Agar show_minutes 0 hai to result normal show hoga
             if ($showMinutes <= 0) {
                 return true;
             }
 
-            $expireTime = \Carbon\Carbon::parse($result->updated_at, $timezone)
-                ->addMinutes($showMinutes);
+            $updatedAt = \Carbon\Carbon::parse($result->updated_at, $timezone);
+            $expireTime = $updatedAt->copy()->addMinutes($showMinutes);
 
             return now($timezone)->lessThanOrEqualTo($expireTime);
         })
@@ -202,8 +216,7 @@ public function home()
     |--------------------------------------------------------------------------
     | Yesterday Results
     |--------------------------------------------------------------------------
-    | Table/list me kal ka result dikhane ke liye.
-    | Isko normal yesterday date se hi rakha hai.
+    | Ye table ke "कल आया था" column ke liye hai.
     */
     $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
         ->where('status', 'declared')
@@ -215,9 +228,9 @@ public function home()
 
     /*
     |--------------------------------------------------------------------------
-    | Declared Games
+    | Declared Live Games
     |--------------------------------------------------------------------------
-    | Jo games ke result declare ho chuke hain, unko top par dikhana.
+    | Jo live result currently show_minutes ke andar hai, wo top par.
     */
     $declaredGames = $games
         ->filter(function ($game) use ($todayResults) {
@@ -235,11 +248,10 @@ public function home()
     |--------------------------------------------------------------------------
     | Upcoming Games
     |--------------------------------------------------------------------------
-    | Sirf current time ke baad wale games.
+    | Jinka result visible nahi hai aur time abhi aana baaki hai.
     */
     $upcomingGames = $games
         ->filter(function ($game) use ($todayResults, $now, $timezone) {
-            // Jiska result already visible hai, usko upcoming me mat dikhana
             if (isset($todayResults[$game->id])) {
                 return false;
             }
@@ -255,7 +267,7 @@ public function home()
                 );
 
                 return $gameTime->greaterThanOrEqualTo($now);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 return false;
             }
         })
@@ -323,13 +335,13 @@ public function home()
         'bottomAdvertisement',
         'sidebarAdvertisement',
         'todayResults',
+        'todayTableResults',
         'yesterdayResults',
         'today',
         'yesterday',
         'liveGames'
     ));
 }
-
 
 
     public function chart()
