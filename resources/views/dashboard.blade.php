@@ -49,6 +49,11 @@ $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
     @endphp
 
 
+<a href="{{ url('/') }}"
+   class="rounded-lg bg-green-600 px-6 py-3 text-white font-bold shadow-lg transition-all duration-300 hover:bg-green-700 hover:-translate-y-1">
+    🏠 Go to Home
+</a>
+
 
 
     @can('update game dashboard')
