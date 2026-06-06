@@ -143,7 +143,6 @@
 
 
 
-    {{-- upper live result --}}
 
 
 

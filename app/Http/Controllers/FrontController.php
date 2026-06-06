@@ -15,174 +15,9 @@ class FrontController extends Controller
 {
 
 
-   public function homeold()
-{
-    $today = now('Asia/Kolkata')->toDateString();
-    $yesterday = now('Asia/Kolkata')->subDay()->toDateString();
-
-    $games = Game::where('is_active', true)
-        ->orderBy('sort_order')
-        ->get();
-
-    $chartGames = $games;
-
-    $todayResults = GameResult::whereDate('result_date', $today)
-        ->where('status', 'declared')
-        ->whereNotNull('result')
-        ->where('result', '!=', '')
-        ->latest('updated_at')
-        ->get()
-        ->keyBy('game_id');
-
-    $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
-        ->where('status', 'declared')
-        ->whereNotNull('result')
-        ->where('result', '!=', '')
-        ->latest('updated_at')
-        ->get()
-        ->keyBy('game_id');
-
-    $startDate = now('Asia/Kolkata')->startOfMonth();
-    $endDate = now('Asia/Kolkata')->endOfMonth();
-
-    $dates = CarbonPeriod::create($startDate, $endDate);
-
-    $monthlyResults = GameResult::whereBetween('result_date', [
-            $startDate->format('Y-m-d'),
-            $endDate->format('Y-m-d'),
-        ])
-        ->where('status', 'declared')
-        ->get()
-        ->groupBy(function ($result) {
-            return \Carbon\Carbon::parse($result->result_date)->format('Y-m-d');
-        });
-
-    $seo = SeoPage::where('page_key', 'home')->first();
-
-    $advertisements = Advertisement::where('is_active', true)
-        ->where('position', 'top')
-        ->latest()
-        ->get();
-
-    $topAdvertisements = $advertisements;
-
-    $middleAdvertisement = Advertisement::where('is_active', true)->where('position', 'middle')->latest()->first();
-    $bottomAdvertisement = Advertisement::where('is_active', true)->where('position', 'bottom')->latest()->first();
-    $sidebarAdvertisement = Advertisement::where('is_active', true)->where('position', 'sidebar')->latest()->first();
-
-    return view('front.home.index', compact(
-        'games',
-        'chartGames',
-        'dates',
-        'monthlyResults',
-        'seo',
-        'advertisements',
-        'topAdvertisements',
-        'middleAdvertisement',
-        'bottomAdvertisement',
-        'sidebarAdvertisement',
-        'todayResults',
-        'yesterdayResults',
-        'today',
-        'yesterday'
-    ));
-}
 
 
-public function home2nd()
-{
-    $today = now('Asia/Kolkata')->toDateString();
-    $yesterday = now('Asia/Kolkata')->subDay()->toDateString();
-
-    $games = Game::where('is_active', true)
-        ->orderBy('sort_order')
-        ->get();
-
-    // 17-17 games ke section banenge
-    $gameSections = $games->chunk(18);
-    $chartGameSections = $games->chunk(18);
-
-    $chartGames = $games;
-
-    $todayResults = GameResult::whereDate('result_date', $today)
-        ->where('status', 'declared')
-        ->whereNotNull('result')
-        ->where('result', '!=', '')
-        ->latest('updated_at')
-        ->get()
-        ->keyBy('game_id');
-
-    $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
-        ->where('status', 'declared')
-        ->whereNotNull('result')
-        ->where('result', '!=', '')
-        ->latest('updated_at')
-        ->get()
-        ->keyBy('game_id');
-
-    $startDate = now('Asia/Kolkata')->startOfMonth();
-    $endDate = now('Asia/Kolkata')->endOfMonth();
-
-    $dates = CarbonPeriod::create($startDate, $endDate);
-
-    $monthlyResults = GameResult::whereBetween('result_date', [
-            $startDate->format('Y-m-d'),
-            $endDate->format('Y-m-d'),
-        ])
-        ->where('status', 'declared')
-        ->get()
-        ->groupBy(function ($result) {
-            return \Carbon\Carbon::parse($result->result_date)->format('Y-m-d');
-        });
-
-    $seo = SeoPage::where('page_key', 'home')->first();
-
-    $advertisements = Advertisement::where('is_active', true)
-        ->where('position', 'top')
-        ->latest()
-        ->get();
-
-    $topAdvertisements = $advertisements;
-
-    $middleAdvertisement = Advertisement::where('is_active', true)
-        ->where('position', 'middle')
-        ->latest()
-        ->first();
-
-    $bottomAdvertisement = Advertisement::where('is_active', true)
-        ->where('position', 'bottom')
-        ->latest()
-        ->first();
-
-    $sidebarAdvertisement = Advertisement::where('is_active', true)
-        ->where('position', 'sidebar')
-        ->latest()
-        ->first();
-
-    return view('front.home.index', compact(
-        'games',
-        'gameSections',
-        'chartGames',
-        'chartGameSections',
-        'dates',
-        'monthlyResults',
-        'seo',
-        'advertisements',
-        'topAdvertisements',
-        'middleAdvertisement',
-        'bottomAdvertisement',
-        'sidebarAdvertisement',
-        'todayResults',
-        'yesterdayResults',
-        'today',
-        'yesterday'
-    ));
-}
-
-
-
-
-public function home()
+public function homeWorking()
 {
     $today = now('Asia/Kolkata')->toDateString();
     $yesterday = now('Asia/Kolkata')->subDay()->toDateString();
@@ -309,6 +144,192 @@ public function home()
         'liveGames'
     ));
 }
+
+
+
+
+public function home()
+{
+    $timezone = 'Asia/Kolkata';
+
+    $today = now($timezone)->toDateString();
+    $yesterday = now($timezone)->subDay()->toDateString();
+    $now = now($timezone);
+
+    $games = Game::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    // 17 games per section
+    $gameSections = $games->chunk(17);
+    $chartGameSections = $games->chunk(17);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Today Results
+    |--------------------------------------------------------------------------
+    | Important:
+    | Yaha sirf today ka result nahi la rahe.
+    | Yesterday + Today dono la rahe hain, taki late night result
+    | midnight ke baad bhi show_minutes ke hisab se visible rahe.
+    */
+    $todayResults = GameResult::whereBetween('result_date', [
+            $yesterday,
+            $today,
+        ])
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->filter(function ($result) use ($timezone) {
+            $showMinutes = (int) ($result->show_minutes ?? 0);
+
+            // Agar show_minutes 0 hai to result normal show hoga
+            if ($showMinutes <= 0) {
+                return true;
+            }
+
+            $expireTime = \Carbon\Carbon::parse($result->updated_at, $timezone)
+                ->addMinutes($showMinutes);
+
+            return now($timezone)->lessThanOrEqualTo($expireTime);
+        })
+        ->unique('game_id')
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Yesterday Results
+    |--------------------------------------------------------------------------
+    | Table/list me kal ka result dikhane ke liye.
+    | Isko normal yesterday date se hi rakha hai.
+    */
+    $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Declared Games
+    |--------------------------------------------------------------------------
+    | Jo games ke result declare ho chuke hain, unko top par dikhana.
+    */
+    $declaredGames = $games
+        ->filter(function ($game) use ($todayResults) {
+            return isset($todayResults[$game->id])
+                && filled($todayResults[$game->id]->result);
+        })
+        ->sortByDesc(function ($game) use ($todayResults, $timezone) {
+            return \Carbon\Carbon::parse(
+                $todayResults[$game->id]->updated_at,
+                $timezone
+            )->timestamp;
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upcoming Games
+    |--------------------------------------------------------------------------
+    | Sirf current time ke baad wale games.
+    */
+    $upcomingGames = $games
+        ->filter(function ($game) use ($todayResults, $now, $timezone) {
+            // Jiska result already visible hai, usko upcoming me mat dikhana
+            if (isset($todayResults[$game->id])) {
+                return false;
+            }
+
+            if (empty($game->result_time)) {
+                return false;
+            }
+
+            try {
+                $gameTime = \Carbon\Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                return $gameTime->greaterThanOrEqualTo($now);
+            } catch (\Exception $e) {
+                return false;
+            }
+        })
+        ->sortBy(function ($game) use ($now, $timezone) {
+            return \Carbon\Carbon::parse(
+                $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                $timezone
+            )->timestamp;
+        });
+
+    $liveGames = $declaredGames
+        ->concat($upcomingGames)
+        ->take(4);
+
+    $startDate = now($timezone)->startOfMonth();
+    $endDate = now($timezone)->endOfMonth();
+
+    $dates = CarbonPeriod::create($startDate, $endDate);
+
+    $monthlyResults = GameResult::whereBetween('result_date', [
+            $startDate->format('Y-m-d'),
+            $endDate->format('Y-m-d'),
+        ])
+        ->where('status', 'declared')
+        ->get()
+        ->groupBy(function ($result) use ($timezone) {
+            return \Carbon\Carbon::parse($result->result_date, $timezone)
+                ->format('Y-m-d');
+        });
+
+    $seo = SeoPage::where('page_key', 'home')->first();
+
+    $advertisements = Advertisement::where('is_active', true)
+        ->where('position', 'top')
+        ->latest()
+        ->get();
+
+    $topAdvertisements = $advertisements;
+
+    $middleAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'middle')
+        ->latest()
+        ->first();
+
+    $bottomAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'bottom')
+        ->latest()
+        ->first();
+
+    $sidebarAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'sidebar')
+        ->latest()
+        ->first();
+
+    return view('front.home.index', compact(
+        'games',
+        'gameSections',
+        'chartGameSections',
+        'dates',
+        'monthlyResults',
+        'seo',
+        'advertisements',
+        'topAdvertisements',
+        'middleAdvertisement',
+        'bottomAdvertisement',
+        'sidebarAdvertisement',
+        'todayResults',
+        'yesterdayResults',
+        'today',
+        'yesterday',
+        'liveGames'
+    ));
+}
+
 
 
     public function chart()

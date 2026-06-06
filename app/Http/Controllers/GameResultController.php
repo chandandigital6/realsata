@@ -68,6 +68,7 @@ public function todayUpdateSaveNew(Request $request)
     return back()->with('success', 'Today results updated successfully.');
 }
 
+
 // public function todayUpdateSaveNew(Request $request)
 // {
 //     $data = $request->validate([
@@ -114,6 +115,7 @@ public function todayUpdateSaveNew(Request $request)
 
 //     return back()->with('success', 'Today results updated successfully.');
 // }
+
 
 
 public function todayUpdate(Request $request)
@@ -181,6 +183,7 @@ public function todayUpdateSave(Request $request)
 
         return view('game_result.index', compact('results'));
     }
+
 
     public function create()
     {
@@ -251,4 +254,5 @@ public function todayUpdateSave(Request $request)
         return redirect()->route('game-results.index')
             ->with('success', 'Game result deleted successfully.');
     }
+    
 }
