@@ -427,7 +427,7 @@ public function homeLiveResultsWOrking(Request $request)
 
 
 
-public function homeLiveResults(Request $request)
+public function homeLiveResults333(Request $request)
 {
     $timezone = 'Asia/Kolkata';
 
@@ -536,6 +536,160 @@ public function homeLiveResults(Request $request)
             unset(
                 $game['_is_declared'],
                 $game['_is_live_declared'],
+                $game['_updated_time'],
+                $game['_game_time']
+            );
+
+            return $game;
+        });
+
+    return response()->json([
+        'success' => true,
+        'date' => $today,
+        'time' => $now->format('H:i:s'),
+        'games' => $finalGames,
+    ]);
+}
+
+
+
+
+
+public function homeLiveResults(Request $request)
+{
+    $timezone = 'Asia/Kolkata';
+
+    $now = Carbon::now($timezone);
+    $today = $now->format('Y-m-d');
+    $yesterday = $now->copy()->subDay()->format('Y-m-d');
+
+    $limit = max(1, min((int) $request->get('limit', 4), 20));
+
+    $games = Game::with([
+            'results' => function ($q) use ($today, $yesterday) {
+                $q->whereBetween('result_date', [$yesterday, $today])
+                    ->where('status', 'declared')
+                    ->whereNotNull('result')
+                    ->where('result', '!=', '')
+                    ->latest('updated_at');
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) use ($now, $timezone) {
+
+        $todayResult = $game->results->first();
+
+        $isDeclared = $todayResult
+            && $todayResult->status === 'declared'
+            && filled($todayResult->result);
+
+        $showMinutes = $todayResult && filled($todayResult->show_minutes)
+            ? (int) $todayResult->show_minutes
+            : 10;
+
+        $updatedAt = $todayResult?->updated_at
+            ? Carbon::parse($todayResult->updated_at)->timezone($timezone)
+            : null;
+
+        $isLive = false;
+
+        if ($isDeclared) {
+            if ($showMinutes <= 0) {
+                $isLive = true;
+            } elseif ($updatedAt) {
+                $isLive = $now->lessThanOrEqualTo(
+                    $updatedAt->copy()->addMinutes($showMinutes)
+                );
+            }
+        }
+
+        $gameDateTime = null;
+        $waitStartTime = null;
+        $isUpcomingWait = false;
+
+        if (filled($game->result_time)) {
+            try {
+                $gameDateTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                $waitStartTime = $gameDateTime->copy()->subMinutes(5);
+
+                // Result time se sirf 5 minute pehle WAIT show hoga
+                $isUpcomingWait = !$isLive
+                    && $now->betweenIncluded($waitStartTime, $gameDateTime);
+
+            } catch (\Throwable $e) {
+                $gameDateTime = null;
+                $waitStartTime = null;
+                $isUpcomingWait = false;
+            }
+        }
+
+        return [
+            'id' => $game->id,
+            'name' => $game->name,
+            'slug' => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order' => $game->sort_order,
+
+            '_is_declared' => $isDeclared,
+            '_is_live_declared' => $isLive,
+            '_is_upcoming_wait' => $isUpcomingWait,
+            '_updated_time' => $updatedAt?->timestamp,
+            '_game_time' => $gameDateTime?->timestamp,
+
+            'result' => [
+                'id' => $todayResult?->id,
+                'result_date' => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date, $timezone)->format('Y-m-d')
+                    : null,
+
+                'result' => $isLive && $todayResult ? $todayResult->result : null,
+                'status' => $isLive ? 'declared' : 'waiting',
+                'show_minutes' => $showMinutes,
+                'updated_at' => $updatedAt?->format('Y-m-d H:i:s'),
+                'is_live' => $isLive,
+            ],
+        ];
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Declared Games
+    |--------------------------------------------------------------------------
+    | Result aaye to top me dikhega, show_minutes tak.
+    */
+    $declaredGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === true)
+        ->sortByDesc('_updated_time')
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Upcoming Wait Games
+    |--------------------------------------------------------------------------
+    | Sirf result_time se 5 minute pehle WAIT show hoga.
+    */
+    $upcomingGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === false)
+        ->filter(fn ($game) => $game['_is_upcoming_wait'] === true)
+        ->sortBy('_game_time')
+        ->values();
+
+    $finalGames = $declaredGames
+        ->concat($upcomingGames)
+        ->take($limit)
+        ->values()
+        ->map(function ($game) {
+            unset(
+                $game['_is_declared'],
+                $game['_is_live_declared'],
+                $game['_is_upcoming_wait'],
                 $game['_updated_time'],
                 $game['_game_time']
             );
