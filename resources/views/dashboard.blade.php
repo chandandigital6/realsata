@@ -375,7 +375,7 @@ $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
         </div>
 
         {{-- Latest Results Table --}}
-        <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
+        {{-- <div class="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-700 dark:bg-neutral-900">
 
             <div class="border-b border-neutral-200 px-6 py-4 dark:border-neutral-700">
 
@@ -473,7 +473,7 @@ $existingResults = \App\Models\GameResult::whereDate('result_date', $date)
 
             </div>
 
-        </div>
+        </div> --}}
 
     </div>
     @endcan
