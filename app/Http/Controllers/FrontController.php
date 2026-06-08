@@ -345,7 +345,7 @@ public function home222()
 
 
 
-public function home()
+public function home33333()
 {
     $timezone = 'Asia/Kolkata';
 
@@ -544,6 +544,200 @@ public function home()
 
 
 
+
+
+public function home()
+{
+    $timezone = 'Asia/Kolkata';
+
+    $now = now($timezone);
+    $today = $now->toDateString();
+    $yesterday = $now->copy()->subDay()->toDateString();
+
+    $games = Game::where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $gameSections = $games->chunk(17);
+    $chartGameSections = $games->chunk(17);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Today Table Results
+    |--------------------------------------------------------------------------
+    */
+    $todayTableResults = GameResult::whereDate('result_date', $today)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Live Declared Results
+    |--------------------------------------------------------------------------
+    */
+    $todayResults = GameResult::whereBetween('result_date', [
+            $yesterday,
+            $today,
+        ])
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->filter(function ($result) use ($timezone) {
+            $showMinutes = (int) ($result->show_minutes ?? 0);
+
+            if ($showMinutes <= 0) {
+                return true;
+            }
+
+            $updatedAt = \Carbon\Carbon::parse($result->updated_at)
+                ->timezone($timezone);
+
+            return now($timezone)->lessThanOrEqualTo(
+                $updatedAt->copy()->addMinutes($showMinutes)
+            );
+        })
+        ->unique('game_id')
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Yesterday Results
+    |--------------------------------------------------------------------------
+    */
+    $yesterdayResults = GameResult::whereDate('result_date', $yesterday)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->latest('updated_at')
+        ->get()
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Declared Live Games
+    |--------------------------------------------------------------------------
+    */
+    $declaredGames = $games
+        ->filter(function ($game) use ($todayResults) {
+            return isset($todayResults[$game->id])
+                && filled($todayResults[$game->id]->result);
+        })
+        ->sortByDesc(function ($game) use ($todayResults, $timezone) {
+            return \Carbon\Carbon::parse($todayResults[$game->id]->updated_at)
+                ->timezone($timezone)
+                ->timestamp;
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Next 4 Waiting Games
+    |--------------------------------------------------------------------------
+    | Live box me 4 games hamesha dikhenge.
+    | Jinka result nahi aaya hai wo waiting me dikhenge.
+    | Time ke hisaab se next upcoming games flow me aayenge.
+    */
+    $upcomingGames = $games
+        ->filter(function ($game) use ($todayTableResults) {
+            if (isset($todayTableResults[$game->id])) {
+                return false;
+            }
+
+            return !empty($game->result_time);
+        })
+        ->sortBy(function ($game) use ($now, $timezone) {
+            try {
+                $gameTime = \Carbon\Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                if ($gameTime->lessThan($now)) {
+                    $gameTime->addDay();
+                }
+
+                return $gameTime->timestamp;
+            } catch (\Throwable $e) {
+                return PHP_INT_MAX;
+            }
+        })
+        ->take(4);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Final Live Games
+    |--------------------------------------------------------------------------
+    */
+    $liveGames = $declaredGames
+        ->concat($upcomingGames)
+        ->unique('id')
+        ->take(4);
+
+    $startDate = now($timezone)->startOfMonth();
+    $endDate = now($timezone)->endOfMonth();
+
+    $dates = CarbonPeriod::create($startDate, $endDate);
+
+    $monthlyResults = GameResult::whereBetween('result_date', [
+            $startDate->format('Y-m-d'),
+            $endDate->format('Y-m-d'),
+        ])
+        ->where('status', 'declared')
+        ->get()
+        ->groupBy(function ($result) use ($timezone) {
+            return \Carbon\Carbon::parse($result->result_date, $timezone)
+                ->format('Y-m-d');
+        });
+
+    $seo = SeoPage::where('page_key', 'home')->first();
+
+    $advertisements = Advertisement::where('is_active', true)
+        ->where('position', 'top')
+        ->latest()
+        ->get();
+
+    $topAdvertisements = $advertisements;
+
+    $middleAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'middle')
+        ->latest()
+        ->first();
+
+    $bottomAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'bottom')
+        ->latest()
+        ->first();
+
+    $sidebarAdvertisement = Advertisement::where('is_active', true)
+        ->where('position', 'sidebar')
+        ->latest()
+        ->first();
+
+    return view('front.home.index', compact(
+        'games',
+        'gameSections',
+        'chartGameSections',
+        'dates',
+        'monthlyResults',
+        'seo',
+        'advertisements',
+        'topAdvertisements',
+        'middleAdvertisement',
+        'bottomAdvertisement',
+        'sidebarAdvertisement',
+        'todayResults',
+        'todayTableResults',
+        'yesterdayResults',
+        'today',
+        'yesterday',
+        'liveGames'
+    ));
+}
 
 
 
