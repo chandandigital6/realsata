@@ -708,7 +708,7 @@ public function homeLiveResults55555(Request $request)
 
 
 
-public function homeLiveResults(Request $request)
+public function homeLiveResultsmmm(Request $request)
 {
     $timezone = 'Asia/Kolkata';
 
@@ -862,4 +862,221 @@ public function homeLiveResults(Request $request)
         'games' => $finalGames,
     ]);
 }
+
+
+
+
+
+
+
+
+
+public function homeLiveResults(Request $request)
+{
+    $timezone = 'Asia/Kolkata';
+
+    $now = Carbon::now($timezone);
+    $today = $now->format('Y-m-d');
+    $yesterday = $now->copy()->subDay()->format('Y-m-d');
+
+    $limit = max(1, min((int) $request->get('limit', 4), 20));
+
+    $games = Game::with([
+            'results' => function ($q) use ($today, $yesterday) {
+                $q->whereBetween('result_date', [$yesterday, $today])
+                    ->where('status', 'declared')
+                    ->whereNotNull('result')
+                    ->where('result', '!=', '')
+                    ->latest('updated_at');
+            }
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $data = $games->map(function ($game) use ($now, $timezone, $today) {
+
+        $todayResult = $game->results->first();
+
+        $isDeclared = $todayResult
+            && $todayResult->status === 'declared'
+            && filled($todayResult->result);
+
+        $showMinutes = $todayResult && filled($todayResult->show_minutes)
+            ? (int) $todayResult->show_minutes
+            : 10;
+
+        $updatedAt = $todayResult?->updated_at
+            ? Carbon::parse($todayResult->updated_at)->timezone($timezone)
+            : null;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Result Live Check
+        |--------------------------------------------------------------------------
+        */
+        $isLive = false;
+
+        if ($isDeclared) {
+            if ($showMinutes <= 0) {
+                $isLive = true;
+            } elseif ($updatedAt) {
+                $isLive = $now->lessThanOrEqualTo(
+                    $updatedAt->copy()->addMinutes($showMinutes)
+                );
+            }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Game Time Calculation
+        |--------------------------------------------------------------------------
+        */
+        $gameDateTime = null;
+        $showStartTime = null;
+        $showEndTime = null;
+        $isWaitingWindow = false;
+        $isFutureGame = false;
+
+        if (filled($game->result_time)) {
+            try {
+                $gameDateTime = Carbon::parse(
+                    $today . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                $showStartTime = $gameDateTime->copy()->subMinutes(5);
+                $showEndTime = $gameDateTime->copy()->addMinutes(45);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Waiting Window
+                |--------------------------------------------------------------------------
+                | Example:
+                | SHRI GANESH 04:10 PM
+                | 04:05 PM se 04:55 PM tak WAIT me show hoga.
+                */
+                $isWaitingWindow = $now->between($showStartTime, $showEndTime);
+
+                /*
+                |--------------------------------------------------------------------------
+                | Future Game
+                |--------------------------------------------------------------------------
+                | Live box me 4 games complete karne ke liye next upcoming games.
+                */
+                $isFutureGame = $gameDateTime->greaterThan($now);
+
+            } catch (\Throwable $e) {
+                $gameDateTime = null;
+                $showStartTime = null;
+                $showEndTime = null;
+                $isWaitingWindow = false;
+                $isFutureGame = false;
+            }
+        }
+
+        return [
+            'id' => $game->id,
+            'name' => $game->name,
+            'slug' => $game->slug,
+            'result_time' => $game->result_time,
+            'sort_order' => $game->sort_order,
+
+            '_is_declared' => $isDeclared,
+            '_is_live_declared' => $isLive,
+            '_updated_time' => $updatedAt?->timestamp,
+            '_game_time' => $gameDateTime?->timestamp,
+            '_is_waiting_window' => $isWaitingWindow,
+            '_is_future_game' => $isFutureGame,
+
+            'result' => [
+                'id' => $todayResult?->id,
+                'result_date' => $todayResult?->result_date
+                    ? Carbon::parse($todayResult->result_date, $timezone)->format('Y-m-d')
+                    : null,
+
+                'result' => $isLive && $todayResult ? $todayResult->result : null,
+                'status' => $isLive ? 'declared' : 'waiting',
+                'show_minutes' => $showMinutes,
+                'updated_at' => $updatedAt?->format('Y-m-d H:i:s'),
+                'is_live' => $isLive,
+            ],
+        ];
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Declared Live Games
+    |--------------------------------------------------------------------------
+    | Jis game ka result live hai wo top me dikhega.
+    */
+    $declaredGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === true)
+        ->sortByDesc('_updated_time')
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Waiting Window Games
+    |--------------------------------------------------------------------------
+    | Game result_time se 5 minute pehle show hoga.
+    | Result nahi aaya to result_time + 45 minute tak WAIT me rahega.
+    */
+    $waitingGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === false)
+        ->filter(fn ($game) => $game['_is_waiting_window'] === true)
+        ->sortBy('_game_time')
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Future Upcoming Games
+    |--------------------------------------------------------------------------
+    | 4 boxes complete karne ke liye next upcoming games show honge.
+    */
+    $futureGames = $data
+        ->filter(fn ($game) => $game['_is_live_declared'] === false)
+        ->filter(fn ($game) => $game['_is_future_game'] === true)
+        ->sortBy('_game_time')
+        ->values();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Final Games
+    |--------------------------------------------------------------------------
+    | 1. Declared result games top me
+    | 2. Waiting window games
+    | 3. Future upcoming games
+    */
+    $finalGames = $declaredGames
+        ->concat($waitingGames)
+        ->concat($futureGames)
+        ->unique('id')
+        ->take($limit)
+        ->values()
+        ->map(function ($game) {
+            unset(
+                $game['_is_declared'],
+                $game['_is_live_declared'],
+                $game['_updated_time'],
+                $game['_game_time'],
+                $game['_is_waiting_window'],
+                $game['_is_future_game']
+            );
+
+            return $game;
+        });
+
+    return response()->json([
+        'success' => true,
+        'date' => $today,
+        'time' => $now->format('H:i:s'),
+        'games' => $finalGames,
+    ]);
+}
+
+
+
+
+
 }
