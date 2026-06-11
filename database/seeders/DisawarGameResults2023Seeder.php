@@ -9,7 +9,7 @@ use App\Models\GameResult;
 use App\Models\ChartYear;
 use Illuminate\Support\Str;
 
-class disawarGameResults2023Seeder extends Seeder
+class DisawarGameResults2023Seeder extends Seeder
 {
     /**
      * Run the database seeds.
