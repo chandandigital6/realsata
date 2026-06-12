@@ -6,110 +6,85 @@
     @php
         $seo = $seo ?? null;
 
-        $siteName = 'A7-SATTAFAST';
-
-        $metaTitle = $seo->meta_title
-            ?? 'A7 Satta King Result Today 2026 | A7 SattaFast Live Result Chart';
-
-        $metaDescription = $seo->meta_description
-            ?? 'A7 SattaFast par daily live result, satta king chart, record chart aur yearly result chart fast update ke saath dekhein.';
-
-        $metaKeywords = $seo->meta_keywords
-            ?? 'a7 satta, a7 satta king, a7 satta result, a7 satta fast, satta king result, satta chart, gali result, disawar result, faridabad result, ghaziabad result';
-
-        $canonicalUrl = $seo->canonical_url ?? url()->current();
-
-        $ogTitle = $seo->og_title ?? $metaTitle;
-        $ogDescription = $seo->og_description ?? $metaDescription;
-
-        $ogImage = !empty($seo?->og_image)
-            ? (
-                str_starts_with($seo->og_image, 'http')
-                    ? $seo->og_image
-                    : asset('storage/' . ltrim($seo->og_image, '/'))
-            )
-            : asset('A1.png');
+        $defaultTitle = 'Real Satta King | Satta King Online Results Today';
+        $defaultDescription = 'Check Real Satta King results, charts, and daily updates.';
+        $defaultKeywords = 'real satta king, satta king, satta result, satta chart';
+        $defaultCanonical = url()->current();
     @endphp
 
-    <title>{{ $metaTitle }}</title>
+    <title>{{ $seo->meta_title ?? $defaultTitle }}</title>
 
+    <meta name="description" content="{{ $seo->meta_description ?? $defaultDescription }}">
+    <meta name="keywords" content="{{ $seo->meta_keywords ?? $defaultKeywords }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-    <meta name="google-site-verification" content="QO-2oh9N--tEzzpguKQYG592l_PY34GEfQaX8QTZyig">
 
-    <meta name="description" content="{{ $metaDescription }}">
-    <meta name="keywords" content="{{ $metaKeywords }}">
-    <meta name="author" content="{{ $siteName }}">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="language" content="Hindi">
-    <meta name="theme-color" content="#050505">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots" content="index, follow">
 
-    <link rel="canonical" href="{{ $canonicalUrl }}">
+    <link rel="canonical" href="{{ $seo->canonical_url ?? $defaultCanonical }}">
     <link rel="shortlink" href="{{ url('/') }}">
 
-    <meta property="og:locale" content="hi_IN">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="{{ $siteName }}">
-    <meta property="og:title" content="{{ $ogTitle }}">
-    <meta property="og:description" content="{{ $ogDescription }}">
-    <meta property="og:url" content="{{ $canonicalUrl }}">
-    <meta property="og:image" content="{{ $ogImage }}">
-    <meta property="og:image:secure_url" content="{{ $ogImage }}">
-    <meta property="og:image:alt" content="{{ $ogTitle }}">
+    <meta property="og:title" content="{{ $seo->og_title ?? $seo->meta_title ?? $defaultTitle }}">
+    <meta property="og:description" content="{{ $seo->og_description ?? $seo->meta_description ?? $defaultDescription }}">
+    <meta property="og:url" content="{{ $seo->canonical_url ?? $defaultCanonical }}">
+
+    @if(!empty($seo?->og_image))
+        <meta property="og:image" content="{{ asset('storage/'.$seo->og_image) }}">
+    @endif
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $ogTitle }}">
-    <meta name="twitter:description" content="{{ $ogDescription }}">
-    <meta name="twitter:image" content="{{ $ogImage }}">
-    <meta name="twitter:image:alt" content="{{ $ogTitle }}">
+    <meta name="twitter:title" content="{{ $seo->og_title ?? $seo->meta_title ?? $defaultTitle }}">
+    <meta name="twitter:description" content="{{ $seo->og_description ?? $seo->meta_description ?? $defaultDescription }}">
 
-    <link rel="icon" type="image/png" href="{{ asset('A1.png') }}">
-    <link rel="apple-touch-icon" href="{{ asset('A1.png') }}">
+    @if(!empty($seo?->og_image))
+        <meta name="twitter:image" content="{{ asset('storage/'.$seo->og_image) }}">
+    @endif
 
-    <link rel="preload"
-          href="{{ asset('tamplate/bootstrap/assests1/bootstrap.css') }}"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="icon" type="image/png" href="/m/favicon-96x96.png" sizes="96x96">
+    <link rel="manifest" href="/m/site.webmanifest">
 
-    <link rel="preload"
-          href="{{ asset('tamplate/bootstrap/assests1/style.css') }}"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
-
-    <noscript>
-        <link rel="stylesheet" href="{{ asset('tamplate/bootstrap/assests1/bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('tamplate/bootstrap/assests1/style.css') }}">
-    </noscript>
+    <link rel="stylesheet" href="/tamplate/css/bootstrap.min.css">
+    <link href="/tamplate/css/bootstrap-theme.css" type="text/css" rel="stylesheet">
 
     <style>
         * {
             box-sizing: border-box;
         }
 
-        html {
-            width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
-
+        html,
         body {
             width: 100%;
             max-width: 100%;
+            overflow-x: hidden;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            background: #ffffff;
-            color: #000000;
+        }
+
+        body {
             font-family: Arial, 'Noto Sans Devanagari', sans-serif;
-            -webkit-text-size-adjust: 100%;
+            background: #fff;
+            color: #000;
+        }
+
+        #app {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        main {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
 
         img,
         video,
         iframe,
-        canvas,
-        svg {
+        table {
             max-width: 100%;
         }
 
@@ -118,13 +93,7 @@
         }
 
         a {
-            max-width: 100%;
             word-break: break-word;
-            overflow-wrap: anywhere;
-        }
-
-        p {
-            margin: 0;
         }
 
         p,
@@ -136,16 +105,9 @@
         h6,
         div,
         span,
-        strong,
-        b,
         td,
-        th,
-        li {
+        th {
             overflow-wrap: anywhere;
-        }
-
-        table {
-            max-width: 100%;
         }
 
         .container,
@@ -168,206 +130,91 @@
             padding-right: 8px;
         }
 
+        .nopadding {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
         .table-responsive {
             width: 100%;
             max-width: 100%;
             overflow-x: auto;
-            overflow-y: hidden;
             -webkit-overflow-scrolling: touch;
             border: 0;
         }
 
-        .table-responsive table,
-        .month_result_table,
-        .rtable {
+        .table-responsive table {
             margin-bottom: 0;
-            border-collapse: collapse;
+            white-space: normal;
         }
 
-        .month_result_table {
-            min-width: 680px;
-        }
-
-        .drag,
-        .border,
-        .resultchart,
-        .addb,
-        section {
-            max-width: 100%;
-        }
-
-        .open {
-            font-size: 35px;
-        }
-
-        .logo {
-            height: 70px;
-            width: 70px;
-            border-radius: 50%;
-            padding: 10px;
-            object-fit: contain;
-        }
-
-        .text-black {
-            color: #000000;
-            font-size: 13px;
-        }
-
-        .text-blacks {
-            color: #000000;
-            font-size: 15px;
-        }
-
-        .time_result,
-        .time {
-            color: blue;
-            font-size: 15px;
-            font-weight: bold;
-        }
-
-        .kal {
-            color: #000000;
-            font-size: 17px;
-        }
-
-        .gamebox {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #dddddd;
-        }
-
-        .gameboxresult {
-            font-size: 20px;
-            font-weight: 800;
-        }
-
-        .rv-ad-wrap {
-            width: 100%;
-            max-width: 100%;
-            margin: 12px auto;
-            font-family: Arial, 'Noto Sans Devanagari', sans-serif;
-            overflow-x: hidden;
-        }
-
-        .rv-ad-box {
-            max-width: 100%;
-            background: linear-gradient(180deg, #ffd900 0%, #fff8cf 100%);
-            border: 3px dashed #e60000;
-            border-radius: 16px;
-            padding: 12px 10px;
-            text-align: center;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .10);
-        }
-
-        .rv-ad-box,
-        .rv-ad-box * {
-            color: #111111 !important;
-            font-size: 16px !important;
-            font-weight: 700 !important;
-            line-height: 1.45 !important;
+        .table th,
+        .table td {
+            vertical-align: middle !important;
             word-break: break-word;
         }
 
-        .rv-ad-box h1,
-        .rv-ad-box h2,
-        .rv-ad-box h3,
-        .rv-ad-box h4,
-        .rv-ad-box h5,
-        .rv-ad-box h6,
-        .rv-ad-box p,
-        .rv-ad-box div {
-            margin: 4px 0 !important;
-            font-size: 16px !important;
-        }
-
-        .rv-ad-title {
-            font-size: 18px !important;
-            font-weight: 800 !important;
-        }
-
-        .rv-ad-name {
-            font-size: 19px !important;
-            font-weight: 900 !important;
-            color: #c9342d !important;
-        }
-
-        .rv-ad-purple {
-            color: #9b59b6 !important;
-            font-weight: 800 !important;
-        }
-
-        .rv-ad-img {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #ffffff;
-            border-radius: 999px;
-            padding: 5px 12px;
-            margin-top: 8px;
-            max-width: 100%;
-        }
-
-        .rv-ad-img img {
-            width: auto;
+        .waitimg img {
+            max-width: 42px;
             height: auto;
-            max-height: 55px;
-            max-width: 200px;
-            object-fit: contain;
         }
 
-        .rv-middle {
-            background: linear-gradient(180deg, #111827, #1f2937);
-            border: 3px dashed #ffd900;
-        }
-
-        .rv-middle,
-        .rv-middle * {
-            color: #ffffff !important;
-        }
-
-        .rv-middle .rv-ad-img img {
-            max-height: 55px;
-            max-width: 200px;
-        }
-
-        .rv-result-title {
-            text-align: center;
-            margin: 12px 0 8px;
-            font-size: 20px;
-            font-weight: 900;
-            line-height: 1.35;
-        }
-
-        .rv-result-title a {
-            text-decoration: none;
-            color: #111111;
-        }
-
-        .rv-result-title span {
-            color: #c9342d;
-        }
-
-        .a7-section {
+        .footer_white {
+            background: #000;
+            color: #fff;
+            width: 100%;
             max-width: 100%;
             overflow-x: hidden;
         }
 
-        .a7-section * {
+        .footer_h4 {
+            text-align: center;
+            padding: 10px;
+            color: #fff;
+        }
+
+        .mobile-safe-section {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .content-heading {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            text-align: center;
+            font-size: clamp(22px, 6vw, 36px);
+            font-weight: 700;
+            color: #000;
+            line-height: 1.35;
+            background-color: #FFAB00;
+            border-top: 2px solid #000;
+            border-bottom: 1px solid #000;
+            margin: 20px 0;
+        }
+
+        .content-para {
+            padding-left: 16px;
+            padding-right: 16px;
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: 0.2px;
+            line-height: 1.7;
             max-width: 100%;
         }
 
         @media (max-width: 767px) {
-            .container,
-            .container-fluid {
-                width: 100%;
-                padding-left: 6px;
-                padding-right: 6px;
+            main {
+                padding-top: 6px;
+                padding-bottom: 6px;
             }
 
-            .row {
-                margin-left: 0 !important;
-                margin-right: 0 !important;
+            .container,
+            .container-fluid {
+                padding-left: 6px;
+                padding-right: 6px;
             }
 
             [class*="col-"] {
@@ -375,166 +222,109 @@
                 padding-right: 0;
             }
 
-            .open {
-                font-size: 26px;
-            }
-
-            .logo {
-                width: 58px;
-                height: 58px;
-                padding: 7px;
-            }
-
-            .gamebox {
-                width: 50%;
-                float: left;
-                padding: 8px 4px;
-                min-height: 118px;
-            }
-
-            .text-black {
-                font-size: 12px;
-            }
-
-            .text-blacks {
+            .table {
                 font-size: 13px;
+            }
+
+            .table th,
+            .table td {
+                padding: 6px 4px !important;
+            }
+
+            .tablebox1 .table {
+                min-width: 360px;
+            }
+
+            .newtable .table {
+                min-width: 720px;
+            }
+
+            .gamenameeach {
+                font-size: 13px !important;
                 line-height: 1.25;
                 display: inline-block;
+                max-width: 100%;
             }
 
-            .time_result,
             .time {
-                font-size: 13px;
+                font-size: 11px !important;
             }
 
-            .kal {
-                font-size: 14px;
-            }
-
-            .gameboxresult {
-                font-size: 18px;
-            }
-
-            .month_result_table {
-                min-width: 620px;
-            }
-
-            .rv-ad-wrap {
-                margin: 10px auto;
-            }
-
-            .rv-ad-box {
-                border-width: 3px;
-                border-radius: 14px;
+            .content-heading {
                 padding: 10px 8px;
+                font-size: 22px;
+                line-height: 1.3;
+                margin: 14px 0;
             }
 
-            .rv-ad-box,
-            .rv-ad-box * {
-                font-size: 14px !important;
-                line-height: 1.4 !important;
-                font-weight: 700 !important;
+            .content-para {
+                padding-left: 10px;
+                padding-right: 10px;
+                font-size: 14px;
+                line-height: 1.65;
             }
 
-            .rv-ad-box h1,
-            .rv-ad-box h2,
-            .rv-ad-box h3,
-            .rv-ad-box h4,
-            .rv-ad-box h5,
-            .rv-ad-box h6,
-            .rv-ad-box p,
-            .rv-ad-box div {
-                font-size: 14px !important;
+            .circlebox,
+            .liveresult,
+            .sattaname,
+            .sattaresult,
+            .octoberresultchart,
+            .tablebox1,
+            .newtable {
+                width: 100%;
+                max-width: 100%;
+                overflow-x: hidden;
             }
 
-            .rv-ad-title {
-                font-size: 15px !important;
-            }
-
-            .rv-ad-name {
-                font-size: 16px !important;
-            }
-
-            .rv-ad-img {
-                padding: 4px 10px;
-                margin-top: 6px;
-            }
-
-            .rv-ad-img img {
-                max-height: 48px;
-                max-width: 175px;
-            }
-
-            .rv-result-title {
-                font-size: 16px;
+            .sattaname p,
+            .sattaresult,
+            .hintext {
+                max-width: 100%;
+                overflow-wrap: anywhere;
             }
         }
 
         @media (max-width: 420px) {
-            .container,
-            .container-fluid {
-                padding-left: 4px;
-                padding-right: 4px;
+            .table {
+                font-size: 12px;
             }
 
-            .gamebox {
-                padding: 7px 3px;
+            .table th,
+            .table td {
+                padding: 5px 3px !important;
             }
 
-            .text-blacks {
-                font-size: 12.5px;
+            .content-heading {
+                font-size: 20px;
             }
 
-            .month_result_table {
-                min-width: 580px;
+            .content-para {
+                font-size: 13.5px;
             }
         }
     </style>
 
     @yield('custom-styles')
-    @stack('styles')
 
     @if(!empty($seo?->schema_markup))
         {!! $seo->schema_markup !!}
-    @else
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "{{ $siteName }}",
-                "url": "{{ url('/') }}",
-                "potentialAction": {
-                    "@type": "SearchAction",
-                    "target": "{{ url('/') }}?s={search_term_string}",
-                    "query-input": "required name=search_term_string"
-                }
-            }
-        </script>
-
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "{{ $siteName }}",
-                "url": "{{ url('/') }}",
-                "logo": "{{ asset('A1.png') }}"
-            }
-        </script>
     @endif
 </head>
 
 <body>
+<div id="app">
 
-    @include('front.layouts.header')
+    @include('front.layouts.nav')
 
-    <main id="main-content">
+    <main>
         @yield('content')
     </main>
 
     @include('front.layouts.footer')
 
-    @yield('custom-script')
-    @stack('scripts')
+</div>
+
+@yield('custom-script')
 
 </body>
 </html>
