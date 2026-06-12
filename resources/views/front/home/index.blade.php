@@ -363,7 +363,7 @@
                                             @else
                                                 <p>
                                                     <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}">
+                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting">
                                                     </strong>
                                                 </p>
                                             @endif
@@ -928,5 +928,5 @@
 
         MYDate();
     </script>
-    
+
 @endsection
