@@ -8,7 +8,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
-                <h2>{{ strtoupper($game->name) }} RECORD CHART {{ $year }}</h2>
+                <h1>{{ strtoupper($game->name) }} RECORD CHART {{ $year }}</h1>
             </div>
         </div>
     </div>

@@ -17,7 +17,6 @@
     <meta name="description" content="{{ $seo->meta_description ?? $defaultDescription }}">
     <meta name="keywords" content="{{ $seo->meta_keywords ?? $defaultKeywords }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-
     <meta name="robots" content="index, follow">
 
     <link rel="canonical" href="{{ $seo->canonical_url ?? $defaultCanonical }}">
@@ -43,8 +42,22 @@
     <link rel="icon" type="image/png" href="/m/favicon-96x96.png" sizes="96x96">
     <link rel="manifest" href="/m/site.webmanifest">
 
-    <link rel="stylesheet" href="/tamplate/css/bootstrap.min.css">
-    <link href="/tamplate/css/bootstrap-theme.css" type="text/css" rel="stylesheet">
+    {{-- CSS Preload Fix --}}
+    <link rel="preload"
+          href="{{ asset('tamplate/css/bootstrap.min.css') }}"
+          as="style"
+          onload="this.onload=null;this.rel='stylesheet'">
+
+    <link rel="preload"
+          href="{{ asset('tamplate/css/bootstrap-theme.css') }}"
+          as="style"
+          onload="this.onload=null;this.rel='stylesheet'">
+
+    {{-- No JavaScript fallback --}}
+    <noscript>
+        <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap-theme.css') }}">
+    </noscript>
 
     <style>
         * {

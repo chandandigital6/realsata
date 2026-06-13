@@ -40,6 +40,18 @@
         font-size:16px!important;
     }
 
+
+    .rv-ad-heading {
+    display: block !important;
+    margin: 4px 0 !important;
+    padding: 0 !important;
+    color: #111 !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+}
+
     .rv-ad-img{
         display:inline-flex;
         align-items:center;
@@ -78,6 +90,14 @@
         .rv-ad-wrap{
             margin:10px auto;
         }
+
+        @media(max-width:640px){
+    .rv-ad-heading {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        font-weight: 700 !important;
+    }
+}
 
         .rv-ad-box{
             border-width:3px;
@@ -132,7 +152,7 @@
                     @if (!empty($advertisement->image))
                         <span class="rv-ad-img">
                             <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                 alt="{{ $advertisement->title ?? 'Advertisement' }}">
+                                 alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139" height="48">
                         </span>
                     @endif
                 </div>
@@ -201,13 +221,16 @@
 
 
 {{-- Middle Advertisement --}}
+{{-- Middle Advertisement --}}
 <section class="rv-ad-wrap">
     <div class="rv-ad-box rv-middle">
         @if (!empty($middleAdvertisement))
             @if (!empty($middleAdvertisement->content))
                 <div>{!! $middleAdvertisement->content !!}</div>
             @else
-                <h4>व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।</h4>
+                <span class="rv-ad-heading">
+                    व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
+                </span>
             @endif
 
             <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
@@ -216,18 +239,20 @@
                 <span class="rv-ad-img">
                     @if (!empty($middleAdvertisement->image))
                         <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
-                             alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}">
+                             alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}" class="lazy" width="159" height="55">
                     @else
-                        <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp">
+                        <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159" height="55">
                     @endif
                 </span>
             </a>
         @else
-            <h4>व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।</h4>
+            <span class="rv-ad-heading">
+                व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
+            </span>
 
             <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T" style="text-decoration:none;">
                 <span class="rv-ad-img">
-                    <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp">
+                    <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159" height="55">
                 </span>
             </a>
         @endif
@@ -257,7 +282,7 @@
                 @if (!empty($bottomAdvertisement->image))
                     <span class="rv-ad-img">
                         <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                             alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}">
+                             alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138" height="48">
                     </span>
                 @endif
             </div>
@@ -288,7 +313,7 @@
                 @if (!empty($sidebarAdvertisement->image))
                     <span class="rv-ad-img">
                         <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                             alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}">
+                             alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy">
                     </span>
                 @endif
             </div>
@@ -363,7 +388,7 @@
                                             @else
                                                 <p>
                                                     <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting">
+                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting" class="lazy">
                                                     </strong>
                                                 </p>
                                             @endif
@@ -398,8 +423,8 @@
 <section class="octoberresultchart">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 text-center">
-                <h2 id="date"></h2>
+            <div class="col-md-12 text-center font-size-30 forfirtcolor">
+                <span id="date"></span>
             </div>
         </div>
     </div>
@@ -499,10 +524,12 @@
                 No clutter. No fake claims. Just the information you actually came for.
         </p>
 
-        <h3
+        <h2
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
-            <strong>Today's Real Satta King Live Result – 2026</strong>
-        </h3>
+            <strong>
+                Today's Real Satta King Live Result – 2026
+            </strong>
+        </h2>
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">

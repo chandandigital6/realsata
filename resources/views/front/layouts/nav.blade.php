@@ -1,7 +1,7 @@
 <section class="topboxnew">
 
     <p style="text-align:center;">
-        <img src="/Logo3.png" style="width:130px;" alt="Real Satta King">
+        <img src="/Logo3.png" style="width:130px;" alt="Real Satta King" width="130" height="130">
     </p>
 
     <div class="container-fluid">
