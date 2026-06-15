@@ -2,114 +2,30 @@
 
 @section('content')
 
-<style>
-    .rv-ad-wrap{
-        width:100%;
-        margin:12px auto;
-        font-family:Arial,'Noto Sans Devanagari',sans-serif;
-    }
-
-    .rv-ad-box{
-        background:linear-gradient(180deg,#ffd900 0%,#fff8cf 100%);
-        border:3px dashed #e60000;
-        border-radius:16px;
-        padding:12px 10px;
-        text-align:center;
-        overflow:hidden;
-        box-shadow:0 4px 12px rgba(0,0,0,.10);
-    }
-
-    .rv-ad-box,
-    .rv-ad-box *{
-        color:#111!important;
-        font-size:16px!important;
-        font-weight:700!important;
-        line-height:1.45!important;
-        word-break:break-word;
-    }
-
-    .rv-ad-box h1,
-    .rv-ad-box h2,
-    .rv-ad-box h3,
-    .rv-ad-box h4,
-    .rv-ad-box h5,
-    .rv-ad-box h6,
-    .rv-ad-box p,
-    .rv-ad-box div{
-        margin:4px 0!important;
-        font-size:16px!important;
-    }
-
-
-    .rv-ad-heading {
-    display: block !important;
-    margin: 4px 0 !important;
-    padding: 0 !important;
-    color: #111 !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    line-height: 1.45 !important;
-    text-align: center !important;
-}
-
-    .rv-ad-img{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        background:#fff;
-        border-radius:999px;
-        padding:5px 12px;
-        margin-top:8px;
-        max-width:100%;
-    }
-
-    .rv-ad-img img{
-        width:auto;
-        height:auto;
-        max-height:55px;
-        max-width:200px;
-        object-fit:contain;
-    }
-
-    .rv-middle{
-        background:linear-gradient(180deg,#ffd900,#d5e70a);
-        border:3px dashed #120f01;
-    }
-
-    .rv-middle,
-    .rv-middle *{
-        color:#000000!important;
-    }
-
-    .rv-middle .rv-ad-img img{
-        max-height:55px;
-        max-width:200px;
-    }
-
-    @media(max-width:640px){
-        .rv-ad-wrap{
-            margin:10px auto;
+    <style>
+        .rv-ad-wrap {
+            width: 100%;
+            margin: 12px auto;
+            font-family: Arial, 'Noto Sans Devanagari', sans-serif;
         }
 
-        @media(max-width:640px){
-    .rv-ad-heading {
-        font-size: 14px !important;
-        line-height: 1.4 !important;
-        font-weight: 700 !important;
-    }
-}
-
-        .rv-ad-box{
-            border-width:3px;
-            border-radius:14px;
-            padding:10px 8px;
+        .rv-ad-box {
+            background: linear-gradient(180deg, #ffd900 0%, #fff8cf 100%);
+            border: 3px dashed #e60000;
+            border-radius: 16px;
+            padding: 12px 10px;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .10);
         }
 
         .rv-ad-box,
-        .rv-ad-box *{
-            font-size:14px!important;
-            line-height:1.4!important;
-            font-weight:700!important;
+        .rv-ad-box * {
+            color: #111 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            line-height: 1.45 !important;
+            word-break: break-word;
         }
 
         .rv-ad-box h1,
@@ -119,47 +35,131 @@
         .rv-ad-box h5,
         .rv-ad-box h6,
         .rv-ad-box p,
-        .rv-ad-box div{
-            font-size:14px!important;
+        .rv-ad-box div {
+            margin: 4px 0 !important;
+            font-size: 16px !important;
         }
 
-        .rv-ad-img{
-            padding:4px 10px;
-            margin-top:6px;
+
+        .rv-ad-heading {
+            display: block !important;
+            margin: 4px 0 !important;
+            padding: 0 !important;
+            color: #111 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            line-height: 1.45 !important;
+            text-align: center !important;
         }
 
-        .rv-ad-img img{
-            max-height:48px;
-            max-width:175px;
+        .rv-ad-img {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 999px;
+            padding: 5px 12px;
+            margin-top: 8px;
+            max-width: 100%;
         }
-    }
-</style>
+
+        .rv-ad-img img {
+            width: auto;
+            height: auto;
+            max-height: 55px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .rv-middle {
+            background: linear-gradient(180deg, #ffd900, #d5e70a);
+            border: 3px dashed #120f01;
+        }
+
+        .rv-middle,
+        .rv-middle * {
+            color: #000000 !important;
+        }
+
+        .rv-middle .rv-ad-img img {
+            max-height: 55px;
+            max-width: 200px;
+        }
+
+        @media(max-width:640px) {
+            .rv-ad-wrap {
+                margin: 10px auto;
+            }
+
+            @media(max-width:640px) {
+                .rv-ad-heading {
+                    font-size: 14px !important;
+                    line-height: 1.4 !important;
+                    font-weight: 700 !important;
+                }
+            }
+
+            .rv-ad-box {
+                border-width: 3px;
+                border-radius: 14px;
+                padding: 10px 8px;
+            }
+
+            .rv-ad-box,
+            .rv-ad-box * {
+                font-size: 14px !important;
+                line-height: 1.4 !important;
+                font-weight: 700 !important;
+            }
+
+            .rv-ad-box h1,
+            .rv-ad-box h2,
+            .rv-ad-box h3,
+            .rv-ad-box h4,
+            .rv-ad-box h5,
+            .rv-ad-box h6,
+            .rv-ad-box p,
+            .rv-ad-box div {
+                font-size: 14px !important;
+            }
+
+            .rv-ad-img {
+                padding: 4px 10px;
+                margin-top: 6px;
+            }
+
+            .rv-ad-img img {
+                max-height: 48px;
+                max-width: 175px;
+            }
+        }
+    </style>
 
 
 
-  {{-- Top Advertisements --}}
-@if ($topAdvertisements->count())
-    @foreach ($topAdvertisements as $advertisement)
-        <section class="rv-ad-wrap">
-            <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
-               @if (!empty($advertisement->link)) target="_blank" @endif
-               style="text-decoration:none;color:inherit;">
-                <div class="rv-ad-box">
-                    @if (!empty($advertisement->content))
-                        <div>{!! $advertisement->content !!}</div>
-                    @endif
+    {{-- Top Advertisements --}}
+    @if ($topAdvertisements->count())
+        @foreach ($topAdvertisements as $advertisement)
+            <section class="rv-ad-wrap">
+                <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
+                    @if (!empty($advertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+                    <div class="rv-ad-box">
+                        @if (!empty($advertisement->content))
+                            <div>{!! $advertisement->content !!}</div>
+                        @endif
 
-                    @if (!empty($advertisement->image))
-                        <span class="rv-ad-img">
-                            <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                 alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139" height="48">
-                        </span>
-                    @endif
-                </div>
-            </a>
-        </section>
-    @endforeach
-@endif
+                        @if (!empty($advertisement->image))
+                            <span class="rv-ad-img">
+                                <img src="{{ asset('storage/' . $advertisement->image) }}"
+                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
+                                    height="48">
+                            </span>
+                        @endif
+                    </div>
+                </a>
+            </section>
+        @endforeach
+    @endif
 
 
 
@@ -167,331 +167,337 @@
 
 
     {{-- upper live result --}}
-<section class="circlebox">
-    <div class="row">
-        <div class="col-md-12 text-center">
-            <div class="liveresult">
+    <section class="circlebox">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="liveresult">
 
-                <div class="datetime">
-                    <div id="clockbox"></div>
+                    <div class="datetime">
+                        <div id="clockbox"></div>
+                    </div>
+
+                    <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
+
+                    @forelse($liveGames as $game)
+                        @php
+                            $todayResult = $todayResults[$game->id] ?? null;
+                        @endphp
+
+                        <div class="sattaname">
+                            <p>{{ strtoupper($game->name) }}</p>
+                        </div>
+
+                        <div class="sattaresult">
+                            <font>
+                                <span>
+                                    @if ($todayResult && filled($todayResult->result))
+                                        {{ $todayResult->result }}
+                                    @else
+                                        <p>
+                                            <strong class="waitimg">
+                                                <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting"
+                                                    width="40" height="40">
+                                            </strong>
+                                        </p>
+                                    @endif
+                                </span>
+                            </font>
+                        </div>
+                    @empty
+                        <div class="sattaname">
+                            <p>No Games Found</p>
+                        </div>
+                    @endforelse
+
                 </div>
-
-                <p class="hintext">हा भाई यही आती हे सबसे पहले खबर रूको और देखो</p>
-
-                @forelse($liveGames as $game)
-                    @php
-                        $todayResult = $todayResults[$game->id] ?? null;
-                    @endphp
-
-                    <div class="sattaname">
-                        <p>{{ strtoupper($game->name) }}</p>
-                    </div>
-
-                    <div class="sattaresult">
-                        <font>
-                            <span>
-                                @if ($todayResult && filled($todayResult->result))
-                                    {{ $todayResult->result }}
-                                @else
-                                    <p>
-                                        <strong class="waitimg">
-                                            <img class="lazy"
-                                                 src="{{ asset('m/d.gif') }}"
-                                                 alt="waiting"  width="40" height="40">
-                                        </strong>
-                                    </p>
-                                @endif
-                            </span>
-                        </font>
-                    </div>
-                @empty
-                    <div class="sattaname">
-                        <p>No Games Found</p>
-                    </div>
-                @endforelse
-
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
 
 
 
 
 
-{{-- Middle Advertisement --}}
-{{-- Middle Advertisement --}}
-<section class="rv-ad-wrap">
-    <div class="rv-ad-box rv-middle">
-        @if (!empty($middleAdvertisement))
-            @if (!empty($middleAdvertisement->content))
-                <div>{!! $middleAdvertisement->content !!}</div>
+    {{-- Middle Advertisement --}}
+    {{-- Middle Advertisement --}}
+    <section class="rv-ad-wrap">
+        <div class="rv-ad-box rv-middle">
+            @if (!empty($middleAdvertisement))
+                @if (!empty($middleAdvertisement->content))
+                    <div>{!! $middleAdvertisement->content !!}</div>
+                @else
+                    <span class="rv-ad-heading">
+                        व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
+                    </span>
+                @endif
+
+                <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
+                    @if (!empty($middleAdvertisement->link)) target="_blank" @endif style="text-decoration:none;">
+                    <span class="rv-ad-img">
+                        @if (!empty($middleAdvertisement->image))
+                            <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
+                                alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}" class="lazy" width="159"
+                                height="55">
+                        @else
+                            <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
+                                height="55">
+                        @endif
+                    </span>
+                </a>
             @else
                 <span class="rv-ad-heading">
                     व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
                 </span>
+
+                <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T" style="text-decoration:none;">
+                    <span class="rv-ad-img">
+                        <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
+                            height="55">
+                    </span>
+                </a>
             @endif
+        </div>
+    </section>
 
-            <a href="{{ $middleAdvertisement->link ?: 'javascript:void(0)' }}"
-               @if (!empty($middleAdvertisement->link)) target="_blank" @endif
-               style="text-decoration:none;">
-                <span class="rv-ad-img">
-                    @if (!empty($middleAdvertisement->image))
-                        <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
-                             alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}" class="lazy" width="159" height="55">
-                    @else
-                        <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159" height="55">
+
+    {{-- Bottom Advertisement --}}
+    @php
+        $hasBottomAd =
+            !empty($bottomAdvertisement) &&
+            (!empty($bottomAdvertisement->content) ||
+                !empty($bottomAdvertisement->image) ||
+                !empty($bottomAdvertisement->link));
+    @endphp
+
+    @if ($hasBottomAd)
+        <section class="rv-ad-wrap">
+            <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
+                @if (!empty($bottomAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+                <div class="rv-ad-box">
+                    @if (!empty($bottomAdvertisement->content))
+                        <div>{!! $bottomAdvertisement->content !!}</div>
                     @endif
-                </span>
+
+                    @if (!empty($bottomAdvertisement->image))
+                        <span class="rv-ad-img">
+                            <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                                height="48">
+                        </span>
+                    @endif
+                </div>
             </a>
-        @else
-            <span class="rv-ad-heading">
-                व्हाट्सएप पर सुपर फास्ट रिजल्ट देखने के लिए नीचे दिए गए लिंक पर जाएं और चैनल को फॉलो करें।
-            </span>
+        </section>
+    @endif
 
-            <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T" style="text-decoration:none;">
-                <span class="rv-ad-img">
-                    <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159" height="55">
-                </span>
+
+    {{-- Sidebar Advertisement --}}
+    @php
+        $hasSidebarAd =
+            !empty($sidebarAdvertisement) &&
+            (!empty($sidebarAdvertisement->content) ||
+                !empty($sidebarAdvertisement->image) ||
+                !empty($sidebarAdvertisement->link));
+    @endphp
+
+    @if ($hasSidebarAd)
+        <section class="rv-ad-wrap">
+            <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
+                @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+                <div class="rv-ad-box">
+                    @if (!empty($sidebarAdvertisement->content))
+                        <div>{!! $sidebarAdvertisement->content !!}</div>
+                    @endif
+
+                    @if (!empty($sidebarAdvertisement->image))
+                        <span class="rv-ad-img">
+                            <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
+                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy">
+                        </span>
+                    @endif
+                </div>
             </a>
-        @endif
-    </div>
-</section>
-
-
-{{-- Bottom Advertisement --}}
-@php
-    $hasBottomAd =
-        !empty($bottomAdvertisement) &&
-        (!empty($bottomAdvertisement->content) ||
-            !empty($bottomAdvertisement->image) ||
-            !empty($bottomAdvertisement->link));
-@endphp
-
-@if ($hasBottomAd)
-    <section class="rv-ad-wrap">
-        <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
-           @if (!empty($bottomAdvertisement->link)) target="_blank" @endif
-           style="text-decoration:none;color:inherit;">
-            <div class="rv-ad-box">
-                @if (!empty($bottomAdvertisement->content))
-                    <div>{!! $bottomAdvertisement->content !!}</div>
-                @endif
-
-                @if (!empty($bottomAdvertisement->image))
-                    <span class="rv-ad-img">
-                        <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                             alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138" height="48">
-                    </span>
-                @endif
-            </div>
-        </a>
-    </section>
-@endif
-
-
-{{-- Sidebar Advertisement --}}
-@php
-    $hasSidebarAd =
-        !empty($sidebarAdvertisement) &&
-        (!empty($sidebarAdvertisement->content) ||
-            !empty($sidebarAdvertisement->image) ||
-            !empty($sidebarAdvertisement->link));
-@endphp
-
-@if ($hasSidebarAd)
-    <section class="rv-ad-wrap">
-        <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
-           @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif
-           style="text-decoration:none;color:inherit;">
-            <div class="rv-ad-box">
-                @if (!empty($sidebarAdvertisement->content))
-                    <div>{!! $sidebarAdvertisement->content !!}</div>
-                @endif
-
-                @if (!empty($sidebarAdvertisement->image))
-                    <span class="rv-ad-img">
-                        <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                             alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy">
-                    </span>
-                @endif
-            </div>
-        </a>
-    </section>
-@endif
+        </section>
+    @endif
 
 
     <br>
 
 
-{{-- today/yesterday table - 17 games per section --}}
-@foreach ($gameSections as $sectionIndex => $sectionGames)
-    <section class="tablebox1 {{ $sectionIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead class="forblack">
-                                <tr>
-                                    <th class="col-md-4 text-center">सट्टा का नाम</th>
-                                    <th class="col-md-4 text-center">कल आया था</th>
-                                    <th class="col-md-4 text-center">आज का रिज़ल्ट</th>
-                                </tr>
-                            </thead>
+    {{-- today/yesterday table - 17 games per section --}}
+    @foreach ($gameSections as $sectionIndex => $sectionGames)
+        <section class="tablebox1 {{ $sectionIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 nopadding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead class="forblack">
+                                    <tr>
+                                        <th class="col-md-4 text-center">सट्टा का नाम</th>
+                                        <th class="col-md-4 text-center">कल आया था</th>
+                                        <th class="col-md-4 text-center">आज का रिज़ल्ट</th>
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                @forelse($sectionGames as $game)
-                                    @php
-                                        $yesterdayResult = $yesterdayResults[$game->id] ?? null;
-                                        // $todayResult = $todayResults[$game->id] ?? null;
-                                        $todayResult = $todayTableResults[$game->id] ?? null;
-                                    @endphp
+                                <tbody>
+                                    @forelse($sectionGames as $game)
+                                        @php
+                                            $yesterdayResult = $yesterdayResults[$game->id] ?? null;
+                                            // $todayResult = $todayResults[$game->id] ?? null;
+                                            $todayResult = $todayTableResults[$game->id] ?? null;
+                                        @endphp
 
-                                    <tr style="height:36px">
-                                        <td class="foryellow">
-                                            <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
+                                        <tr style="height:36px">
+                                            <td class="foryellow">
+                                                {{-- <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
                                                target="_blank"
                                                class="gamenameeach">
                                                 {{ strtoupper($game->name) }}
-                                            </a>
+                                            </a> --}}
 
-                                            <br>
+                                                <a href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}"
+                                                    target="_blank" class="gamenameeach !text-[17px]">
+                                                    {{ strtoupper($game->name) }}
+                                                </a>
 
-                                            @if (!empty($game->result_time))
-                                                <span class="time">
-                                                    {{ \Carbon\Carbon::parse($game->result_time)->format('h:i A') }}
-                                                </span>
-                                            @endif
+                                                <br>
 
-                                            <br>
+                                                @if (!empty($game->result_time))
+                                                    <span class="time">
+                                                        {{ \Carbon\Carbon::parse($game->result_time)->format('h:i A') }}
+                                                    </span>
+                                                @endif
 
-                                            <a style="font-size:12px;color:#000000;"
+                                                <br>
+
+                                                {{-- <a style="font-size:12px;color:#000000;"
                                                target="_blank"
                                                href="{{ route('game.record', ['slug' => $game->slug ?? ($game->url ?? $game->id)]) }}">
                                                 Record Chart
-                                            </a>
-                                        </td>
-
-                                        <td class="text-center">
-                                            @if ($yesterdayResult && filled($yesterdayResult->result))
-                                                {{ str_pad($yesterdayResult->result, 2, '0', STR_PAD_LEFT) }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-
-                                        <td class="text-center">
-                                            @if ($todayResult && filled($todayResult->result))
-                                                {{ str_pad($todayResult->result, 2, '0', STR_PAD_LEFT) }}
-                                            @else
-                                                <p>
-                                                    <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting" class="lazy" width="40" height="40">
-                                                    </strong>
-                                                </p>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="3" class="text-center">
-                                            <p class="mt-3">Don't have any data</p>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    @if (!$loop->last)
-        <div style="height:18px;"></div>
-    @endif
-@endforeach
-
-
-{{-- gap between result and chart --}}
-<div style="height:35px;"></div>
-
-
-{{-- monthly chart heading --}}
-<section class="octoberresultchart">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center font-size-30 forfirtcolor">
-                <span id="date"></span>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-{{-- monthly chart - 17 games per chart section --}}
-@foreach ($chartGameSections as $chartIndex => $sectionChartGames)
-    <section class="newtable {{ $chartIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12 nopadding">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="p-0">
-                                <tr>
-                                    <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                        <strong class="fon">Date</strong>
-                                    </th>
-
-                                    @foreach ($sectionChartGames as $game)
-                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                            <strong class="fon">{{ strtoupper($game->name) }}</strong>
-                                        </th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-
-                            <tbody class="colorchange">
-                                @foreach ($dates as $date)
-                                    @php
-                                        $dateKey = $date->format('Y-m-d');
-                                        $dayResults = $monthlyResults[$dateKey] ?? collect();
-                                    @endphp
-
-                                    <tr>
-                                        <td class="text-center forfirtcolor">
-                                            {{ $date->format('d') }}
-                                        </td>
-
-                                        @foreach ($sectionChartGames as $game)
-                                            @php
-                                                $result = $dayResults->firstWhere('game_id', $game->id);
-                                            @endphp
+                                            </a> --}}
+                                            </td>
 
                                             <td class="text-center">
-                                                @if ($result && $result->status === 'declared' && filled($result->result))
-                                                    <b>{{ str_pad($result->result, 2, '0', STR_PAD_LEFT) }}</b>
+                                                @if ($yesterdayResult && filled($yesterdayResult->result))
+                                                    {{ str_pad($yesterdayResult->result, 2, '0', STR_PAD_LEFT) }}
                                                 @else
                                                     -
                                                 @endif
                                             </td>
-                                        @endforeach
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
+                                            <td class="text-center">
+                                                @if ($todayResult && filled($todayResult->result))
+                                                    {{ str_pad($todayResult->result, 2, '0', STR_PAD_LEFT) }}
+                                                @else
+                                                    <p>
+                                                        <strong class="waitimg">
+                                                            <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}"
+                                                                alt="waiting" class="lazy" width="40" height="40">
+                                                        </strong>
+                                                    </p>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <p class="mt-3">Don't have any data</p>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        @if (!$loop->last)
+            <div style="height:18px;"></div>
+        @endif
+    @endforeach
+
+
+    {{-- gap between result and chart --}}
+    <div style="height:35px;"></div>
+
+
+    {{-- monthly chart heading --}}
+    <section class="octoberresultchart">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center font-size-30 forfirtcolor">
+                    <span id="date"></span>
                 </div>
             </div>
         </div>
     </section>
 
-    @if (!$loop->last)
-        <div style="height:25px;"></div>
-    @endif
-@endforeach
+
+    {{-- monthly chart - 17 games per chart section --}}
+    @foreach ($chartGameSections as $chartIndex => $sectionChartGames)
+        <section class="newtable {{ $chartIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 nopadding">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="p-0">
+                                    <tr>
+                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
+                                            <strong class="fon">Date</strong>
+                                        </th>
+
+                                        @foreach ($sectionChartGames as $game)
+                                            <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
+                                                <strong class="fon">{{ strtoupper($game->name) }}</strong>
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+
+                                <tbody class="colorchange">
+                                    @foreach ($dates as $date)
+                                        @php
+                                            $dateKey = $date->format('Y-m-d');
+                                            $dayResults = $monthlyResults[$dateKey] ?? collect();
+                                        @endphp
+
+                                        <tr>
+                                            <td class="text-center forfirtcolor">
+                                                {{ $date->format('d') }}
+                                            </td>
+
+                                            @foreach ($sectionChartGames as $game)
+                                                @php
+                                                    $result = $dayResults->firstWhere('game_id', $game->id);
+                                                @endphp
+
+                                                <td class="text-center">
+                                                    @if ($result && $result->status === 'declared' && filled($result->result))
+                                                        <b>{{ str_pad($result->result, 2, '0', STR_PAD_LEFT) }}</b>
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        @if (!$loop->last)
+            <div style="height:25px;"></div>
+        @endif
+    @endforeach
 
 
 
@@ -955,5 +961,4 @@
 
         MYDate();
     </script>
-
 @endsection
