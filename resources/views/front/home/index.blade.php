@@ -197,7 +197,7 @@
                                         <strong class="waitimg">
                                             <img class="lazy"
                                                  src="{{ asset('m/d.gif') }}"
-                                                 alt="waiting">
+                                                 alt="waiting"  width="40" height="40">
                                         </strong>
                                     </p>
                                 @endif
@@ -388,7 +388,7 @@
                                             @else
                                                 <p>
                                                     <strong class="waitimg">
-                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting" class="lazy">
+                                                        <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}" alt="waiting" class="lazy" width="40" height="40">
                                                     </strong>
                                                 </p>
                                             @endif
