@@ -253,7 +253,7 @@
             }
 
             .gamenameeach {
-                font-size: 13px !important;
+                font-size: 17px !important;
                 line-height: 1.25;
                 display: inline-block;
                 max-width: 100%;
