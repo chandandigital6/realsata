@@ -150,9 +150,13 @@
 
                         @if (!empty($advertisement->image))
                             <span class="rv-ad-img">
+                                {{-- <img src="{{ asset('storage/' . $advertisement->image) }}"
+                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
+                                    height="48"> --}}
+
                                 <img src="{{ asset('storage/' . $advertisement->image) }}"
                                     alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
-                                    height="48">
+                                    height="48" loading="eager" decoding="async" fetchpriority="high">
                             </span>
                         @endif
                     </div>
@@ -195,8 +199,15 @@
                                     @else
                                         <p>
                                             <strong class="waitimg">
-                                                <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting"
-                                                    width="40" height="40">
+                                                {{-- <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting"
+                                                    width="40" height="40"> --}}
+                                                    <img class="lazy"
+     src="{{ asset('m/d.gif') }}"
+     alt="waiting"
+     width="40"
+     height="40"
+     loading="lazy"
+     decoding="async">
                                             </strong>
                                         </p>
                                     @endif
@@ -236,12 +247,18 @@
                     @if (!empty($middleAdvertisement->link)) target="_blank" @endif style="text-decoration:none;">
                     <span class="rv-ad-img">
                         @if (!empty($middleAdvertisement->image))
+                            {{-- <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
+                                alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}" class="lazy" width="159"
+                                height="55"> --}}
                             <img src="{{ asset('storage/' . $middleAdvertisement->image) }}"
                                 alt="{{ $middleAdvertisement->title ?? 'Join WhatsApp' }}" class="lazy" width="159"
-                                height="55">
+                                height="55" loading="lazy" decoding="async">
                         @else
+                            {{-- <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
+                                height="55"> --}}
+
                             <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
-                                height="55">
+                                height="55" loading="lazy" decoding="async">
                         @endif
                     </span>
                 </a>
@@ -252,8 +269,10 @@
 
                 <a href="https://whatsapp.com/channel/0029Vb67katLikgE57Pwhj0T" style="text-decoration:none;">
                     <span class="rv-ad-img">
+                        {{-- <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
+                            height="55"> --}}
                         <img src="{{ asset('Join-WhatsApp.png') }}" alt="Join WhatsApp" class="lazy" width="159"
-                            height="55">
+                            height="55" loading="lazy" decoding="async">
                     </span>
                 </a>
             @endif
@@ -281,9 +300,12 @@
 
                     @if (!empty($bottomAdvertisement->image))
                         <span class="rv-ad-img">
+                            {{-- <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                                height="48"> --}}
                             <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
                                 alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
-                                height="48">
+                                height="48" loading="lazy" decoding="async">
                         </span>
                     @endif
                 </div>
@@ -312,8 +334,11 @@
 
                     @if (!empty($sidebarAdvertisement->image))
                         <span class="rv-ad-img">
+                            {{-- <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
+                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy"> --}}
                             <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy">
+                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                                height="48" loading="lazy" decoding="async">
                         </span>
                     @endif
                 </div>
@@ -393,8 +418,11 @@
                                                 @else
                                                     <p>
                                                         <strong class="waitimg">
-                                                            <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}"
-                                                                alt="waiting" class="lazy" width="40" height="40">
+                                                            {{-- <img class="lazy" alt="waiting" src="{{ asset('m/d.gif') }}"
+                                                                alt="waiting" class="lazy" width="40" height="40"> --}}
+                                                            <img class="lazy" src="{{ asset('m/d.gif') }}"
+                                                                alt="waiting" width="40" height="40"
+                                                                loading="lazy" decoding="async">
                                                         </strong>
                                                     </p>
                                                 @endif

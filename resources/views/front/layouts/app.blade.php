@@ -42,16 +42,23 @@
     <link rel="icon" type="image/png" href="/m/favicon-96x96.png" sizes="96x96">
     <link rel="manifest" href="/m/site.webmanifest">
 
-    {{-- CSS Preload Fix --}}
-    <link rel="preload"
-          href="{{ asset('tamplate/css/bootstrap.min.css') }}"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload"
+      href="{{ asset('Logo.webp') }}"
+      as="image"
+      type="image/webp"
+      fetchpriority="high">
 
-    <link rel="preload"
-          href="{{ asset('tamplate/css/bootstrap-theme.css') }}"
-          as="style"
-          onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload"
+      href="{{ asset('tamplate/css/bootstrap.min.css') }}"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+
+<link rel="preload"
+      href="{{ asset('tamplate/css/bootstrap-theme.css') }}"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'">
+
+<link rel="preconnect" href="{{ url('/') }}">
 
     {{-- No JavaScript fallback --}}
     <noscript>
@@ -60,6 +67,35 @@
     </noscript>
 
     <style>
+
+
+.topboxnew p {
+    min-height: 130px;
+}
+
+.topboxnew img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+}
+
+.rv-ad-wrap {
+    min-height: 96px;
+}
+
+.waitimg {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.waitimg img {
+    width: 40px;
+    height: 40px;
+}
+
+
+
         * {
             box-sizing: border-box;
         }

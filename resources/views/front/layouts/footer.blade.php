@@ -84,7 +84,14 @@
     style="position:fixed; bottom:18px; right:6px; z-index:9; display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
     <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0" target="_blank"
         rel="noopener noreferrer" style="line-height:0;">
-        <img src="/m/wapp.png" alt="WhatsApp" style="height:80px;width:80px;margin-right:10px;display:block;">
+        {{-- <img src="/m/wapp.png" alt="WhatsApp" style="height:80px;width:80px;margin-right:10px;display:block;"> --}}
+        <img src="{{ asset('m/wapp.webp') }}"
+     alt="WhatsApp"
+     style="height:80px;width:80px;margin-right:10px;display:block;"
+     width="80"
+     height="80"
+     loading="lazy"
+     decoding="async">
     </a>
 
     <button type="button" class="page-refresh-widget" onclick="location.reload()" title="Refresh page"
