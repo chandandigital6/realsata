@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="hi-IN">
+
 <head>
     <meta charset="UTF-8">
 
@@ -23,76 +24,70 @@
     <link rel="shortlink" href="{{ url('/') }}">
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{{ $seo->og_title ?? $seo->meta_title ?? $defaultTitle }}">
-    <meta property="og:description" content="{{ $seo->og_description ?? $seo->meta_description ?? $defaultDescription }}">
+    <meta property="og:title" content="{{ $seo->og_title ?? ($seo->meta_title ?? $defaultTitle) }}">
+    <meta property="og:description"
+        content="{{ $seo->og_description ?? ($seo->meta_description ?? $defaultDescription) }}">
     <meta property="og:url" content="{{ $seo->canonical_url ?? $defaultCanonical }}">
 
-    @if(!empty($seo?->og_image))
-        <meta property="og:image" content="{{ asset('storage/'.$seo->og_image) }}">
+    @if (!empty($seo?->og_image))
+        <meta property="og:image" content="{{ asset('storage/' . $seo->og_image) }}">
     @endif
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $seo->og_title ?? $seo->meta_title ?? $defaultTitle }}">
-    <meta name="twitter:description" content="{{ $seo->og_description ?? $seo->meta_description ?? $defaultDescription }}">
+    <meta name="twitter:title" content="{{ $seo->og_title ?? ($seo->meta_title ?? $defaultTitle) }}">
+    <meta name="twitter:description"
+        content="{{ $seo->og_description ?? ($seo->meta_description ?? $defaultDescription) }}">
 
-    @if(!empty($seo?->og_image))
-        <meta name="twitter:image" content="{{ asset('storage/'.$seo->og_image) }}">
+    @if (!empty($seo?->og_image))
+        <meta name="twitter:image" content="{{ asset('storage/' . $seo->og_image) }}">
     @endif
 
     <link rel="icon" type="image/png" href="/m/favicon-96x96.png" sizes="96x96">
     <link rel="manifest" href="/m/site.webmanifest">
 
-  <link rel="preload"
-      href="{{ asset('Logo.webp') }}"
-      as="image"
-      type="image/webp"
-      fetchpriority="high">
+    <link rel="preload" href="{{ asset('Logo.webp') }}" as="image" type="image/webp" fetchpriority="high">
 
-<link rel="preload"
-      href="{{ asset('tamplate/css/bootstrap.min.css') }}"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'">
+    {{-- <link rel="preload" href="{{ asset('tamplate/css/bootstrap.min.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
 
-<link rel="preload"
-      href="{{ asset('tamplate/css/bootstrap-theme.css') }}"
-      as="style"
-      onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="{{ asset('tamplate/css/bootstrap-theme.css') }}" as="style"
+        onload="this.onload=null;this.rel='stylesheet'"> --}}
 
-<link rel="preconnect" href="{{ url('/') }}">
+    <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap-theme.css') }}">
+    <link rel="preconnect" href="{{ url('/') }}">
 
     {{-- No JavaScript fallback --}}
-    <noscript>
+    {{-- <noscript>
         <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('tamplate/css/bootstrap-theme.css') }}">
-    </noscript>
+    </noscript> --}}
 
     <style>
+        .topboxnew p {
+            min-height: 130px;
+        }
 
+        .topboxnew img {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+        }
 
-.topboxnew p {
-    min-height: 130px;
-}
+        .rv-ad-wrap {
+            min-height: 96px;
+        }
 
-.topboxnew img {
-    width: 130px;
-    height: 130px;
-    object-fit: contain;
-}
+        .waitimg {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+        }
 
-.rv-ad-wrap {
-    min-height: 96px;
-}
-
-.waitimg {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-}
-
-.waitimg img {
-    width: 40px;
-    height: 40px;
-}
+        .waitimg img {
+            width: 40px;
+            height: 40px;
+        }
 
 
 
@@ -355,25 +350,26 @@
 
     @yield('custom-styles')
 
-    @if(!empty($seo?->schema_markup))
+    @if (!empty($seo?->schema_markup))
         {!! $seo->schema_markup !!}
     @endif
 </head>
 
 <body>
-<div id="app">
+    <div id="app">
 
-    @include('front.layouts.nav')
+        @include('front.layouts.nav')
 
-    <main>
-        @yield('content')
-    </main>
+        <main>
+            @yield('content')
+        </main>
 
-    @include('front.layouts.footer')
+        @include('front.layouts.footer')
 
-</div>
+    </div>
 
-@yield('custom-script')
+    @yield('custom-script')
 
 </body>
+
 </html>
