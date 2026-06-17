@@ -32,6 +32,7 @@ class ContentBlockController extends Controller
             'content'   => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
             'game_id' => ['nullable', 'exists:games,id'],
+             'year'        => ['nullable', 'integer', 'min:2000', 'max:2100'],
         ]);
 
         $data['key'] = $data['key'] ?: Str::slug($data['title'] ?? 'content-block') . '-' . time();
@@ -64,6 +65,7 @@ class ContentBlockController extends Controller
             'content'   => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
             'game_id' => ['nullable', 'exists:games,id'],
+             'year'        => ['nullable', 'integer', 'min:2000', 'max:2100'],
         ]);
 
         $data['key'] = $data['key'] ?: Str::slug($data['title'] ?? 'content-block') . '-' . $contentBlock->id;

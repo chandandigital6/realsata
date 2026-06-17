@@ -571,35 +571,154 @@ public function homeoooo()
 
 
 
-    public function gameRecord(string $slug)
+//     public function gameRecord(string $slug)
+// {
+//     $game = Game::where('slug', $slug)
+//         ->where('is_active', true)
+//         ->firstOrFail();
+
+//     $year = now()->year;
+
+//     $results = GameResult::where('game_id', $game->id)
+//         ->whereYear('result_date', $year)
+//         ->orderBy('result_date')
+//         ->get();
+
+//     $seo = SeoPage::where(function ($q) use ($game, $year) {
+//         $q->where('game_id', $game->id)
+//           ->where('year', $year);
+//     })
+//     ->orWhere(function ($q) use ($game) {
+//         $q->where('game_id', $game->id)
+//           ->whereNull('year');
+//     })
+//     ->orWhere('page_key', 'year-record')
+//     ->first();
+
+//     $contentBlocks = ContentBlock::where('game_id', $game->id)
+//     ->where('is_active', true)
+//     ->orderBy('id')
+//     ->get();
+//     return view('front.game.record', compact('game', 'results', 'year', 'seo','contentBlocks'));
+// }
+
+// public function yearRecord(string $slug, int $year)
+// {
+//     $game = Game::where('slug', $slug)
+//         ->where('is_active', true)
+//         ->firstOrFail();
+
+//     $results = GameResult::where('game_id', $game->id)
+//         ->whereYear('result_date', $year)
+//         ->orderBy('result_date')
+//         ->get();
+
+//     $seo = SeoPage::where(function ($q) use ($game, $year) {
+//         $q->where('game_id', $game->id)
+//           ->where('year', $year);
+//     })
+//     ->orWhere(function ($q) use ($game) {
+//         $q->where('game_id', $game->id)
+//           ->whereNull('year');
+//     })
+//     ->orWhere('page_key', 'year-record')
+//     ->first();
+
+//    $contentBlocks = ContentBlock::where('game_id', $game->id)
+//     ->where('is_active', true)
+//     ->orderBy('id')
+//     ->get();
+
+// return view('front.game.year_record', compact('game', 'results', 'year', 'seo', 'contentBlocks'));
+
+// }
+
+
+
+
+
+
+
+
+
+public function gameRecord(string $slug)
 {
     $game = Game::where('slug', $slug)
         ->where('is_active', true)
         ->firstOrFail();
 
-    $year = now()->year;
+    $year = now('Asia/Kolkata')->year;
 
     $results = GameResult::where('game_id', $game->id)
         ->whereYear('result_date', $year)
         ->orderBy('result_date')
         ->get();
 
-    $seo = SeoPage::where(function ($q) use ($game, $year) {
-        $q->where('game_id', $game->id)
-          ->where('year', $year);
-    })
-    ->orWhere(function ($q) use ($game) {
-        $q->where('game_id', $game->id)
-          ->whereNull('year');
-    })
-    ->orWhere('page_key', 'year-record')
-    ->first();
+    $seo = SeoPage::where('game_id', $game->id)
+        ->whereNull('year')
+        ->first();
+
+    if (!$seo) {
+        $seo = SeoPage::where('page_key', 'game-record')->first();
+    }
+
+    $canonicalUrl = route('game.record', $game->slug);
+
+    if ($seo) {
+        $seo = clone $seo;
+        $seo->canonical_url = $canonicalUrl;
+
+        $replace = [
+            '{game}' => $game->name,
+            '{slug}' => $game->slug,
+            '{year}' => $year,
+        ];
+
+        $seo->meta_title = $seo->meta_title
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_title)
+            : null;
+
+        $seo->meta_description = $seo->meta_description
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_description)
+            : null;
+
+        $seo->meta_keywords = $seo->meta_keywords
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_keywords)
+            : null;
+
+        $seo->og_title = $seo->og_title
+            ? str_replace(array_keys($replace), array_values($replace), $seo->og_title)
+            : null;
+
+        $seo->og_description = $seo->og_description
+            ? str_replace(array_keys($replace), array_values($replace), $seo->og_description)
+            : null;
+    } else {
+        $seo = (object) [
+            'meta_title'       => "{$game->name} Record Chart",
+            'meta_description' => "{$game->name} record chart, old result and complete satta chart.",
+            'meta_keywords'    => "{$game->name} record, {$game->name} chart",
+            'canonical_url'    => $canonicalUrl,
+            'og_title'         => null,
+            'og_description'   => null,
+            'og_image'         => null,
+            'schema_markup'    => null,
+        ];
+    }
 
     $contentBlocks = ContentBlock::where('game_id', $game->id)
-    ->where('is_active', true)
-    ->orderBy('id')
-    ->get();
-    return view('front.game.record', compact('game', 'results', 'year', 'seo','contentBlocks'));
+        ->whereNull('year')
+        ->where('is_active', true)
+        ->orderBy('id')
+        ->get();
+
+    return view('front.game.record', compact(
+        'game',
+        'results',
+        'year',
+        'seo',
+        'contentBlocks'
+    ));
 }
 
 public function yearRecord(string $slug, int $year)
@@ -613,25 +732,73 @@ public function yearRecord(string $slug, int $year)
         ->orderBy('result_date')
         ->get();
 
-    $seo = SeoPage::where(function ($q) use ($game, $year) {
-        $q->where('game_id', $game->id)
-          ->where('year', $year);
-    })
-    ->orWhere(function ($q) use ($game) {
-        $q->where('game_id', $game->id)
-          ->whereNull('year');
-    })
-    ->orWhere('page_key', 'year-record')
-    ->first();
+    $seo = SeoPage::where('game_id', $game->id)
+        ->where('year', $year)
+        ->first();
 
-   $contentBlocks = ContentBlock::where('game_id', $game->id)
-    ->where('is_active', true)
-    ->orderBy('id')
-    ->get();
+    if (!$seo) {
+        $seo = SeoPage::where('page_key', 'year-record')->first();
+    }
 
-return view('front.game.year_record', compact('game', 'results', 'year', 'seo', 'contentBlocks'));
+    $canonicalUrl = route('game.year-record', [$game->slug, $year]);
 
+    if ($seo) {
+        $seo = clone $seo;
+        $seo->canonical_url = $canonicalUrl;
+
+        $replace = [
+            '{game}' => $game->name,
+            '{slug}' => $game->slug,
+            '{year}' => $year,
+        ];
+
+        $seo->meta_title = $seo->meta_title
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_title)
+            : null;
+
+        $seo->meta_description = $seo->meta_description
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_description)
+            : null;
+
+        $seo->meta_keywords = $seo->meta_keywords
+            ? str_replace(array_keys($replace), array_values($replace), $seo->meta_keywords)
+            : null;
+
+        $seo->og_title = $seo->og_title
+            ? str_replace(array_keys($replace), array_values($replace), $seo->og_title)
+            : null;
+
+        $seo->og_description = $seo->og_description
+            ? str_replace(array_keys($replace), array_values($replace), $seo->og_description)
+            : null;
+    } else {
+        $seo = (object) [
+            'meta_title'       => "{$game->name} {$year} Record Chart",
+            'meta_description' => "{$game->name} {$year} record chart, old result and complete satta chart.",
+            'meta_keywords'    => "{$game->name} {$year} record, {$game->name} {$year} chart",
+            'canonical_url'    => $canonicalUrl,
+            'og_title'         => null,
+            'og_description'   => null,
+            'og_image'         => null,
+            'schema_markup'    => null,
+        ];
+    }
+
+    $contentBlocks = ContentBlock::where('game_id', $game->id)
+        ->where('year', $year)
+        ->where('is_active', true)
+        ->orderBy('id')
+        ->get();
+
+    return view('front.game.year_record', compact(
+        'game',
+        'results',
+        'year',
+        'seo',
+        'contentBlocks'
+    ));
 }
+
 
 
 
