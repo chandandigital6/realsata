@@ -308,6 +308,7 @@
     }
 
 
+
 public function homeoooo()
 {
     $timezone = 'Asia/Kolkata';
@@ -571,73 +572,6 @@ public function homeoooo()
 
 
 
-//     public function gameRecord(string $slug)
-// {
-//     $game = Game::where('slug', $slug)
-//         ->where('is_active', true)
-//         ->firstOrFail();
-
-//     $year = now()->year;
-
-//     $results = GameResult::where('game_id', $game->id)
-//         ->whereYear('result_date', $year)
-//         ->orderBy('result_date')
-//         ->get();
-
-//     $seo = SeoPage::where(function ($q) use ($game, $year) {
-//         $q->where('game_id', $game->id)
-//           ->where('year', $year);
-//     })
-//     ->orWhere(function ($q) use ($game) {
-//         $q->where('game_id', $game->id)
-//           ->whereNull('year');
-//     })
-//     ->orWhere('page_key', 'year-record')
-//     ->first();
-
-//     $contentBlocks = ContentBlock::where('game_id', $game->id)
-//     ->where('is_active', true)
-//     ->orderBy('id')
-//     ->get();
-//     return view('front.game.record', compact('game', 'results', 'year', 'seo','contentBlocks'));
-// }
-
-// public function yearRecord(string $slug, int $year)
-// {
-//     $game = Game::where('slug', $slug)
-//         ->where('is_active', true)
-//         ->firstOrFail();
-
-//     $results = GameResult::where('game_id', $game->id)
-//         ->whereYear('result_date', $year)
-//         ->orderBy('result_date')
-//         ->get();
-
-//     $seo = SeoPage::where(function ($q) use ($game, $year) {
-//         $q->where('game_id', $game->id)
-//           ->where('year', $year);
-//     })
-//     ->orWhere(function ($q) use ($game) {
-//         $q->where('game_id', $game->id)
-//           ->whereNull('year');
-//     })
-//     ->orWhere('page_key', 'year-record')
-//     ->first();
-
-//    $contentBlocks = ContentBlock::where('game_id', $game->id)
-//     ->where('is_active', true)
-//     ->orderBy('id')
-//     ->get();
-
-// return view('front.game.year_record', compact('game', 'results', 'year', 'seo', 'contentBlocks'));
-
-// }
-
-
-
-
-
-
 
 
 
@@ -721,6 +655,7 @@ public function gameRecord(string $slug)
     ));
 }
 
+
 public function yearRecord(string $slug, int $year)
 {
     $game = Game::where('slug', $slug)
@@ -802,30 +737,9 @@ public function yearRecord(string $slug, int $year)
 
 
 
-    public function products()
-    {
-        $seo = SeoPage::where('page_key', 'products')->first();
+   
 
-        return view('front.products.index', compact('seo'));
-    }
-
-    public function singleProduct()
-    {
-        // $this->seo()->setTitle("Product Name");
-        return view('front.products.single');
-    }
-
-    public function services()
-    {
-        // $this->seo()->setTitle("Services");
-        return view('front.services.index');
-    }
-
-    public function aboutUs()
-    {
-        $seo = SeoPage::where('page_key', 'about-us')->first();
-        return view('front.chart.index', compact('seo'));
-    }
+   
 
     public function contactUs()
     {
