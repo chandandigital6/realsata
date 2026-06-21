@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    
 
     @php
         $seo = $seo ?? null;
@@ -17,7 +18,8 @@
 
     <meta name="description" content="{{ $seo->meta_description ?? $defaultDescription }}">
     <meta name="keywords" content="{{ $seo->meta_keywords ?? $defaultKeywords }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> --}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
 
     <link rel="canonical" href="{{ $seo->canonical_url ?? $defaultCanonical }}">
