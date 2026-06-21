@@ -201,13 +201,8 @@
                                             <strong class="waitimg">
                                                 {{-- <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting"
                                                     width="40" height="40"> --}}
-                                                    <img class="lazy"
-     src="{{ asset('m/d.gif') }}"
-     alt="waiting"
-     width="40"
-     height="40"
-     loading="lazy"
-     decoding="async">
+                                                <img class="lazy" src="{{ asset('m/d.gif') }}" alt="waiting"
+                                                    width="40" height="40" loading="lazy" decoding="async">
                                             </strong>
                                         </p>
                                     @endif
@@ -541,7 +536,7 @@
         </p>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>If you're someone who tracks Satta King results daily, you already know the frustration — jumping
+               If you're someone who tracks Satta King results daily, you already know the frustration — jumping
                 between
                 five different websites, staring at slow-loading pages, and still not getting the result on time. Half the
                 time,
@@ -567,7 +562,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Results are updated throughout the day as each game is officially declared. You'll find today's live
+             Results are updated throughout the day as each game is officially declared. You'll find today's live
                 results
                 alongside yesterday's numbers, so you can compare at a glance. We refresh the page the moment results are
                 out —
@@ -592,7 +587,7 @@
             for years, and these are the ones we cover most closely on Real Satta Bazar.
             <br>
             Here's a game-by-game breakdown of what each one is and when results are declared:
-            </strong>
+           
         </p>
 
 
@@ -603,7 +598,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Out of every Satta King game that runs in India, Gali Satta King is arguably the most talked about. It's
+            Out of every Satta King game that runs in India, Gali Satta King is arguably the most talked about. It's
                 been running for decades and has a massive following across Delhi, Uttar Pradesh, and Haryana. The result
                 comes
                 in late at night — around 11:50 PM — which means it's usually the last major update of the day for most
@@ -625,7 +620,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Disawar is the grand old name of the Satta King world. Ask anyone who's been following these markets for
+            Disawar is the grand old name of the Satta King world. Ask anyone who's been following these markets for
                 years, and Disawar will be the first name they mention. The result comes in the very early hours of the
                 morning
                 — 2:00 AM — making it technically the first result of each new day.
@@ -637,7 +632,7 @@
                 wait around.
                 <br>
                 Result Time: 2:00 AM daily
-            </strong>
+            
         </p>
 
         <h3
@@ -647,7 +642,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Faridabad is one of the key evening games, declaring its result around 6:20 PM. It's particularly
+            Faridabad is one of the key evening games, declaring its result around 6:20 PM. It's particularly
                 popular
                 among followers in Haryana and the Delhi-NCR belt. The timing works out well for most people — it's after
                 work
@@ -657,7 +652,7 @@
                 Ghaziabad.
                 <br>
                 Result Time: 6:20 PM daily
-            </strong>
+            
         </p>
 
         <h3
@@ -667,7 +662,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Ghaziabad runs a little later in the evening, with results coming in around 9:30 PM. It's widely
+            Ghaziabad runs a little later in the evening, with results coming in around 9:30 PM. It's widely
                 followed
                 across Uttar Pradesh, Delhi, and the surrounding areas. The 9:30 PM timing makes it a prime-time result —
                 most
@@ -677,7 +672,7 @@
                 <br>
                 Result Time: 9:30 PM daily
 
-            </strong>
+           
         </p>
 
 
@@ -689,7 +684,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Delhi Bazaar Result is an afternoon game, with results declared around 2:50 PM. It's a big one for
+            Delhi Bazaar Result is an afternoon game, with results declared around 2:50 PM. It's a big one for
                 followers
                 based in Delhi and the NCR region. The afternoon timing gives it a mid-day significance — many people check
                 this
@@ -700,7 +695,7 @@
                 the rest of the day's results.
                 <br>
                 Result Time: 2:50 PM daily
-            </strong>
+           
         </p>
 
         <h3
@@ -710,7 +705,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Shri Ganesh has built a steady following over the years, particularly in UP and Delhi. Results come in
+            Shri Ganesh has built a steady following over the years, particularly in UP and Delhi. Results come in
                 the
                 late afternoon around 4:10 PM, filling the gap between the early afternoon markets and the big evening
                 games. If
@@ -718,7 +713,7 @@
                 between Delhi Bazaar and Faridabad.
                 <br>
                 Result Time: 4:10 PM daily
-            </strong>
+           
         </p>
 
         <h2
@@ -728,11 +723,11 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>There are dozens of websites showing Satta King results. So what's the actual reason people keep
+            There are dozens of websites showing Satta King results. So what's the actual reason people keep
                 choosing
                 Real Satta Bazar? It comes down to a few things that most other platforms consistently fail to get right.
 
-            </strong>
+            
         </p>
 
         <h3
@@ -742,13 +737,13 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Speed matters here. Nobody wants to check three websites and still not find the result. On Real Satta,
+            Speed matters here. Nobody wants to check three websites and still not find the result. On Real Satta,
                 results go live immediately after they're officially declared — day or night. The 2 AM Disawar result, the
                 11:50
                 PM Gali update, the 9:30 PM Ghaziabad number — all of them land on this site faster than almost anywhere
                 else.
 
-            </strong>
+           
         </p>
 
 
@@ -759,7 +754,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>You shouldn't have to visit five different pages to follow five different markets. Real Satta covers all
+            You shouldn't have to visit five different pages to follow five different markets. Real Satta covers all
                 the
                 major games — Gali, Disawar, Faridabad, Ghaziabad, Delhi Bazaar, Delhi Darbar, Shri Ganesh, Noida Night,
                 Roop
@@ -767,7 +762,7 @@
                 result
                 table.
 
-            </strong>
+            
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -776,12 +771,12 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>A lot of Satta result websites are packed with ads, blinking banners, random WhatsApp links, and pop-ups
+           A lot of Satta result websites are packed with ads, blinking banners, random WhatsApp links, and pop-ups
                 that hijack your screen. Real Satta keeps things clean. The layout is simple, the results are clearly
                 visible,
                 and the site loads fast on mobile — which is how most people visit.
 
-            </strong>
+            
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -790,7 +785,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>This is important. Real Satta does not sell "leak numbers," "fix jodi," or "guaranteed results." Any
+            This is important. Real Satta does not sell "leak numbers," "fix jodi," or "guaranteed results." Any
                 website
                 that does is running a scam, plain and simple. If someone is asking you to pay for a sure-shot number, don't
                 do
@@ -798,7 +793,7 @@
                 <br>
                 Real Satta exists purely to show you results as they are officially declared. Nothing more, nothing less.
 
-            </strong>
+            
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -807,13 +802,13 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Real Satta Bazar has built its reputation over years of consistent, accurate, and on-time result
+            Real Satta Bazar has built its reputation over years of consistent, accurate, and on-time result
                 posting.
                 Our regular visitors come from Delhi, UP, Haryana, Rajasthan, Punjab, and Uttarakhand. The trust didn't come
                 from advertising — it came from simply showing up every single day and delivering the right number at the
                 right
                 time.
-            </strong>
+           
         </p>
         <h2
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -822,7 +817,7 @@
 
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Real Satta Bazar is a result information portal built specifically for Satta King market tracking. We
+            Real Satta Bazar is a result information portal built specifically for Satta King market tracking. We
                 are
                 not a gaming company. We don't run any markets. We don't take bets or wagers, and we have no affiliation
                 with
@@ -848,7 +843,7 @@
                 If you ever have questions or want a specific market added to our tracking list, you can reach out through
                 the
                 Contact page.
-            </strong>
+           
         </p>
 
         <h2
@@ -861,12 +856,12 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Real Satta King is the commonly used term for the Satta King result ecosystem — the markets, the
+            Real Satta King is the commonly used term for the Satta King result ecosystem — the markets, the
                 declared
                 numbers, and the websites that track and display them. Real Satta (realsatta.in) is an informational website
                 that posts daily Satta King results for all major Real Satta Bazar markets as soon as they are officially
                 declared. We are strictly an information platform — we do not run or facilitate any games.
-            </strong>
+           
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -874,12 +869,12 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Simply scroll up on this page to the Live Results section. Results are updated throughout the day as
+           Simply scroll up on this page to the Live Results section. Results are updated throughout the day as
                 each
                 game declares its number. The table shows both yesterday's result and today's live update side by side.
                 Bookmark
                 this page for quick daily access.
-            </strong>
+           
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -887,10 +882,10 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Gali result is typically declared around 11:50 PM. Disawar comes at 2:00 AM, Faridabad at 6:20 PM, and
+           Gali result is typically declared around 11:50 PM. Disawar comes at 2:00 AM, Faridabad at 6:20 PM, and
                 Ghaziabad at 9:30 PM. These timings are generally consistent but may occasionally shift by a few minutes
                 depending on the declaration.
-            </strong>
+            
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -898,11 +893,11 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>No. Real Satta does not host, run, or facilitate any gambling or betting activity of any kind. We are a
+            No. Real Satta does not host, run, or facilitate any gambling or betting activity of any kind. We are a
                 results information website only. All result data we display is publicly available information. Accessing or
                 using this website for anything other than informational reference is entirely the visitor's own
                 responsibility.
-            </strong>
+          
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -910,11 +905,11 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>No — and this is worth being very clear about. Satta King results are chance-based. Past numbers do not
+            No — and this is worth being very clear about. Satta King results are chance-based. Past numbers do not
                 influence future ones in any way. If any website or person claims to offer "sure shot" results or "fix
                 numbers"
                 in exchange for money, that is a scam. Do not pay anyone for result predictions under any circumstances.
-            </strong>
+            
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -922,13 +917,13 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>We cover 25+ markets including Gali, Disawar, Faridabad, Ghaziabad, Delhi Bazaar, Delhi Darbar, Shri
+            We cover 25+ markets including Gali, Disawar, Faridabad, Ghaziabad, Delhi Bazaar, Delhi Darbar, Shri
                 Ganesh,
                 Palika Bazar, Noida Night, Roop Nagar, Prayagraj, Sadar Bazar, Gwalior, Agra, Rampur, Alwar, Fatehpur,
                 Dehradun
                 City, Aligarh Night, Dwarka, Chhattisgarh, Jeevan Shree, MeghaCity, and several other regional markets from
                 across North India.
-            </strong>
+       
         </p>
 
         <h3
@@ -937,14 +932,14 @@
         </h3>
         <p
             style="padding-left: 20px; padding-right: 20px; color: black; font-size: 15px; font-weight: 500; letter-spacing: 0.2px;">
-            <strong>Each game has a fixed result time. Until that time arrives and the result is officially declared, the
+            Each game has a fixed result time. Until that time arrives and the result is officially declared, the
                 status
                 will show as "Updating." As soon as the number is out, it goes live on the page automatically. If a result
                 is
                 taking longer than usual, it simply means the official declaration has been slightly delayed — we post it
                 the
                 moment it's available.
-            </strong>
+           
         </p>
 
         <p
