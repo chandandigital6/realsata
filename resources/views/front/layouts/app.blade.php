@@ -21,6 +21,7 @@
     {{-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"> --}}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="NWXyND-DGTzEzcwwpfB8-hjtRQhbXN-yiBJNO13ilt8" />
 
     <link rel="canonical" href="{{ $seo->canonical_url ?? $defaultCanonical }}">
     <link rel="shortlink" href="{{ url('/') }}">
@@ -355,6 +356,9 @@
     @if (!empty($seo?->schema_markup))
         {!! $seo->schema_markup !!}
     @endif
+
+
+
 </head>
 
 <body>
