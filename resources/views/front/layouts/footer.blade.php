@@ -9,7 +9,7 @@
     </div>
 </section>
 
-<section class="tabel3">
+{{-- <section class="tabel3">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 nopadding">
@@ -53,7 +53,50 @@
             </div>
         </div>
     </div>
+</section> --}}
+
+
+
+<section class="tabel3">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 nopadding">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                            @forelse($footerGames as $game)
+                                <tr>
+                                    <td class="forfirtcolor">
+                                        <strong>
+                                            <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
+                                               style="color:black; text-decoration:none;">
+                                                {{ strtoupper($game->name) }}
+                                            </a>
+                                        </strong>
+                                    </td>
+
+                                    <td>
+                                        <strong>
+                                            <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
+                                               style="color:black;">
+                                                2026
+                                            </a>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td class="text-center">No chart found.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
 <section class="somelinks">
     <div class="container">
         <div class="footer_white">
