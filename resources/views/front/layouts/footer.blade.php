@@ -57,41 +57,93 @@
 
 
 
-<section class="tabel3">
+<section class="tabel3" style="padding:12px 6px;background:#f5f5f5;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 nopadding">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <tbody>
-                            @forelse($footerGames as $game)
-                                <tr>
-                                    <td class="forfirtcolor">
-                                        <strong>
-                                            <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
-                                               style="color:black; text-decoration:none;">
-                                                {{ strtoupper($game->name) }}
-                                            </a>
-                                        </strong>
-                                    </td>
 
-                                    <td>
-                                        <strong>
-                                            <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
-                                               style="color:black;">
-                                                2026
-                                            </a>
-                                        </strong>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td class="text-center">No chart found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                <div style="
+                    border:3px solid #111;
+                    border-radius:10px;
+                    overflow:hidden;
+                    background:#fff;
+                    box-shadow:0 4px 14px rgba(0,0,0,0.18);
+                ">
+                    <div class="table-responsive" style="margin:0;">
+                        <table class="table table-bordered" style="
+                            margin-bottom:0;
+                            width:100%;
+                            border-collapse:collapse;
+                            background:#fff;
+                        ">
+                            <tbody>
+                                @forelse($footerGames as $game)
+                                    <tr>
+                                        <td class="forfirtcolor" style="
+                                            border:1px solid #222;
+                                            background:#ffb300;
+                                            padding:10px 8px;
+                                            text-align:center;
+                                            width:65%;
+                                        ">
+                                            <strong>
+                                                <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
+                                                   style="
+                                                        color:#000;
+                                                        text-decoration:none;
+                                                        font-size:15px;
+                                                        font-weight:900;
+                                                        display:block;
+                                                        text-transform:uppercase;
+                                                   ">
+                                                    {{ strtoupper($game->name) }}
+                                                </a>
+                                            </strong>
+                                        </td>
+
+                                        <td style="
+                                            border:1px solid #222;
+                                            background:#fff;
+                                            padding:10px 8px;
+                                            text-align:center;
+                                            width:35%;
+                                        ">
+                                            <strong>
+                                                <a href="{{ route('game.record', ['slug' => $game->slug]) }}"
+                                                   style="
+                                                        color:#000;
+                                                        text-decoration:none;
+                                                        font-size:15px;
+                                                        font-weight:900;
+                                                        display:inline-block;
+                                                        background:#111;
+                                                        color:#fff;
+                                                        padding:4px 16px;
+                                                        border-radius:5px;
+                                                   ">
+                                                    2026
+                                                </a>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="text-center" style="
+                                            border:1px solid #222;
+                                            padding:14px;
+                                            background:#fff;
+                                            color:#000;
+                                            font-weight:800;
+                                        ">
+                                            No chart found.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
