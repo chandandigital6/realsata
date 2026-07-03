@@ -225,7 +225,7 @@
 
 
 
-    {{-- Middle Advertisement --}}
+
     {{-- Middle Advertisement --}}
     <section class="rv-ad-wrap">
         <div class="rv-ad-box rv-middle">
@@ -445,11 +445,13 @@
 
 
     {{-- gap between result and chart --}}
-    <div style="height:35px;"></div>
+
+    {{-- <div style="height:35px;"></div> --}}
 
 
     {{-- monthly chart heading --}}
-    <section class="octoberresultchart">
+
+    {{-- <section class="octoberresultchart">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center font-size-30 forfirtcolor">
@@ -457,11 +459,12 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
 
     {{-- monthly chart - 17 games per chart section --}}
-    @foreach ($chartGameSections as $chartIndex => $sectionChartGames)
+
+    {{-- @foreach ($chartGameSections as $chartIndex => $sectionChartGames)
         <section class="newtable {{ $chartIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
             <div class="container-fluid">
                 <div class="row">
@@ -520,8 +523,102 @@
         @if (!$loop->last)
             <div style="height:25px;"></div>
         @endif
-    @endforeach
+    @endforeach --}}
 
+
+
+
+    {{-- gap between result and chart --}}
+<div style="height:35px;"></div>
+
+{{-- monthly chart heading --}}
+<section class="octoberresultchart" style="padding:10px 8px;background:#f5f5f5;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center font-size-30 forfirtcolor"
+                 style="background:#f5004f;color:#fff;border:2px solid #fff;border-radius:8px;padding:10px 6px;font-weight:800;font-size:24px;box-shadow:0 4px 10px rgba(0,0,0,0.18);">
+                <span id="date"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- monthly chart - 17 games per chart section --}}
+@foreach ($chartGameSections as $chartIndex => $sectionChartGames)
+    <section class="newtable {{ $chartIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}"
+             style="padding:8px;background:#f5f5f5;">
+        <div class="container-fluid" style="padding-left:6px;padding-right:6px;">
+            <div class="row">
+                <div class="col-md-12 nopadding">
+                    <div class="table-responsive"
+                         style="border:2px solid #222;border-radius:10px;overflow:auto;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,0.15);max-width:100%;">
+
+                        <table class="table table-bordered"
+                               style="margin-bottom:0;border-collapse:collapse;width:100%;min-width:900px;background:#fff;">
+                            <thead class="p-0">
+                                <tr>
+                                    <th class="table_chart_section_01 col-md-2 text-center forfirtcolor"
+                                        style="background:#ffb300;color:#000;border:1px solid #222;padding:10px 8px;font-size:14px;font-weight:900;position:sticky;left:0;z-index:3;min-width:70px;">
+                                        <strong class="fon">Date</strong>
+                                    </th>
+
+                                    @foreach ($sectionChartGames as $game)
+                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor"
+                                            style="background:#ffb300;color:#000;border:1px solid #222;padding:10px 8px;font-size:13px;font-weight:900;white-space:nowrap;min-width:95px;">
+                                            <strong class="fon">{{ strtoupper($game->name) }}</strong>
+                                        </th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+
+                            <tbody class="colorchange">
+                                @foreach ($dates as $date)
+                                    @php
+                                        $dateKey = $date->format('Y-m-d');
+                                        $dayResults = $monthlyResults[$dateKey] ?? collect();
+                                        $isToday = $date->format('Y-m-d') === now('Asia/Kolkata')->format('Y-m-d');
+                                    @endphp
+
+                                    <tr style="{{ $isToday ? 'background:#fff7d6;' : '' }}">
+                                        <td class="text-center forfirtcolor"
+                                            style="background:#ffb300;color:#000;border:1px solid #222;padding:9px 6px;font-size:14px;font-weight:900;position:sticky;left:0;z-index:2;min-width:70px;">
+                                            {{ $date->format('d') }}
+                                        </td>
+
+                                        @foreach ($sectionChartGames as $game)
+                                            @php
+                                                $result = $dayResults->firstWhere('game_id', $game->id);
+                                            @endphp
+
+                                            <td class="text-center"
+                                                style="border:1px solid #333;padding:9px 6px;font-size:14px;font-weight:700;color:#000;background:{{ $isToday ? '#fff7d6' : '#fff' }};">
+                                                @if ($result && $result->status === 'declared' && filled($result->result))
+                                                    <b style="display:inline-block;background:#111;color:#fff;border-radius:4px;padding:2px 7px;min-width:28px;">
+                                                        {{ str_pad($result->result, 2, '0', STR_PAD_LEFT) }}
+                                                    </b>
+                                                @else
+                                                    <span style="color:#555;">-</span>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {{-- <div style="font-size:12px;color:#555;text-align:center;padding:6px 0 0;font-weight:600;">
+                        मोबाइल पर पूरा चार्ट देखने के लिए left-right scroll करें
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    @if (!$loop->last)
+        <div style="height:25px;"></div>
+    @endif
+@endforeach
 
 
     <section>
