@@ -57,7 +57,7 @@
 
 
 
-<section class="tabel3" style="padding:12px 6px;background:#f5f5f5;">
+{{-- <section class="tabel3" style="padding:12px 6px;background:#f5f5f5;">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 nopadding">
@@ -147,7 +147,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 <section class="somelinks">
     <div class="container">
