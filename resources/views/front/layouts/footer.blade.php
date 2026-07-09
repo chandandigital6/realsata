@@ -1,5 +1,5 @@
 <!-- Footer here -->
-<section class="octoberresultchart">
+{{-- <section class="octoberresultchart">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
@@ -7,7 +7,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 
 {{-- <section class="tabel3">
     <div class="container-fluid">
