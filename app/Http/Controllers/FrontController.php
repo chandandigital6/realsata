@@ -47,8 +47,8 @@
 
         $gameIds = $games->pluck('id');
 
-        $gameSections = $games->chunk(17);
-        $chartGameSections = $games->chunk(17);
+        $gameSections = $games->chunk(20);
+        $chartGameSections = $games->chunk(20);
 
         /*
         |--------------------------------------------------------------------------
