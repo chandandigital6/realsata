@@ -11,14 +11,11 @@
     use Carbon\CarbonPeriod;
     use Illuminate\Support\Facades\Cache;
 
-    class FrontController extends Controller
+class FrontController extends Controller
     {
-  
 
 
-
-
-     public function home()
+     public function homeold()
     {
         $timezone = 'Asia/Kolkata';
 
@@ -309,6 +306,440 @@
 
 
 
+    public function home()
+{
+    $timezone = 'Asia/Kolkata';
+
+    $now = now($timezone);
+    $today = $now->toDateString();
+    $yesterday = $now->copy()->subDay()->toDateString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Active Games
+    |--------------------------------------------------------------------------
+    */
+    $games = Game::query()
+        ->select([
+            'id',
+            'name',
+            'slug',
+            'result_time',
+            'sort_order',
+            'is_active',
+        ])
+        ->where('is_active', true)
+        ->orderBy('sort_order')
+        ->get();
+
+    $gameIds = $games->pluck('id');
+
+    $gameSections = $games->chunk(18);
+    $chartGameSections = $games->chunk(18);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Today Table Results
+    |--------------------------------------------------------------------------
+    |
+    | Sirf aaj ke declared results.
+    |
+    */
+    $todayTableResults = GameResult::query()
+        ->select([
+            'id',
+            'game_id',
+            'result_date',
+            'result',
+            'status',
+            'show_minutes',
+            'updated_at',
+        ])
+        ->whereIn('game_id', $gameIds)
+        ->whereDate('result_date', $today)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->orderByDesc('updated_at')
+        ->get()
+        ->unique('game_id')
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Today Live Declared Results
+    |--------------------------------------------------------------------------
+    |
+    | IMPORTANT:
+    | Pehle yesterday + today dono results aa rahe the.
+    | Is wajah se new game me purana result jaise 58 dikh raha tha.
+    |
+    | Ab sirf aaj ka result live section me aayega.
+    |
+    */
+    $todayResults = GameResult::query()
+        ->select([
+            'id',
+            'game_id',
+            'result_date',
+            'result',
+            'status',
+            'show_minutes',
+            'updated_at',
+        ])
+        ->whereIn('game_id', $gameIds)
+        ->whereDate('result_date', $today)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->orderByDesc('updated_at')
+        ->get()
+        ->filter(function ($result) use ($timezone) {
+
+            $showMinutes = (int) ($result->show_minutes ?? 0);
+
+            /*
+            |--------------------------------------------------------------------------
+            | show_minutes <= 0
+            |--------------------------------------------------------------------------
+            |
+            | Agar show_minutes set nahi hai ya 0 hai,
+            | result ko live result me allow karenge.
+            |
+            */
+            if ($showMinutes <= 0) {
+                return true;
+            }
+
+            $updatedAt = Carbon::parse($result->updated_at)
+                ->timezone($timezone);
+
+            $hideAfter = $updatedAt->copy()->addMinutes($showMinutes);
+
+            return now($timezone)->lessThanOrEqualTo($hideAfter);
+        })
+        ->unique('game_id')
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Yesterday Results
+    |--------------------------------------------------------------------------
+    */
+    $yesterdayResults = GameResult::query()
+        ->select([
+            'id',
+            'game_id',
+            'result_date',
+            'result',
+            'status',
+            'updated_at',
+        ])
+        ->whereIn('game_id', $gameIds)
+        ->whereDate('result_date', $yesterday)
+        ->where('status', 'declared')
+        ->whereNotNull('result')
+        ->where('result', '!=', '')
+        ->orderByDesc('updated_at')
+        ->get()
+        ->unique('game_id')
+        ->keyBy('game_id');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Declared Live Games
+    |--------------------------------------------------------------------------
+    |
+    | Jin games ka aaj result declared hai,
+    | unko sabse pehle live list me dikhayenge.
+    |
+    */
+    $declaredGames = $games
+        ->filter(function ($game) use ($todayResults) {
+
+            return isset($todayResults[$game->id])
+                && filled($todayResults[$game->id]->result);
+        })
+        ->sortByDesc(function ($game) use ($todayResults, $timezone) {
+
+            return Carbon::parse(
+                $todayResults[$game->id]->updated_at
+            )
+                ->timezone($timezone)
+                ->timestamp;
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Waiting Games
+    |--------------------------------------------------------------------------
+    |
+    | Rule:
+    |
+    | 1. Aaj result declared nahi hona chahiye.
+    | 2. result_time available hona chahiye.
+    | 3. Result time se 5 minute pehle waiting start hogi.
+    | 4. Result declare hone tak waiting rahegi.
+    |
+    | Example:
+    | CHAMELI BAZAR = 12:30 PM
+    |
+    | 12:25 PM se waiting show hogi.
+    | Result declare nahi hua to 1 PM, 2 PM etc. tak bhi waiting rahegi.
+    |
+    */
+    $waitingGames = $games
+        ->filter(function ($game) use ($todayTableResults) {
+
+            /*
+            | Aaj ka result already declared hai.
+            */
+            if (isset($todayTableResults[$game->id])) {
+                return false;
+            }
+
+            /*
+            | Result time missing hai.
+            */
+            if (empty($game->result_time)) {
+                return false;
+            }
+
+            return true;
+        })
+        ->filter(function ($game) use ($now, $timezone) {
+
+            try {
+
+                $gameTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                /*
+                | Result time se 5 minute pehle waiting start.
+                */
+                $waitingStart = $gameTime->copy()->subMinutes(5);
+
+                return $now->greaterThanOrEqualTo($waitingStart);
+
+            } catch (\Throwable $e) {
+
+                return false;
+            }
+        })
+        ->sortBy(function ($game) use ($now, $timezone) {
+
+            try {
+
+                return Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                )->timestamp;
+
+            } catch (\Throwable $e) {
+
+                return PHP_INT_MAX;
+            }
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Future Upcoming Games
+    |--------------------------------------------------------------------------
+    |
+    | Jin games ka aaj result nahi hai aur result time future me hai.
+    |
+    */
+    $futureGames = $games
+        ->filter(function ($game) use ($todayTableResults, $now, $timezone) {
+
+            /*
+            | Result already declared.
+            */
+            if (isset($todayTableResults[$game->id])) {
+                return false;
+            }
+
+            /*
+            | Result time nahi hai.
+            */
+            if (empty($game->result_time)) {
+                return false;
+            }
+
+            try {
+
+                $gameTime = Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                );
+
+                /*
+                | Waiting 5 minute pehle start hoti hai.
+                | Isliye exact future games me 5 min window exclude karenge.
+                */
+                $waitingStart = $gameTime->copy()->subMinutes(5);
+
+                return $now->lessThan($waitingStart);
+
+            } catch (\Throwable $e) {
+
+                return false;
+            }
+        })
+        ->sortBy(function ($game) use ($now, $timezone) {
+
+            try {
+
+                return Carbon::parse(
+                    $now->format('Y-m-d') . ' ' . trim($game->result_time),
+                    $timezone
+                )->timestamp;
+
+            } catch (\Throwable $e) {
+
+                return PHP_INT_MAX;
+            }
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | Final Live Games
+    |--------------------------------------------------------------------------
+    |
+    | Priority:
+    |
+    | 1. Recently declared results
+    | 2. Waiting games
+    | 3. Upcoming games
+    |
+    */
+    $liveGames = $declaredGames
+        ->concat($waitingGames)
+        ->concat($futureGames)
+        ->unique('id')
+        ->take(4);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Monthly Result Dates
+    |--------------------------------------------------------------------------
+    */
+    $startDate = now($timezone)->startOfMonth();
+    $endDate = now($timezone)->endOfMonth();
+
+    $dates = CarbonPeriod::create($startDate, $endDate);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Monthly Results
+    |--------------------------------------------------------------------------
+    */
+    $monthlyResults = GameResult::query()
+        ->select([
+            'id',
+            'game_id',
+            'result_date',
+            'result',
+            'status',
+        ])
+        ->whereIn('game_id', $gameIds)
+        ->whereBetween('result_date', [
+            $startDate->format('Y-m-d'),
+            $endDate->format('Y-m-d'),
+        ])
+        ->where('status', 'declared')
+        ->get()
+        ->groupBy(function ($result) use ($timezone) {
+
+            return Carbon::parse(
+                $result->result_date,
+                $timezone
+            )->format('Y-m-d');
+        });
+
+    /*
+    |--------------------------------------------------------------------------
+    | SEO
+    |--------------------------------------------------------------------------
+    */
+    $seo = SeoPage::query()
+        ->where('page_key', 'home')
+        ->first();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Advertisements
+    |--------------------------------------------------------------------------
+    */
+    $allAdvertisements = Advertisement::query()
+        ->select([
+            'id',
+            'title',
+            'content',
+            'image',
+            'link',
+            'position',
+            'is_active',
+            'created_at',
+        ])
+        ->where('is_active', true)
+        ->whereIn('position', [
+            'top',
+            'middle',
+            'bottom',
+            'sidebar',
+        ])
+        ->latest()
+        ->get()
+        ->groupBy('position');
+
+    $advertisements = $allAdvertisements->get(
+        'top',
+        collect()
+    );
+
+    $topAdvertisements = $advertisements;
+
+    $middleAdvertisement = $allAdvertisements
+        ->get('middle', collect())
+        ->first();
+
+    $bottomAdvertisement = $allAdvertisements
+        ->get('bottom', collect())
+        ->first();
+
+    $sidebarAdvertisement = $allAdvertisements
+        ->get('sidebar', collect())
+        ->first();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Return Home View
+    |--------------------------------------------------------------------------
+    */
+    return view('front.home.index', compact(
+        'games',
+        'gameSections',
+        'chartGameSections',
+        'dates',
+        'monthlyResults',
+        'seo',
+        'advertisements',
+        'topAdvertisements',
+        'middleAdvertisement',
+        'bottomAdvertisement',
+        'sidebarAdvertisement',
+        'todayResults',
+        'todayTableResults',
+        'yesterdayResults',
+        'today',
+        'yesterday',
+        'liveGames'
+    ));
+}
+
     public function chart()
     {
         $games = Game::query()
@@ -496,9 +927,9 @@ public function yearRecord(string $slug, int $year)
 
 
 
-   
 
-   
+
+
 
     public function contactUs()
     {

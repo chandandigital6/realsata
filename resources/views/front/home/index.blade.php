@@ -444,86 +444,7 @@
     @endforeach
 
 
-    {{-- gap between result and chart --}}
-
-    {{-- <div style="height:35px;"></div> --}}
-
-
-    {{-- monthly chart heading --}}
-
-    {{-- <section class="octoberresultchart">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center font-size-30 forfirtcolor">
-                    <span id="date"></span>
-                </div>
-            </div>
-        </div>
-    </section> --}}
-
-
-    {{-- monthly chart - 17 games per chart section --}}
-
-    {{-- @foreach ($chartGameSections as $chartIndex => $sectionChartGames)
-        <section class="newtable {{ $chartIndex > 0 ? 'mt-4 mb-4' : 'mb-4' }}">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 nopadding">
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead class="p-0">
-                                    <tr>
-                                        <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                            <strong class="fon">Date</strong>
-                                        </th>
-
-                                        @foreach ($sectionChartGames as $game)
-                                            <th class="table_chart_section_01 col-md-2 text-center forfirtcolor">
-                                                <strong class="fon">{{ strtoupper($game->name) }}</strong>
-                                            </th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-
-                                <tbody class="colorchange">
-                                    @foreach ($dates as $date)
-                                        @php
-                                            $dateKey = $date->format('Y-m-d');
-                                            $dayResults = $monthlyResults[$dateKey] ?? collect();
-                                        @endphp
-
-                                        <tr>
-                                            <td class="text-center forfirtcolor">
-                                                {{ $date->format('d') }}
-                                            </td>
-
-                                            @foreach ($sectionChartGames as $game)
-                                                @php
-                                                    $result = $dayResults->firstWhere('game_id', $game->id);
-                                                @endphp
-
-                                                <td class="text-center">
-                                                    @if ($result && $result->status === 'declared' && filled($result->result))
-                                                        <b>{{ str_pad($result->result, 2, '0', STR_PAD_LEFT) }}</b>
-                                                    @else
-                                                        -
-                                                    @endif
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        @if (!$loop->last)
-            <div style="height:25px;"></div>
-        @endif
-    @endforeach --}}
+  
 
 
 
@@ -684,7 +605,7 @@
             for years, and these are the ones we cover most closely on Real Satta Bazar.
             <br>
             Here's a game-by-game breakdown of what each one is and when results are declared:
-           
+
         </p>
 
 
@@ -729,7 +650,7 @@
                 wait around.
                 <br>
                 Result Time: 2:00 AM daily
-            
+
         </p>
 
         <h3
@@ -749,7 +670,7 @@
                 Ghaziabad.
                 <br>
                 Result Time: 6:20 PM daily
-            
+
         </p>
 
         <h3
@@ -769,7 +690,7 @@
                 <br>
                 Result Time: 9:30 PM daily
 
-           
+
         </p>
 
 
@@ -792,7 +713,7 @@
                 the rest of the day's results.
                 <br>
                 Result Time: 2:50 PM daily
-           
+
         </p>
 
         <h3
@@ -810,7 +731,7 @@
                 between Delhi Bazaar and Faridabad.
                 <br>
                 Result Time: 4:10 PM daily
-           
+
         </p>
 
         <h2
@@ -824,7 +745,7 @@
                 choosing
                 Real Satta Bazar? It comes down to a few things that most other platforms consistently fail to get right.
 
-            
+
         </p>
 
         <h3
@@ -840,7 +761,7 @@
                 PM Gali update, the 9:30 PM Ghaziabad number — all of them land on this site faster than almost anywhere
                 else.
 
-           
+
         </p>
 
 
@@ -859,7 +780,7 @@
                 result
                 table.
 
-            
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -873,7 +794,7 @@
                 visible,
                 and the site loads fast on mobile — which is how most people visit.
 
-            
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -890,7 +811,7 @@
                 <br>
                 Real Satta exists purely to show you results as they are officially declared. Nothing more, nothing less.
 
-            
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -905,7 +826,7 @@
                 from advertising — it came from simply showing up every single day and delivering the right number at the
                 right
                 time.
-           
+
         </p>
         <h2
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -940,7 +861,7 @@
                 If you ever have questions or want a specific market added to our tracking list, you can reach out through
                 the
                 Contact page.
-           
+
         </p>
 
         <h2
@@ -958,7 +879,7 @@
                 numbers, and the websites that track and display them. Real Satta (realsatta.in) is an informational website
                 that posts daily Satta King results for all major Real Satta Bazar markets as soon as they are officially
                 declared. We are strictly an information platform — we do not run or facilitate any games.
-           
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -971,7 +892,7 @@
                 game declares its number. The table shows both yesterday's result and today's live update side by side.
                 Bookmark
                 this page for quick daily access.
-           
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -982,7 +903,7 @@
            Gali result is typically declared around 11:50 PM. Disawar comes at 2:00 AM, Faridabad at 6:20 PM, and
                 Ghaziabad at 9:30 PM. These timings are generally consistent but may occasionally shift by a few minutes
                 depending on the declaration.
-            
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -994,7 +915,7 @@
                 results information website only. All result data we display is publicly available information. Accessing or
                 using this website for anything other than informational reference is entirely the visitor's own
                 responsibility.
-          
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -1006,7 +927,7 @@
                 influence future ones in any way. If any website or person claims to offer "sure shot" results or "fix
                 numbers"
                 in exchange for money, that is a scam. Do not pay anyone for result predictions under any circumstances.
-            
+
         </p>
         <h3
             style="display: block; width: 100%; padding: 12px 20px; text-align: center; font-size: 2.25rem; font-weight: 700; color: rgb(0, 0, 0); line-height: 1.7; background-color: #FFAB00; border-top: 2px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); margin: 20px 0px;">
@@ -1020,7 +941,7 @@
                 Dehradun
                 City, Aligarh Night, Dwarka, Chhattisgarh, Jeevan Shree, MeghaCity, and several other regional markets from
                 across North India.
-       
+
         </p>
 
         <h3
@@ -1036,7 +957,7 @@
                 taking longer than usual, it simply means the official declaration has been slightly delayed — we post it
                 the
                 moment it's available.
-           
+
         </p>
 
         <p
