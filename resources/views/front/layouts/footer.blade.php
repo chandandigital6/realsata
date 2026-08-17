@@ -177,7 +177,7 @@
 
 <div class="floating-wa-refresh"
     style="position:fixed; bottom:18px; right:6px; z-index:9; display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
-    <a href="https://api.whatsapp.com/send/?phone=919896916793&text&type=phone_number&app_absent=0" target="_blank"
+    <a href="https://api.whatsapp.com/send/?phone=918168973121&text&type=phone_number&app_absent=0" target="_blank"
         rel="noopener noreferrer" style="line-height:0;">
         {{-- <img src="/m/wapp.png" alt="WhatsApp" style="height:80px;width:80px;margin-right:10px;display:block;"> --}}
         <img src="{{ asset('m/wapp.webp') }}"
@@ -213,7 +213,7 @@
     width:69px;
     text-align:center;
     z-index:999999999999;"
-    href="https://wa.me/919896916793">
+    href="https://wa.me/918168973121">
     <i class="fa fa-arrow-down blink"></i><br> PLAY Now
 </a>
 
