@@ -17,6 +17,9 @@ use App\Http\Controllers\SeoPageController;
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
 
+Route::get('/satta-khaiwal', [FrontController::class, 'home_2'])->name('satta-khaiwal');
+Route::get('/lucky-satta-king', [FrontController::class, 'home_3'])->name('lucky-satta-king');
+
 Route::get('/chart', [FrontController::class, 'chart'])->name('chart');
 
 Route::get('/records/{slug}', [FrontController::class, 'gameRecord'])
