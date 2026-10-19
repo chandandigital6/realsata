@@ -137,39 +137,37 @@
 
 
 
- {{-- Sidebar Advertisement --}}
-    @php
-        $hasSidebarAd =
-            !empty($sidebarAdvertisement) &&
-            (!empty($sidebarAdvertisement->content) ||
-                !empty($sidebarAdvertisement->image) ||
-                !empty($sidebarAdvertisement->link));
-    @endphp
+    {{-- Top Advertisements --}}
+    @if ($topAdvertisements->count())
+        @foreach ($topAdvertisements as $advertisement)
+            <section class="rv-ad-wrap">
+                <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
+                    @if (!empty($advertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+                    <div class="rv-ad-box">
+                        @if (!empty($advertisement->content))
+                            <div>{!! $advertisement->content !!}</div>
+                        @endif
 
-    @if ($hasSidebarAd)
-        <section class="rv-ad-wrap">
-            <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
-                @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
-                <div class="rv-ad-box">
-                    @if (!empty($sidebarAdvertisement->content))
-                        <div>{!! $sidebarAdvertisement->content !!}</div>
-                    @endif
+                        @if (!empty($advertisement->image))
+                            <span class="rv-ad-img">
+                                {{-- <img src="{{ asset('storage/' . $advertisement->image) }}"
+                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
+                                    height="48"> --}}
 
-                    @if (!empty($sidebarAdvertisement->image))
-                        <span class="rv-ad-img">
-                            {{-- <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy"> --}}
-                            <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
-                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
-                                height="48" loading="lazy" decoding="async">
-                        </span>
-                    @endif
-                </div>
-            </a>
-        </section>
+                                <img src="{{ asset('storage/' . $advertisement->image) }}"
+                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
+                                    height="48" loading="eager" decoding="async" fetchpriority="high">
+                            </span>
+                        @endif
+                    </div>
+                </a>
+            </section>
+        @endforeach
     @endif
 
- 
+
+
+
 
 
 
@@ -225,36 +223,38 @@
 
 
 
+ {{-- Bottom Advertisement --}}
+    @php
+        $hasBottomAd =
+            !empty($bottomAdvertisement) &&
+            (!empty($bottomAdvertisement->content) ||
+                !empty($bottomAdvertisement->image) ||
+                !empty($bottomAdvertisement->link));
+    @endphp
 
-   {{-- Top Advertisements --}}
-    @if ($topAdvertisements->count())
-        @foreach ($topAdvertisements as $advertisement)
-            <section class="rv-ad-wrap">
-                <a href="{{ $advertisement->link ?: 'javascript:void(0)' }}"
-                    @if (!empty($advertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
-                    <div class="rv-ad-box">
-                        @if (!empty($advertisement->content))
-                            <div>{!! $advertisement->content !!}</div>
-                        @endif
+    @if ($hasBottomAd)
+        <section class="rv-ad-wrap">
+            <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
+                @if (!empty($bottomAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+                <div class="rv-ad-box">
+                    @if (!empty($bottomAdvertisement->content))
+                        <div>{!! $bottomAdvertisement->content !!}</div>
+                    @endif
 
-                        @if (!empty($advertisement->image))
-                            <span class="rv-ad-img">
-                                {{-- <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
-                                    height="48"> --}}
-
-                                <img src="{{ asset('storage/' . $advertisement->image) }}"
-                                    alt="{{ $advertisement->title ?? 'Advertisement' }}" class="lazy" width="139"
-                                    height="48" loading="eager" decoding="async" fetchpriority="high">
-                            </span>
-                        @endif
-                    </div>
-                </a>
-            </section>
-        @endforeach
+                    @if (!empty($bottomAdvertisement->image))
+                        <span class="rv-ad-img">
+                            {{-- <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                                height="48"> --}}
+                            <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
+                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                                height="48" loading="lazy" decoding="async">
+                        </span>
+                    @endif
+                </div>
+            </a>
+        </section>
     @endif
-
-
 
 
 
@@ -307,31 +307,33 @@
     </section>
 
 
-    {{-- Bottom Advertisement --}}
+   
+
+
+    {{-- Sidebar Advertisement --}}
     @php
-        $hasBottomAd =
-            !empty($bottomAdvertisement) &&
-            (!empty($bottomAdvertisement->content) ||
-                !empty($bottomAdvertisement->image) ||
-                !empty($bottomAdvertisement->link));
+        $hasSidebarAd =
+            !empty($sidebarAdvertisement) &&
+            (!empty($sidebarAdvertisement->content) ||
+                !empty($sidebarAdvertisement->image) ||
+                !empty($sidebarAdvertisement->link));
     @endphp
 
-    @if ($hasBottomAd)
+    @if ($hasSidebarAd)
         <section class="rv-ad-wrap">
-            <a href="{{ $bottomAdvertisement->link ?: 'javascript:void(0)' }}"
-                @if (!empty($bottomAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
+            <a href="{{ $sidebarAdvertisement->link ?: 'javascript:void(0)' }}"
+                @if (!empty($sidebarAdvertisement->link)) target="_blank" @endif style="text-decoration:none;color:inherit;">
                 <div class="rv-ad-box">
-                    @if (!empty($bottomAdvertisement->content))
-                        <div>{!! $bottomAdvertisement->content !!}</div>
+                    @if (!empty($sidebarAdvertisement->content))
+                        <div>{!! $sidebarAdvertisement->content !!}</div>
                     @endif
 
-                    @if (!empty($bottomAdvertisement->image))
+                    @if (!empty($sidebarAdvertisement->image))
                         <span class="rv-ad-img">
-                            {{-- <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
-                                height="48"> --}}
-                            <img src="{{ asset('storage/' . $bottomAdvertisement->image) }}"
-                                alt="{{ $bottomAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
+                            {{-- <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
+                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy"> --}}
+                            <img src="{{ asset('storage/' . $sidebarAdvertisement->image) }}"
+                                alt="{{ $sidebarAdvertisement->title ?? 'Advertisement' }}" class="lazy" width="138"
                                 height="48" loading="lazy" decoding="async">
                         </span>
                     @endif
@@ -339,9 +341,6 @@
             </a>
         </section>
     @endif
-
-
-   
 
 
     <br>
