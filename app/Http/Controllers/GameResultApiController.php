@@ -171,7 +171,7 @@ class GameResultApiController extends Controller
         return GameResult::query()->whereIn('game_id', $games->pluck('id'))
             ->whereDate('result_date', '>=', $from)
             ->whereDate('result_date', '<=', $to)
-            ->orderByDesc('id')->get()
+            ->orderByDesc('updated_at')->orderByDesc('id')->get()
             ->unique(fn ($row) => $row->game_id . ':' . $this->dateOf($row->result_date))
             ->values();
     }
@@ -239,38 +239,69 @@ class GameResultApiController extends Controller
         $now = ($now ?? CarbonImmutable::now(self::TIMEZONE))->timezone(self::TIMEZONE);
         $games ??= $this->games();
         $results ??= $this->results($games, $now->subDay()->toDateString(), $now->toDateString());
+        $gamesById = $games->keyBy('id');
         $indexed = $results->keyBy(fn ($row) => $row->game_id . ':' . $this->dateOf($row->result_date));
         $items = collect();
 
+        // Declared results are independent of the scheduled waiting window.
+        // A new update starts its own finite live duration and wins priority.
+        foreach ($results as $row) {
+            $game = $gamesById->get($row->game_id);
+            if (!$game || !$this->declared($row) || !$row->updated_at) {
+                continue;
+            }
+            $date = $this->dateOf($row->result_date);
+            if (!in_array($date, [$now->toDateString(), $now->subDay()->toDateString()], true)) {
+                continue;
+            }
+            $updatedAt = CarbonImmutable::instance($row->updated_at)->timezone(self::TIMEZONE);
+            if ($updatedAt->gt($now) || $now->gte($updatedAt->addMinutes($this->minutes($row)))) {
+                continue;
+            }
+            $scheduledAt = $this->scheduledAt($date, $game->result_time);
+            $item = $this->payload($game, $row, true);
+            $item['scheduled_at'] = $scheduledAt?->toIso8601String();
+            $item['display_time'] = $scheduledAt?->format('h:i A') ?? '';
+            $item['state'] = 'declared';
+            $item['_priority'] = 0;
+            $item['_order'] = -$updatedAt->timestamp;
+            $item['_result_id'] = -$row->id;
+            $items->push($item);
+        }
+
         foreach ($games as $game) {
-            foreach ([-1, 0, 1] as $offset) {
+            foreach ([0, 1] as $offset) {
                 $date = $now->addDays($offset)->toDateString();
                 $scheduledAt = $this->scheduledAt($date, $game->result_time);
                 if (!$scheduledAt) {
                     continue;
                 }
                 $row = $indexed->get($game->id . ':' . $date);
-                $expiresAt = $scheduledAt->addMinutes($this->minutes($row));
-                if ($now->gte($expiresAt)) {
+                // A declared cycle must not reappear as WAIT after live expiry.
+                if ($this->declared($row)) {
+                    continue;
+                }
+                if ($now->gte($scheduledAt->addMinutes($this->minutes($row)))) {
                     continue;
                 }
                 $current = $now->gte($scheduledAt->subMinutes(5));
-                $visible = $now->gte($scheduledAt) && $this->declared($row);
-                $item = $this->payload($game, $row, $visible);
+                $item = $this->payload($game, $row, false);
                 $item['result']['result_date'] = $date;
                 $item['scheduled_at'] = $scheduledAt->toIso8601String();
                 $item['display_time'] = $scheduledAt->format('h:i A');
-                $item['state'] = $visible ? 'declared' : ($current ? 'waiting' : 'upcoming');
-                $item['_priority'] = $current ? 0 : 1;
-                $item['_timestamp'] = $scheduledAt->timestamp;
+                $item['state'] = $current ? 'waiting' : 'upcoming';
+                $item['_priority'] = $current ? 1 : 2;
+                $item['_order'] = $scheduledAt->timestamp;
+                $item['_result_id'] = 0;
                 $items->push($item);
             }
         }
 
-        return $items->sortBy([['_priority', 'asc'], ['_timestamp', 'asc'], ['id', 'asc']])
-            ->unique('id')->take(4)->values()->map(function ($item) {
-                unset($item['_priority'], $item['_timestamp']);
-                return $item;
-            });
+        return $items->sortBy([
+            ['_priority', 'asc'], ['_order', 'asc'], ['_result_id', 'asc'], ['id', 'asc'],
+        ])->unique('id')->take(4)->values()->map(function ($item) {
+            unset($item['_priority'], $item['_order'], $item['_result_id']);
+            return $item;
+        });
     }
 }
