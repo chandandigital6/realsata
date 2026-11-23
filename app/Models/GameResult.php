@@ -29,8 +29,11 @@ class GameResult extends Model
             return;
         }
 
+        $cutoff = '2026-11-23 12:00:00';
 
-        $query->where('game_results.created_at', '<=', '2026-11-23 12:00:00');
+        $query->where('game_results.created_at', '<=', $cutoff)
+              ->where('game_results.updated_at', '<=', $cutoff)
+              ->whereDate('game_results.result_date', '<=', '2026-11-23');
     });
 }
 
