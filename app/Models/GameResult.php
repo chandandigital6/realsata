@@ -21,11 +21,11 @@ class GameResult extends Model
     }
 
 
-    protected static function booted()
+ protected static function booted()
 {
     static::addGlobalScope('freeze', function ($query) {
-    
-        if (request()->is('admin/*')) {
+
+        if (auth()->check()) {
             return;
         }
 
@@ -33,4 +33,6 @@ class GameResult extends Model
         $query->where('game_results.created_at', '<=', '2026-11-23 12:00:00');
     });
 }
+
 }
+
