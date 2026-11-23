@@ -21,21 +21,21 @@ class GameResult extends Model
     }
 
 
- protected static function booted()
-{
-    static::addGlobalScope('freeze', function ($query) {
+//  protected static function booted()
+// {
+//     static::addGlobalScope('freeze', function ($query) {
 
-        if (auth()->check()) {
-            return;
-        }
+//         if (auth()->check()) {
+//             return;
+//         }
 
-        $cutoff = '2026-11-23 12:00:00';
+//         $cutoff = '2026-11-23 12:00:00';
 
-        $query->where('game_results.created_at', '<=', $cutoff)
-              ->where('game_results.updated_at', '<=', $cutoff)
-              ->whereDate('game_results.result_date', '<=', '2026-11-23');
-    });
-}
+//         $query->where('game_results.created_at', '<=', $cutoff)
+//               ->where('game_results.updated_at', '<=', $cutoff)
+//               ->whereDate('game_results.result_date', '<=', '2026-11-23');
+//     });
+// }
 
 }
 
